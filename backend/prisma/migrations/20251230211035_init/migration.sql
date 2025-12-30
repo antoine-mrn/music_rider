@@ -127,7 +127,7 @@ CREATE TABLE "InstrumentCategory" (
     "id" SERIAL NOT NULL,
     "code" VARCHAR(110) NOT NULL,
     "label" VARCHAR(110) NOT NULL,
-    "isActive" BOOLEAN NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -139,7 +139,7 @@ CREATE TABLE "Instrument" (
     "id" SERIAL NOT NULL,
     "code" VARCHAR(110) NOT NULL,
     "label" VARCHAR(110) NOT NULL,
-    "isActive" BOOLEAN NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "instrumentCategoryId" INTEGER NOT NULL,

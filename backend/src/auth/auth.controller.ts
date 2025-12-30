@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Public } from 'src/decorators/public.decorator';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -17,7 +17,9 @@ export class AuthController {
 
   @Public()
   @Post('signup')
-  async signup(@Body() dto: CreateUserDto) {}
+  async signup(@Body() dto: CreateAuthDto) {
+    return this.authService.signup(dto);
+  }
 
   @Public()
   @UseGuards(LocalAuthGuard)

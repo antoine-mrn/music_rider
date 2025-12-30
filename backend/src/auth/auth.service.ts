@@ -1,14 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private prismaService: PrismaService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
@@ -25,5 +26,17 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async signup(newUser: CreateAuthDto) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email: newUser.email,
+      },
+    });
+
+    if (user) throw new ConflictException();
+
+    return await this.prismaService.user.create({ data: newUser });
   }
 }
