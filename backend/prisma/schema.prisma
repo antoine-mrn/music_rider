@@ -1,0 +1,189 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  firstname String   @db.VarChar(110)
+  lastname  String   @db.VarChar(110)
+  password  String   @db.VarChar(255)
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships  UserBand[]
+  bandContacts BandContact[]
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model Band {
+  id        Int      @id @default(autoincrement())
+  label     String   @unique @db.VarChar(110)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  memberships     UserBand[]
+  musicStyle      MusicStyle?      @relation(fields: [musicStyleId], references: [id])
+  musicStyleId    Int?
+  technicalRiders TechnicalRider[]
+  bandContacts    BandContact[]
+}
+
+model UserBand {
+  userId    Int
+  bandId    Int
+  role      BandRole @default(MEMBER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+  band Band @relation(fields: [bandId], references: [id])
+
+  @@id([userId, bandId])
+}
+
+enum BandRole {
+  LEADER
+  MEMBER
+}
+
+model MusicStyle {
+  id        Int      @id @default(autoincrement())
+  label     String   @db.VarChar(45)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bands Band[]
+}
+
+model TechnicalRider {
+  id                       Int      @id @default(autoincrement())
+  musicianNumber           Int?
+  setDuration              Int?
+  soundcheckDuration       Int?
+  changeoverDuration       Int?
+  setupDuration            Int?
+  teardownDuration         Int?
+  stageLength              Int?
+  stageWidth               Int?
+  stageDepth               Int?
+  stageAccess              String?
+  backlineProvided         String?
+  specificRisks            String?
+  loadInTime               String?
+  loadOutTime              String?
+  cateringInfo             String?
+  accommodationInfo        String?
+  micsDisSetup             Json?
+  stageMonitoringSetup     Json?
+  inputPatch               Json?
+  soundLevelRequirements   String?
+  specialAudioRequirements String?
+  consoleChannelCount      Int?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  band   Band @relation(fields: [bandId], references: [id])
+  bandId Int
+
+  riderCategory   RiderCategory @relation(fields: [riderCategoryId], references: [id])
+  riderCategoryId Int
+
+  stageInstruments StageInstrument[]
+}
+
+model RiderCategory {
+  id        Int      @id @default(autoincrement())
+  label     String   @db.VarChar(45)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  technicalRiders TechnicalRider[]
+}
+
+model BandContact {
+  id        Int      @id @default(autoincrement())
+  firstname String?
+  lastname  String?
+  email     String?
+  phone     String?
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bandId        Int
+  band          Band        @relation(fields: [bandId], references: [id])
+  userId        Int?
+  user          User?       @relation(fields: [userId], references: [id])
+  contactRole   ContactRole @relation(fields: [contactRoleId], references: [id])
+  contactRoleId Int
+
+  @@index([bandId])
+}
+
+model ContactRole {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique
+  label     String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  contacts BandContact[]
+}
+
+model InstrumentCategory {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique @db.VarChar(110)
+  label     String   @db.VarChar(110)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Instruments Instrument[]
+}
+
+model Instrument {
+  id        Int      @id @default(autoincrement())
+  code      String   @unique @db.VarChar(110)
+  label     String   @db.VarChar(110)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  instrumentCategory   InstrumentCategory @relation(fields: [instrumentCategoryId], references: [id])
+  instrumentCategoryId Int
+  stageInstruments     StageInstrument[]
+}
+
+model StageInstrument {
+  id        Int      @id @default(autoincrement())
+  posX      Int
+  posY      Int
+  scale     Int
+  rotation  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  technicalRider   TechnicalRider? @relation(fields: [technicalRiderId], references: [id])
+  technicalRiderId Int?
+  instrument       Instrument?     @relation(fields: [instrumentId], references: [id])
+  instrumentId     Int?
+}
