@@ -14,7 +14,6 @@ import { ConfigService } from '@nestjs/config';
 import ms from 'ms';
 import { randomUUID } from 'crypto';
 import { RefreshTokenPayload } from './types/RefreshTokenPayload.interface';
-import { Payload } from './types/payload.interface.ts';
 
 @Injectable()
 export class AuthService {
@@ -35,7 +34,7 @@ export class AuthService {
   }
 
   async signin(user: any) {
-    return await this.__getTokens(user.email, user.userId);
+    return await this.__getTokens(user.email, user.userId, randomUUID());
   }
 
   async signup(newUser: CreateAuthDto) {
@@ -57,6 +56,7 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.__getTokens(
       newUserInBDD.email,
       newUserInBDD.id,
+      randomUUID(),
     );
 
     return { accessToken, refreshToken };
@@ -66,9 +66,7 @@ export class AuthService {
     return;
   }
 
-  private async __getTokens(email: string, sub: number) {
-    const sessionId = randomUUID();
-
+  private async __getTokens(email: string, sub: number, sessionId: string) {
     const accessToken = await this.__generateAccessToken(email, sub);
     const refreshToken = await this.__generateRefreshToken(
       email,
