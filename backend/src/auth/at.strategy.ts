@@ -2,11 +2,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { IsEmail } from 'class-validator';
-import { Payload } from './types/payload.interface';
+import { Payload } from './types/payload.interface.ts';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class AtStrategy extends PassportStrategy(Strategy, 'jwt-access') {
   constructor(config: ConfigService) {
     const secret = config.get<string>('JWT_ACCESS_SECRET');
     if (!secret) {
@@ -21,6 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: Payload) {
-    return { userId: payload.sub, IsEmail: payload.email };
+    return { userId: payload.sub, email: payload.email };
   }
 }

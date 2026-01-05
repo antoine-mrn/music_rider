@@ -24,6 +24,21 @@ model User {
 
   memberships  UserBand[]
   bandContacts BandContact[]
+  authSessions AuthSession[]
+}
+
+model AuthSession {
+  id               String    @id @default(uuid())
+  userId           Int
+  user             User      @relation(fields: [userId], references: [id])
+  refreshTokenHash String
+  userAgent        String?
+  ipAddress        String?
+  expiresAt        DateTime
+  revokedAt        DateTime?
+  createdAt        DateTime  @default(now())
+
+  @@index([userId])
 }
 
 enum Role {

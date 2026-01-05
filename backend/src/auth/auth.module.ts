@@ -5,40 +5,23 @@ import { UsersModule } from 'src/users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './jwt.strategy';
+import { AtStrategy } from './at.strategy';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AtAuthGuard } from './guards/at-auth.guard';
+import { RtStrategy } from './rt.strategy';
 
 @Module({
-  imports: [
-    UsersModule,
-    PassportModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      useFactory: async (config: ConfigService) => {
-        const secret = config.get<string>('JWT_ACCESS_SECRET');
-        if (!secret) {
-          throw new Error('Missing JWT_ACCESS_SECRET environment variable');
-        }
-
-        return {
-          secret,
-          signOptions: { expiresIn: '60s' },
-        };
-      },
-      inject: [ConfigService],
-    }),
-  ],
+  imports: [UsersModule, PassportModule, JwtModule],
   controllers: [AuthController],
   providers: [
     {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useClass: AtAuthGuard,
     },
     AuthService,
     LocalStrategy,
-    JwtStrategy,
+    AtStrategy,
+    RtStrategy,
   ],
 })
 export class AuthModule {}

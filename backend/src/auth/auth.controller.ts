@@ -32,4 +32,10 @@ export class AuthController {
   getProfile(@Request() req) {
     return req.user;
   }
+
+  @Public()
+  @Post('refresh')
+  async refresh(@Request() req) {
+    return this.authService.refresh(req.user);
+  }
 }
