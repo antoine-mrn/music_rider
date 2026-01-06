@@ -9,9 +9,10 @@ import { AtAuthGuard } from './guards/at-auth.guard';
 import { LocalStrategy } from './strategies/local.strategy';
 import { AtStrategy } from './strategies/at.strategy';
 import { RtStrategy } from './strategies/rt.strategy';
+import { AuthSessionModule } from 'src/auth-session/auth-session.module';
 
 @Module({
-  imports: [UsersModule, PassportModule, JwtModule],
+  imports: [UsersModule, PassportModule, JwtModule, AuthSessionModule],
   controllers: [AuthController],
   providers: [
     {

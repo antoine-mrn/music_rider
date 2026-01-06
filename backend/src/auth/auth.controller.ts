@@ -10,6 +10,7 @@ import {
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Public } from 'src/decorators/public.decorator';
 import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
+import { RtAuthGuard } from './guards/rt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -34,6 +35,7 @@ export class AuthController {
   }
 
   @Public()
+  @UseGuards(RtAuthGuard)
   @Post('refresh')
   async refresh(@Request() req) {
     return this.authService.refresh(req.user);

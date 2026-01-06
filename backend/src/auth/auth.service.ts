@@ -7,13 +7,12 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
-import * as argon from 'argon2';
-import { ARGON2_OPTIONS } from './password.config';
-import { AuthSession, User } from '@prisma/client';
+import { User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
-import ms from 'ms';
 import { randomUUID } from 'crypto';
 import { RefreshTokenPayload } from './types/RefreshTokenPayload.interface';
+import { hash, verify } from 'src/utils/hash';
+import { AuthSessionService } from 'src/auth-session/auth-session.service';
 
 @Injectable()
 export class AuthService {
@@ -22,11 +21,15 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaService,
     private readonly config: ConfigService,
+    private readonly authSessionService: AuthSessionService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<User | null> {
-    const user = await this.usersService.findOne(username);
-    if (user && (await this.__verify(password, user.password))) {
+  async validateUser(
+    email: string,
+    password: string,
+  ): Promise<Omit<User, 'password'> | null> {
+    const user = await this.usersService.findOneByEmail(email);
+    if (user && (await verify(password, user.password))) {
       const { password, ...result } = user;
       return result;
     }
@@ -34,7 +37,17 @@ export class AuthService {
   }
 
   async signin(user: any) {
-    return await this.__getTokens(user.email, user.userId, randomUUID());
+    const newSessionId = randomUUID();
+
+    const { accessToken, refreshToken } = await this.__getTokens(
+      user.email,
+      user.id,
+      newSessionId,
+    );
+
+    await this.__createNewSession(newSessionId, user.id, refreshToken);
+
+    return { accessToken, refreshToken };
   }
 
   async signup(newUser: CreateAuthDto) {
@@ -46,23 +59,36 @@ export class AuthService {
 
     if (user) throw new ConflictException();
 
-    const hashedPassword = await this.__hash(newUser.password);
+    const hashedPassword = await hash(newUser.password);
     newUser = { ...newUser, password: hashedPassword };
 
     const newUserInBDD = await this.prismaService.user.create({
       data: newUser,
     });
 
+    const newSessionId = randomUUID();
+
     const { accessToken, refreshToken } = await this.__getTokens(
       newUserInBDD.email,
       newUserInBDD.id,
-      randomUUID(),
+      newSessionId,
     );
+
+    await this.__createNewSession(newSessionId, newUserInBDD.id, refreshToken);
 
     return { accessToken, refreshToken };
   }
 
   async refresh(payload: RefreshTokenPayload) {
+    console.log('🚀 ~ AuthService ~ refresh ~ payload:', payload);
+    const session = await this.authSessionService.findById(payload.sessionId);
+
+    if (!session || session.expiresAt < new Date() || session.revokedAt)
+      throw new UnauthorizedException('Session invalid or expired');
+
+    const refreshToken = payload.refreshToken;
+    console.log('🚀 ~ AuthService ~ refresh ~ refreshTokenn:', refreshToken);
+
     return;
   }
 
@@ -73,15 +99,6 @@ export class AuthService {
       sub,
       sessionId,
     );
-
-    const newAuthSession = await this.__createOrUpdateSession(
-      sessionId,
-      refreshToken,
-      sub,
-    );
-
-    if (!newAuthSession)
-      throw new UnauthorizedException('Session invalid or expired');
 
     return { accessToken, refreshToken };
   }
@@ -113,50 +130,18 @@ export class AuthService {
     );
   }
 
-  private async __createOrUpdateSession(
+  private async __createNewSession(
     sessionId: string,
-    refreshToken: string,
     userId: number,
+    refreshToken: string,
   ) {
-    const refreshTokenHash = await this.__hash(refreshToken);
+    const newAuthSession = await this.authSessionService.create(
+      sessionId,
+      userId,
+      refreshToken,
+    );
 
-    const expiresIn = this.config.get<string>('JWT_REFRESH_EXPIRES_IN');
-    const expiresAt = new Date(Date.now() + ms(expiresIn));
-
-    return this.prismaService.$transaction(async (tx) => {
-      const isSessionExist = await tx.authSession.findUnique({
-        where: {
-          id: sessionId,
-        },
-      });
-
-      if (isSessionExist) {
-        await tx.authSession.update({
-          where: {
-            id: sessionId,
-          },
-          data: {
-            revokedAt: new Date(),
-          },
-        });
-      }
-
-      return await tx.authSession.create({
-        data: {
-          id: sessionId,
-          userId,
-          refreshTokenHash,
-          expiresAt,
-        },
-      });
-    });
-  }
-
-  private async __hash(data: string): Promise<string> {
-    return await argon.hash(data, ARGON2_OPTIONS);
-  }
-
-  private async __verify(data: string, hash: string): Promise<boolean> {
-    return await argon.verify(hash, data);
+    if (!newAuthSession)
+      throw new UnauthorizedException('Session invalid or expired');
   }
 }
