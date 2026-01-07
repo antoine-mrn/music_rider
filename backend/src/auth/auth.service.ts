@@ -13,6 +13,7 @@ import { randomUUID } from 'crypto';
 import { RefreshTokenPayload } from './types/RefreshTokenPayload.interface';
 import { hash, verify } from 'src/utils/hash';
 import { AuthSessionService } from 'src/auth-session/auth-session.service';
+import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -80,16 +81,18 @@ export class AuthService {
   }
 
   async refresh(payload: RefreshTokenPayload) {
-    console.log('🚀 ~ AuthService ~ refresh ~ payload:', payload);
-    const session = await this.authSessionService.findById(payload.sessionId);
+    const { accessToken, refreshToken } = await this.__getTokens(
+      payload.email,
+      payload.sub,
+      randomUUID(),
+    );
 
-    if (!session || session.expiresAt < new Date() || session.revokedAt)
-      throw new UnauthorizedException('Session invalid or expired');
+    await this.authSessionService.updateSessionById(
+      payload.sessionId,
+      refreshToken,
+    );
 
-    const refreshToken = payload.refreshToken;
-    console.log('🚀 ~ AuthService ~ refresh ~ refreshTokenn:', refreshToken);
-
-    return;
+    return { accessToken, refreshToken };
   }
 
   private async __getTokens(email: string, sub: number, sessionId: string) {

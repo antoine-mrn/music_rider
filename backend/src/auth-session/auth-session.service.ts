@@ -13,9 +13,7 @@ export class AuthSessionService {
 
   async create(sessionId: string, userId: number, refreshToken: string) {
     const refreshTokenHash = await hash(refreshToken);
-
-    const expiresIn = this.config.get<string>('JWT_REFRESH_EXPIRES_IN');
-    const expiresAt = new Date(Date.now() + ms(expiresIn));
+    const expiresAt = this.__getExpiresAt();
 
     return await this.prismaService.authSession.create({
       data: {
@@ -33,5 +31,25 @@ export class AuthSessionService {
         id,
       },
     });
+  }
+
+  async updateSessionById(id: string, refreshtoken: string) {
+    const refreshTokenHash = await hash(refreshtoken);
+    const expiresAt = this.__getExpiresAt();
+
+    return await this.prismaService.authSession.update({
+      where: {
+        id,
+      },
+      data: {
+        refreshTokenHash,
+        expiresAt,
+      },
+    });
+  }
+
+  private __getExpiresAt() {
+    const expiresIn = this.config.get<string>('JWT_REFRESH_EXPIRES_IN');
+    return new Date(Date.now() + ms(expiresIn));
   }
 }
