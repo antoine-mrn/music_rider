@@ -19,7 +19,6 @@ export interface TransformResponse<T> {
     totalPages: number;
     nextPage: string | null;
     previousPage: string | null;
-    timestamp: Date;
   };
 }
 
