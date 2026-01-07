@@ -11,7 +11,8 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Public } from 'src/decorators/public.decorator';
 import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
 import { RtAuthGuard } from './guards/rt-auth.guard';
-import type { RefreshRequest } from 'src/shared/types/requestWithUser.interface';
+import type { RefreshRequest } from 'src/shared/types/request-with-user';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -19,7 +20,7 @@ export class AuthController {
 
   @Public()
   @Post('signup')
-  async signup(@Body() dto: CreateAuthDto) {
+  async signup(@Body() dto: CreateUserDto) {
     return this.authService.signup(dto);
   }
 

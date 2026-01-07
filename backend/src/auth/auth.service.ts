@@ -3,17 +3,17 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'prisma/prisma.service';
-import { User } from '@prisma/client';
 import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'crypto';
-import { RefreshTokenPayload } from './types/RefreshTokenPayload.interface';
 import { hash, verify } from 'src/utils/hash';
 import { AuthSessionService } from 'src/auth-session/auth-session.service';
-import { access } from 'fs';
+import { RefreshTokenPayload } from './types/refresh-token-payload.interface';
+import { AuthUser } from './types/auth-user.interface';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { TokensDto } from './dto/tokens.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +28,7 @@ export class AuthService {
   async validateUser(
     email: string,
     password: string,
-  ): Promise<Omit<User, 'password'> | null> {
+  ): Promise<AuthUser | null> {
     const user = await this.usersService.findOneByEmail(email);
     if (user && (await verify(password, user.password))) {
       const { password, ...result } = user;
@@ -37,7 +37,7 @@ export class AuthService {
     return null;
   }
 
-  async signin(user: any) {
+  async signin(user: AuthUser): Promise<TokensDto> {
     const newSessionId = randomUUID();
 
     const { accessToken, refreshToken } = await this.__getTokens(
@@ -51,21 +51,16 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async signup(newUser: CreateAuthDto) {
-    const user = await this.prismaService.user.findUnique({
-      where: {
-        email: newUser.email,
-      },
-    });
+  async signup(newUser: CreateUserDto): Promise<TokensDto> {
+    const user = await this.usersService.findOneByEmail(newUser.email);
 
     if (user) throw new ConflictException();
 
     const hashedPassword = await hash(newUser.password);
     newUser = { ...newUser, password: hashedPassword };
 
-    const newUserInBDD = await this.prismaService.user.create({
-      data: newUser,
-    });
+    const newUserInBDD = await this.usersService.create(newUser);
+    if (!newUserInBDD) throw new UnauthorizedException('Failed to create user');
 
     const newSessionId = randomUUID();
 
@@ -80,26 +75,34 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async refresh(payload: RefreshTokenPayload) {
+  async refresh(payload: RefreshTokenPayload): Promise<TokensDto> {
     const { accessToken, refreshToken } = await this.__getTokens(
       payload.email,
       payload.sub,
       randomUUID(),
     );
 
-    await this.authSessionService.updateSessionById(
-      payload.sessionId,
-      refreshToken,
-    );
+    try {
+      await this.authSessionService.updateSessionById(
+        payload.sessionId,
+        refreshToken,
+      );
+    } catch (error) {
+      throw new UnauthorizedException('Invalid or expired session');
+    }
 
     return { accessToken, refreshToken };
   }
 
-  async logout(payload: RefreshTokenPayload) {
+  async logout(payload: RefreshTokenPayload): Promise<{ message: string }> {
     return this.authSessionService.revokeSessionById(payload.sessionId);
   }
 
-  private async __getTokens(email: string, sub: number, sessionId: string) {
+  private async __getTokens(
+    email: string,
+    sub: number,
+    sessionId: string,
+  ): Promise<TokensDto> {
     const accessToken = await this.__generateAccessToken(email, sub);
     const refreshToken = await this.__generateRefreshToken(
       email,
@@ -141,7 +144,7 @@ export class AuthService {
     sessionId: string,
     userId: number,
     refreshToken: string,
-  ) {
+  ): Promise<void> {
     const newAuthSession = await this.authSessionService.create(
       sessionId,
       userId,

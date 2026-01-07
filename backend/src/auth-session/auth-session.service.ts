@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'prisma/prisma.service';
 import ms from 'ms';
 import { hash } from 'src/utils/hash';
+import { RefreshSession } from 'src/shared/types/refresh-session.interface';
 
 @Injectable()
 export class AuthSessionService {
@@ -11,7 +12,11 @@ export class AuthSessionService {
     private readonly config: ConfigService,
   ) {}
 
-  async create(sessionId: string, userId: number, refreshToken: string) {
+  async create(
+    sessionId: string,
+    userId: number,
+    refreshToken: string,
+  ): Promise<{ id: string } | null> {
     const refreshTokenHash = await hash(refreshToken);
     const expiresAt = this.__getExpiresAt();
 
@@ -22,18 +27,27 @@ export class AuthSessionService {
         refreshTokenHash,
         expiresAt,
       },
+      select: { id: true },
     });
   }
 
-  async findById(id: string) {
+  async findById(id: string): Promise<RefreshSession | null> {
     return await this.prismaService.authSession.findUnique({
       where: {
         id,
       },
+      select: {
+        refreshTokenHash: true,
+        revokedAt: true,
+        expiresAt: true,
+      },
     });
   }
 
-  async updateSessionById(id: string, refreshtoken: string) {
+  async updateSessionById(
+    id: string,
+    refreshtoken: string,
+  ): Promise<{ id: string } | null> {
     const refreshTokenHash = await hash(refreshtoken);
     const expiresAt = this.__getExpiresAt();
 
@@ -45,12 +59,15 @@ export class AuthSessionService {
         refreshTokenHash,
         expiresAt,
       },
+      select: {
+        id: true,
+      },
     });
   }
 
-  async revokeSessionById(id: string) {
+  async revokeSessionById(id: string): Promise<{ message: string }> {
     try {
-      const revokedSession = await this.prismaService.authSession.update({
+      await this.prismaService.authSession.update({
         where: {
           id,
         },
@@ -65,7 +82,7 @@ export class AuthSessionService {
     }
   }
 
-  private __getExpiresAt() {
+  private __getExpiresAt(): Date {
     const expiresIn = this.config.get<string>('JWT_REFRESH_EXPIRES_IN');
     return new Date(Date.now() + ms(expiresIn));
   }
