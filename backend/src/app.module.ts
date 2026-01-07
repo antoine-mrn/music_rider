@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PrismaModule } from 'prisma/prisma.module';
 import { AuthSessionModule } from './auth-session/auth-session.module';
+import { TransformInterceptor } from './transform.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
