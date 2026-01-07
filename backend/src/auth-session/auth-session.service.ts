@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'prisma/prisma.service';
 import ms from 'ms';
@@ -46,6 +46,23 @@ export class AuthSessionService {
         expiresAt,
       },
     });
+  }
+
+  async revokeSessionById(id: string) {
+    try {
+      const revokedSession = await this.prismaService.authSession.update({
+        where: {
+          id,
+        },
+        data: {
+          revokedAt: new Date(),
+        },
+      });
+
+      return { message: 'Successfully logged out' };
+    } catch (error: any) {
+      throw new NotFoundException('Session already revoked or does not exist');
+    }
   }
 
   private __getExpiresAt() {

@@ -95,6 +95,10 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
+  async logout(payload: RefreshTokenPayload) {
+    return this.authSessionService.revokeSessionById(payload.sessionId);
+  }
+
   private async __getTokens(email: string, sub: number, sessionId: string) {
     const accessToken = await this.__generateAccessToken(email, sub);
     const refreshToken = await this.__generateRefreshToken(

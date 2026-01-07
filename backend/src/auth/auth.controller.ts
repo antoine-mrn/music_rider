@@ -30,15 +30,22 @@ export class AuthController {
     return this.authService.signin(req.user);
   }
 
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
-
   @Public()
   @UseGuards(RtAuthGuard)
   @Post('refresh')
   async refresh(@Request() req: RefreshRequest) {
     return this.authService.refresh(req.user);
+  }
+
+  @Public()
+  @UseGuards(RtAuthGuard)
+  @Post('logout')
+  async logout(@Request() req: RefreshRequest) {
+    return await this.authService.logout(req.user);
+  }
+
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
   }
 }
