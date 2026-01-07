@@ -3,5 +3,4 @@ export interface AuthUser {
   email: string;
   firstname: string;
   lastname: string;
-  createdAt: Date;
 }

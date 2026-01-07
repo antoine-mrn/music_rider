@@ -18,7 +18,6 @@ export class UsersService {
         email: true,
         firstname: true,
         lastname: true,
-        createdAt: true,
       },
     });
   }

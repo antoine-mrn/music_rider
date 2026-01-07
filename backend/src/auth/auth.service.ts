@@ -14,6 +14,7 @@ import { RefreshTokenPayload } from './types/refresh-token-payload.interface';
 import { AuthUser } from './types/auth-user.interface';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { TokensDto } from './dto/tokens.dto';
+import { AuthResponDto } from './dto/auth-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -31,13 +32,13 @@ export class AuthService {
   ): Promise<AuthUser | null> {
     const user = await this.usersService.findOneByEmail(email);
     if (user && (await verify(password, user.password))) {
-      const { password, ...result } = user;
+      const { password, createdAt, ...result } = user;
       return result;
     }
     return null;
   }
 
-  async signin(user: AuthUser): Promise<TokensDto> {
+  async signin(user: AuthUser): Promise<AuthResponDto> {
     const newSessionId = randomUUID();
 
     const { accessToken, refreshToken } = await this.__getTokens(
@@ -48,10 +49,10 @@ export class AuthService {
 
     await this.__createNewSession(newSessionId, user.id, refreshToken);
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, user };
   }
 
-  async signup(newUser: CreateUserDto): Promise<TokensDto> {
+  async signup(newUser: CreateUserDto): Promise<AuthResponDto> {
     const user = await this.usersService.findOneByEmail(newUser.email);
 
     if (user) throw new ConflictException();
@@ -72,7 +73,7 @@ export class AuthService {
 
     await this.__createNewSession(newSessionId, newUserInBDD.id, refreshToken);
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, user: newUserInBDD };
   }
 
   async refresh(payload: RefreshTokenPayload): Promise<TokensDto> {
