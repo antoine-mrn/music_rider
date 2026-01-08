@@ -1,3 +1,4 @@
+import CallToActionSection from "../components/home/CallToActionSection";
 import FeaturesSection from "../components/home/FeaturesSection";
 import HeroSection from "../components/home/HeroSection";
 import Footer from "../components/layout/Footer";
@@ -10,6 +11,7 @@ export default function Home() {
             <main>
                 <HeroSection />
                 <FeaturesSection />
+                <CallToActionSection />
             </main>
             <Footer />
         </>
