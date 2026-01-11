@@ -1,52 +1,62 @@
 import { Grid2x2, Menu, Users } from "lucide-react";
 import HomeCard from "./HomeCard";
-import { motion } from "motion/react";
+import { motion, type Variants } from "motion/react";
 
 export default function FeaturesSection() {
-    const containerVariants = {
-        hidden: {},
-        visible: {
-            transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.1,
-            },
-        },
-    };
+    const MotionHomeCard = motion(HomeCard);
 
-    const itemFromTop = {
-        hidden: { opacity: 0, y: -40 },
+    const fadeDown: Variants = {
+        hidden: { opacity: 0, y: -60 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+            transition: { duration: 0.4, ease: "easeOut" },
         },
     };
 
-    const itemFromBottom = {
-        hidden: { opacity: 0, y: 40 },
+    const fadeUp: Variants = {
+        hidden: { opacity: 0, y: 60 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+            transition: { duration: 0.4, ease: "easeOut" },
+        },
+    };
+
+    const fadeLeft: Variants = {
+        hidden: { opacity: 0, x: 60 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: { duration: 0.4, ease: "easeOut" },
+        },
+    };
+
+    const fadeRight: Variants = {
+        hidden: { opacity: 0, x: -60 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: { duration: 0.4, ease: "easeOut" },
         },
     };
 
     return (
-        <motion.section
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="flex place-items-center flex-col bg-base-200 py-24 px-6 lg:px-20"
-        >
+        <section className="flex place-items-center flex-col bg-base-200 py-24 px-6 lg:px-20">
             <motion.h2
-                variants={itemFromTop}
+                variants={fadeDown}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
                 className="text-4xl font-bold md:text-5xl text-base-content mb-4"
             >
                 L'outil tout-en-un des pros
             </motion.h2>
             <motion.p
-                variants={itemFromBottom}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
                 className="text-xl text-base-content/50 leading-relaxed mb-10"
             >
                 Une interface pensée pour la rapidité sur le terrain, en
@@ -54,7 +64,12 @@ export default function FeaturesSection() {
             </motion.p>
 
             <ul className="flex flex-col md:flex-row gap-4 max-w-7xl sm:gap-10">
-                <HomeCard>
+                <MotionHomeCard
+                    variants={fadeRight}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                >
                     <div className="bg-primary/8 w-fit p-3 rounded-xl mb-6">
                         <Grid2x2
                             color="var(--color-primary)"
@@ -69,8 +84,13 @@ export default function FeaturesSection() {
                         Glissez-déposez vos instruments sur une grille pro.
                         Exportez un plan clair pour les régisseurs.
                     </p>
-                </HomeCard>
-                <HomeCard>
+                </MotionHomeCard>
+                <MotionHomeCard
+                    variants={fadeUp}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                >
                     <div className="bg-primary/8 w-fit p-3 rounded-xl mb-6">
                         <Menu
                             color="var(--color-primary)"
@@ -85,8 +105,13 @@ export default function FeaturesSection() {
                         Gérez vos entrées/sorties audio avec précision. Vos
                         techniciens reçoivent une liste toujours à jour.
                     </p>
-                </HomeCard>
-                <HomeCard>
+                </MotionHomeCard>
+                <MotionHomeCard
+                    variants={fadeLeft}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                >
                     <div className="bg-primary/8 w-fit p-3 rounded-xl mb-6">
                         <Users
                             color="var(--color-primary)"
@@ -101,8 +126,8 @@ export default function FeaturesSection() {
                         Centralisez vos besoins en catering, hôtels et contacts
                         d'urgence pour toute l'équipe.
                     </p>
-                </HomeCard>
+                </MotionHomeCard>
             </ul>
-        </motion.section>
+        </section>
     );
 }

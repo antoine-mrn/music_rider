@@ -1,7 +1,7 @@
 export default function Navbar() {
     return (
         <header className="sticky top-0 z-10">
-            <nav className="navbar block bg-base-100 shadow-sm w-full px-4">
+            <nav className="navbar block bg-base-100 shadow-sm w-full px-4 py-6">
                 <div className="flex justify-between items-center max-w-7xl mx-auto">
                     <a
                         href="#"

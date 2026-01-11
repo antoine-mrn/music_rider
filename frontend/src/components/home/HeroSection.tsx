@@ -1,7 +1,7 @@
-import { motion } from "motion/react";
+import { motion, type Variants } from "motion/react";
 
 export default function HeroSection() {
-    const containerVariants = {
+    const containerVariants: Variants = {
         hidden: {},
         visible: {
             transition: {
@@ -11,7 +11,7 @@ export default function HeroSection() {
         },
     };
 
-    const itemVariants = {
+    const itemVariants: Variants = {
         hidden: { opacity: 0, y: 40 },
         visible: {
             opacity: 1,
