@@ -1,16 +1,57 @@
 import { Grid2x2, Menu, Users } from "lucide-react";
 import HomeCard from "./HomeCard";
+import { motion } from "motion/react";
 
 export default function FeaturesSection() {
+    const containerVariants = {
+        hidden: {},
+        visible: {
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.1,
+            },
+        },
+    };
+
+    const itemFromTop = {
+        hidden: { opacity: 0, y: -40 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+        },
+    };
+
+    const itemFromBottom = {
+        hidden: { opacity: 0, y: 40 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
+        },
+    };
+
     return (
-        <section className="flex place-items-center flex-col bg-base-200 py-24 px-6 lg:px-20">
-            <h2 className="text-4xl font-bold md:text-5xl text-base-content mb-4">
+        <motion.section
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="flex place-items-center flex-col bg-base-200 py-24 px-6 lg:px-20"
+        >
+            <motion.h2
+                variants={itemFromTop}
+                className="text-4xl font-bold md:text-5xl text-base-content mb-4"
+            >
                 L'outil tout-en-un des pros
-            </h2>
-            <p className="text-xl text-base-content/50 leading-relaxed mb-10">
+            </motion.h2>
+            <motion.p
+                variants={itemFromBottom}
+                className="text-xl text-base-content/50 leading-relaxed mb-10"
+            >
                 Une interface pensée pour la rapidité sur le terrain, en
                 coulisses ou en studio.
-            </p>
+            </motion.p>
 
             <ul className="flex flex-col md:flex-row gap-4 max-w-7xl sm:gap-10">
                 <HomeCard>
@@ -62,6 +103,6 @@ export default function FeaturesSection() {
                     </p>
                 </HomeCard>
             </ul>
-        </section>
+        </motion.section>
     );
 }
