@@ -4,7 +4,7 @@ import HomeCard from "./HomeCard";
 export default function FeaturesSection() {
     return (
         <section className="flex place-items-center flex-col bg-base-200 py-24 px-6 lg:px-20">
-            <h2 className="text-4xl font-bold md:text-5xl text-base-content">
+            <h2 className="text-4xl font-bold md:text-5xl text-base-content mb-4">
                 L'outil tout-en-un des pros
             </h2>
             <p className="text-xl text-base-content/50 leading-relaxed mb-10">
@@ -12,7 +12,7 @@ export default function FeaturesSection() {
                 coulisses ou en studio.
             </p>
 
-            <ul className="flex flex-col lg:flex-row gap-10">
+            <ul className="flex flex-col md:flex-row gap-4 max-w-7xl sm:gap-10">
                 <HomeCard>
                     <div className="bg-primary/8 w-fit p-3 rounded-xl mb-6">
                         <Grid2x2

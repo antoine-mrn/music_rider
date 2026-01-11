@@ -3,7 +3,7 @@ export default function HeroSection() {
         <section className="hero bg-primary/8 min-h-screen">
             <div className="hero-content text-center">
                 <div className="max-w-3xl">
-                    <div className="badge badge-xl badge-outline badge-primary rounded-2xl font-bold uppercase tracking-widest whitespace-nowrap mb-6">
+                    <div className="badge badge-outline badge-primary h-auto rounded-2xl font-bold uppercase tracking-widest mb-6 sm:whitespace-nowrap">
                         Propulsé par les musiciens, pour les techniciens
                     </div>
                     <h1 className="text-6xl font-bold md:text-7xl mb-8">
