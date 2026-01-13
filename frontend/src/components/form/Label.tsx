@@ -4,5 +4,9 @@ interface LabelProps {
 }
 
 export default function Label({ label, htmlFor }: LabelProps) {
-    return <label htmlFor={htmlFor}>{label}</label>;
+    return (
+        <label htmlFor={htmlFor} className="font-bold">
+            {label}
+        </label>
+    );
 }
