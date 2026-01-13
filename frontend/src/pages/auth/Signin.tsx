@@ -1,14 +1,12 @@
 import { Link } from "react-router";
-import Label from "../../components/form/Label";
-import Input from "../../components/form/Input";
-import Field from "../../components/form/Field";
+import SigninForm from "../../components/auth/SigninForm";
 import { Menu } from "lucide-react";
 
 export default function Signin() {
     return (
         <div className="flex min-h-screen">
             <section className="w-full flex flex-col justify-center items-center lg:w-1/2">
-                <div className="mx-auto">
+                <div className="max-w-xs">
                     <div className="mb-10">
                         <h1 className="text-3xl font-black mb-2 tracking-tight">
                             Bon retour parmi nous.
@@ -23,26 +21,7 @@ export default function Signin() {
                             </Link>
                         </p>
                     </div>
-                    <form className="space-y-6">
-                        <Field>
-                            <Label label="e-mail" htmlFor="email" />
-                            <Input
-                                type="email"
-                                placeholder="john.doe@mail.com"
-                            />
-                        </Field>
-                        <Field>
-                            <Label label="Mot de passe" htmlFor="password" />
-                            <Input type="password" placeholder="********" />
-                        </Field>
-
-                        <button
-                            type="submit"
-                            className="btn btn-primary w-full p-4"
-                        >
-                            Se connecter
-                        </button>
-                    </form>
+                    <SigninForm />
                 </div>
             </section>
             <section className="hidden bg-base-200 flex-col justify-center items-center gap-8 lg:flex lg:w-1/2">

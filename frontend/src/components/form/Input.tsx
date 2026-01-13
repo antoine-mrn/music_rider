@@ -1,10 +1,17 @@
-type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+    error?: string;
+};
 
-export default function Input(props: InputProps) {
+export default function Input({ error, ...props }: InputProps) {
     return (
-        <input
-            {...props}
-            className="input border-2 border-neutral-content focus:border-primary w-full font-semibold h-12"
-        />
+        <div className="w-full">
+            <input
+                {...props}
+                className="input border-2 border-neutral-content focus:border-primary font-semibold h-12"
+            />
+            {error && (
+                <p className="mt-1 text-sm font-bold text-error">{error}</p>
+            )}
+        </div>
     );
 }
