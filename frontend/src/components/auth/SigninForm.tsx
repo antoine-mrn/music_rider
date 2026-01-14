@@ -7,6 +7,7 @@ import {
 import Field from "../form/Field";
 import Input from "../form/Input";
 import Label from "../form/Label";
+import { getHello } from "../../api/auth.api";
 
 export default function SigninForm() {
     const {
@@ -17,7 +18,11 @@ export default function SigninForm() {
         resolver: zodResolver(SigninSchema),
     });
 
-    const onSubmit = handleSubmit((data) => console.log(data));
+    const onSubmit = handleSubmit(async (data) => {
+        console.log(data);
+        const api = await getHello();
+        console.log("🚀 ~ SigninForm ~ api:", api);
+    });
     return (
         <form onSubmit={onSubmit} className="space-y-6">
             <Field>
