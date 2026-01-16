@@ -31,21 +31,20 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
   }
 
   async validate(req: Request, payload: RefreshTokenPayload) {
-    const authHeader = req.headers['authorization'];
-
-    if (!authHeader) throw new UnauthorizedException('Missing authorization');
-
-    const [type, refreshToken] = authHeader.split(' ');
-    if (type !== 'Bearer' || !refreshToken)
-      throw new UnauthorizedException('Invalid Authorization header');
-
     const session = await this.authSessionService.findById(payload.sessionId);
-    if (!session || session.revokedAt || session.expiresAt < new Date())
-      throw new UnauthorizedException('Invalid Authorization header');
 
-    const isValidSession = await verify(refreshToken, session.refreshTokenHash);
-    if (!isValidSession)
-      throw new UnauthorizedException('Invalid Authorization header');
+    if (!session || session.revokedAt || session.expiresAt < new Date()) {
+      throw new UnauthorizedException('Invalid session');
+    }
+
+    // Vérifier que le token envoyé correspond à celui stocké en base
+    const isValid = await verify(
+      req.cookies.refresh_token,
+      session.refreshTokenHash,
+    );
+    if (!isValid) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
 
     return {
       userId: payload.sub,

@@ -65,21 +65,16 @@ export class AuthSessionService {
     });
   }
 
-  async revokeSessionById(id: string): Promise<{ message: string }> {
-    try {
-      await this.prismaService.authSession.update({
-        where: {
-          id,
-        },
-        data: {
-          revokedAt: new Date(),
-        },
-      });
-
-      return { message: 'Successfully logged out' };
-    } catch (error: any) {
-      throw new NotFoundException('Session already revoked or does not exist');
-    }
+  async revokeSessionById(sessionId: string): Promise<void> {
+    await this.prismaService.authSession.updateMany({
+      where: {
+        id: sessionId,
+        revokedAt: null,
+      },
+      data: {
+        revokedAt: new Date(),
+      },
+    });
   }
 
   private __getExpiresAt(): Date {

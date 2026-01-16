@@ -14,7 +14,7 @@ import { RefreshTokenPayload } from './types/refresh-token-payload.interface';
 import { AuthUser } from './types/auth-user.interface';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { TokensDto } from './dto/tokens.dto';
-import { AuthResponDto } from './dto/auth-response.dto';
+import { AuthResponseDto } from './dto/auth-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -38,7 +38,7 @@ export class AuthService {
     return null;
   }
 
-  async signin(user: AuthUser): Promise<AuthResponDto> {
+  async signin(user: AuthUser): Promise<AuthResponseDto> {
     const newSessionId = randomUUID();
 
     const { accessToken, refreshToken } = await this.__getTokens(
@@ -52,7 +52,7 @@ export class AuthService {
     return { accessToken, refreshToken, user };
   }
 
-  async signup(newUser: CreateUserDto): Promise<AuthResponDto> {
+  async signup(newUser: CreateUserDto): Promise<AuthResponseDto> {
     const user = await this.usersService.findOneByEmail(newUser.email);
 
     if (user) throw new ConflictException();
@@ -95,7 +95,7 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
-  async logout(payload: RefreshTokenPayload): Promise<{ message: string }> {
+  async logout(payload: RefreshTokenPayload): Promise<void> {
     return this.authSessionService.revokeSessionById(payload.sessionId);
   }
 
