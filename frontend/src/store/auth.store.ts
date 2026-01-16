@@ -1,12 +1,5 @@
 import { create } from "zustand";
-
-interface AuthUserInterface {
-    id: string;
-    email: string;
-    firstname: string;
-    lastname: string;
-    avartarUrl?: string;
-}
+import type { AuthUserInterface } from "../features/auth/types";
 
 interface AuthStore {
     user: AuthUserInterface | null;

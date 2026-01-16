@@ -6,7 +6,9 @@ import {
   UseGuards,
   Get,
   Body,
+  Res,
 } from '@nestjs/common';
+import type { Response } from 'express';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Public } from 'src/decorators/public.decorator';
 import { RtAuthGuard } from './guards/rt-auth.guard';
@@ -14,6 +16,7 @@ import type { RefreshRequest } from 'src/shared/types/request-with-user';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { AuthResponDto } from './dto/auth-response.dto';
 import { TokensDto } from './dto/tokens.dto';
+import { AuthUser } from './types/auth-user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -28,8 +31,29 @@ export class AuthController {
   @Public()
   @UseGuards(LocalAuthGuard)
   @Post('signin')
-  async signin(@Request() req): Promise<AuthResponDto> {
-    return this.authService.signin(req.user);
+  async signin(
+    @Res({ passthrough: true }) res: Response,
+    @Request() req,
+  ): Promise<AuthUser> {
+    const { accessToken, refreshToken, user } = await this.authService.signin(
+      req.user,
+    );
+
+    res.cookie('access_token', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 15 * 60 * 1000, // 15 min
+    });
+
+    res.cookie('refresh_token', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours
+    });
+
+    return user;
   }
 
   @Public()
@@ -46,7 +70,7 @@ export class AuthController {
     return await this.authService.logout(req.user);
   }
 
-  @Get('profile')
+  @Get('me')
   getProfile(@Request() req) {
     return req.user;
   }

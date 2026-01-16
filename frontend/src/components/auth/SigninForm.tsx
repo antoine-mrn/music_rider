@@ -7,9 +7,11 @@ import {
 import Field from "../form/Field";
 import Input from "../form/Input";
 import Label from "../form/Label";
-import { getHello } from "../../api/auth.api";
+import { useLogin } from "../../features/auth/hooks/useLogin";
 
 export default function SigninForm() {
+    const { mutateAsync: signin } = useLogin();
+
     const {
         register,
         handleSubmit,
@@ -20,8 +22,7 @@ export default function SigninForm() {
 
     const onSubmit = handleSubmit(async (data) => {
         console.log(data);
-        const api = await getHello();
-        console.log("🚀 ~ SigninForm ~ api:", api);
+        await signin(data);
     });
     return (
         <form onSubmit={onSubmit} className="space-y-6">
