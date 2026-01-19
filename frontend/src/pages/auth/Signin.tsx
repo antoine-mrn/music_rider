@@ -5,8 +5,8 @@ import { Menu } from "lucide-react";
 export default function Signin() {
     return (
         <div className="flex min-h-screen">
-            <section className="w-full flex flex-col justify-center items-center lg:w-1/2">
-                <div className="max-w-xs">
+            <section className="w-full pt-24 flex flex-col justify-center items-center lg:w-1/2">
+                <div className="w-xs">
                     <div className="mb-10">
                         <h1 className="text-3xl font-black mb-2 tracking-tight">
                             Bon retour parmi nous.
@@ -24,7 +24,7 @@ export default function Signin() {
                     <SigninForm />
                 </div>
             </section>
-            <section className="hidden bg-base-200 flex-col justify-center items-center gap-8 lg:flex lg:w-1/2">
+            <section className="hidden pt-24 bg-base-200 flex-col justify-center items-center gap-8 lg:flex lg:w-1/2">
                 <div className="bg-primary/8 w-fit p-3 rounded-xl">
                     <Menu
                         color="var(--color-primary)"

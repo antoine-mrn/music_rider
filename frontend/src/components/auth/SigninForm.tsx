@@ -30,6 +30,7 @@ export default function SigninForm() {
                 <Label label="e-mail" htmlFor="email" />
                 <Input
                     type="email"
+                    id="email"
                     placeholder="john.doe@mail.com"
                     {...register("email")}
                     error={errors.email && errors.email.message}
@@ -39,6 +40,7 @@ export default function SigninForm() {
                 <Label label="Mot de passe" htmlFor="password" />
                 <Input
                     type="password"
+                    id="password"
                     placeholder="********"
                     {...register("password")}
                     error={errors.password && errors.password.message}
