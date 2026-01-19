@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from "react-router";
+import { useAuthStore } from "../../store/auth.store";
 import { useMe } from "../../features/auth/hooks/useMe";
 
 interface ProtectedRouteProps {
@@ -8,11 +9,14 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({
     redirectPath = "/signin",
 }: ProtectedRouteProps) => {
-    const { data: user, isLoading } = useMe();
+    const user = useAuthStore((state) => state.user);
+    const { isLoading } = useMe();
 
-    if (isLoading) return <p>Ca charge...</p>;
+    if (isLoading) {
+        return <p>Wait..</p>;
+    }
 
-    if (!user) {
+    if (!user && !isLoading) {
         return <Navigate to={redirectPath} replace />;
     }
 

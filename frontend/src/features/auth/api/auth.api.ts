@@ -5,7 +5,7 @@ export const authApi = {
     signin: async (signinData: SigninDto): Promise<AuthUserInterface> => {
         const { data } = await apiClient.post<AuthUserInterface>(
             "auth/signin",
-            signinData
+            signinData,
         );
         return data;
     },
@@ -13,8 +13,13 @@ export const authApi = {
         const { data } = await apiClient.post<void>("auth/refresh");
         return data;
     },
-    me: async () => {
-        const { data } = await apiClient.get<AuthUserInterface>("auth/me");
-        return data;
+    me: async (): Promise<AuthUserInterface | null> => {
+        try {
+            const { data } = await apiClient.get<AuthUserInterface>("/auth/me");
+            return data;
+        } catch (error) {
+            console.log("❌ authApi.me error:", error);
+            return null;
+        }
     },
 };
