@@ -13,10 +13,14 @@ import { useAuthStore } from "./store/auth.store";
 function App() {
     const { data: user, isLoading } = useMe();
     const setUser = useAuthStore((state) => state.setUser);
+    const setIsAuthenticated = useAuthStore(
+        (state) => state.setIsAuthenticated,
+    );
 
     useEffect(() => {
         if (!isLoading) {
             setUser(user ?? null);
+            setIsAuthenticated();
         }
     }, [user, isLoading, setUser]);
 

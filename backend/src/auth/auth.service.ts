@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
@@ -36,6 +37,15 @@ export class AuthService {
       return result;
     }
     return null;
+  }
+
+  async me(email: string): Promise<AuthUser> {
+    const user = await this.usersService.findOneByEmail(email);
+
+    if (!user) throw new NotFoundException();
+
+    const { password, createdAt, ...result } = user;
+    return result;
   }
 
   async signin(user: AuthUser): Promise<AuthResponseDto> {
@@ -80,7 +90,7 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.__getTokens(
       payload.email,
       payload.sub,
-      randomUUID(),
+      payload.sessionId,
     );
 
     try {

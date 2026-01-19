@@ -32,14 +32,14 @@ export class AuthController {
 
     res.cookie('access_token', accessToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'strict',
       maxAge: 15 * 60 * 1000, // 15 min
     });
 
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours
     });
@@ -60,14 +60,14 @@ export class AuthController {
 
     res.cookie('access_token', accessToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'strict',
       maxAge: 15 * 60 * 1000, // 15 min
     });
 
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
-      secure: false,
+      secure: true,
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours
     });
@@ -117,7 +117,7 @@ export class AuthController {
   }
 
   @Get('me')
-  getProfile(@Request() req) {
-    return req.user;
+  async getProfile(@Request() req) {
+    return await this.authService.me(req.user.email);
   }
 }

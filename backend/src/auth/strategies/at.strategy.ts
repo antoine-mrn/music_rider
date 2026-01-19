@@ -25,6 +25,9 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt-access') {
   }
 
   async validate(payload: Payload) {
-    return { userId: payload.sub, email: payload.email };
+    return {
+      userId: payload.sub,
+      email: payload.email,
+    };
   }
 }
