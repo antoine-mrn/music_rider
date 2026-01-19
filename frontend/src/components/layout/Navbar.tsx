@@ -5,7 +5,6 @@ import { useAuthStore } from "../../store/auth.store";
 
 export default function Navbar() {
     const user = useAuthStore((state) => state.user);
-    console.log("🚀 ~ Navbar ~ user:", user);
 
     return (
         <header className="sticky top-0 z-10 bg-base-200">
@@ -17,7 +16,7 @@ export default function Navbar() {
                     >
                         MUSIC<span className="text-base-content">RIDER</span>
                     </Link>
-                    {user ? <AvatarIcon /> : <AuthButtons />}
+                    {user ? <AvatarIcon user={user} /> : <AuthButtons />}
                 </div>
             </nav>
         </header>

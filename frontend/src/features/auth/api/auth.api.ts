@@ -18,8 +18,11 @@ export const authApi = {
             const { data } = await apiClient.get<AuthUserInterface>("/auth/me");
             return data;
         } catch (error) {
-            console.log("❌ authApi.me error:", error);
             return null;
         }
+    },
+    logout: async (): Promise<void> => {
+        const { data } = await apiClient.post<void>("auth/logout");
+        return data;
     },
 };

@@ -1,8 +1,8 @@
 export interface AuthUserInterface {
     id: number;
     email: string;
-    // firstname: string;
-    // lastname: string;
+    firstname: string;
+    lastname: string;
     avartarUrl?: string;
 }
 

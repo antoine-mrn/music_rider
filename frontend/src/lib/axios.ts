@@ -27,9 +27,7 @@ apiClient.interceptors.response.use(
             isRefreshing = true;
 
             try {
-                console.log("demande refresh depuis front");
                 await authApi.refresh();
-                console.log("Tokens reçu côté front", originalRequest);
                 isRefreshing = false;
                 return apiClient(originalRequest);
             } catch (refreshError) {

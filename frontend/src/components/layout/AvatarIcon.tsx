@@ -1,4 +1,14 @@
-export default function AvatarIcon() {
+import { Link } from "react-router";
+import type { AuthUserInterface } from "../../features/auth/types";
+import { useLogout } from "../../features/auth/hooks/useLogout";
+
+export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
+    const { mutateAsync: logoutMutation, isPending } = useLogout();
+
+    async function handleLogout() {
+        await logoutMutation();
+    }
+
     return (
         <div className="dropdown dropdown-end">
             <div
@@ -15,16 +25,14 @@ export default function AvatarIcon() {
             </div>
             <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                 <li>
-                    <a className="justify-between">
+                    <Link to={`profile/${user.id}`} className="justify-between">
                         Profile
-                        <span className="badge">New</span>
-                    </a>
+                    </Link>
                 </li>
                 <li>
-                    <a>Settings</a>
-                </li>
-                <li>
-                    <a>Logout</a>
+                    <button disabled={isPending} onClick={handleLogout}>
+                        Logout
+                    </button>
                 </li>
             </ul>
         </div>
