@@ -7,6 +7,11 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
 
     async function handleLogout() {
         await logoutMutation();
+        handleBlur();
+    }
+
+    function handleBlur() {
+        (document?.activeElement as HTMLElement).blur();
     }
 
     return (
@@ -23,8 +28,11 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
                     />
                 </div>
             </div>
-            <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                <li>
+            <ul
+                tabIndex={-1}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            >
+                <li onClick={handleBlur}>
                     <Link to={`profile/${user.id}`} className="justify-between">
                         Profile
                     </Link>
