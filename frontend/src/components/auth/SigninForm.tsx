@@ -10,7 +10,7 @@ import Label from "../form/Label";
 import { useLogin } from "../../features/auth/hooks/useLogin";
 
 export default function SigninForm() {
-    const { mutateAsync: signin } = useLogin();
+    const { mutateAsync: signin, isPending, isError } = useLogin();
 
     const {
         register,
@@ -21,7 +21,6 @@ export default function SigninForm() {
     });
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
         await signin(data);
     });
     return (
@@ -47,9 +46,18 @@ export default function SigninForm() {
                 />
             </Field>
 
-            <button type="submit" className="btn btn-primary w-full p-4">
+            <button
+                type="submit"
+                disabled={isPending}
+                className="btn btn-primary w-full p-4"
+            >
                 Se connecter
             </button>
+            {isError && (
+                <p className="mt-1 text-sm font-bold text-error">
+                    Erreur lors de la connexion au compte, veuillez réessayer
+                </p>
+            )}
         </form>
     );
 }

@@ -1,11 +1,18 @@
 import { apiClient } from "../../../lib/axios";
-import type { AuthUserInterface, SigninDto } from "../types";
+import type { AuthUserInterface, SigninDto, SignupDto } from "../types";
 
 export const authApi = {
-    signin: async (signinData: SigninDto): Promise<AuthUserInterface> => {
+    signin: async (signinDto: SigninDto): Promise<AuthUserInterface> => {
         const { data } = await apiClient.post<AuthUserInterface>(
             "auth/signin",
-            signinData,
+            signinDto,
+        );
+        return data;
+    },
+    signup: async (signupDto: SignupDto): Promise<AuthUserInterface> => {
+        const { data } = await apiClient.post<AuthUserInterface>(
+            "auth/signup",
+            signupDto,
         );
         return data;
     },
