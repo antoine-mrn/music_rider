@@ -1,7 +1,7 @@
 import { Link } from "react-router";
-import AuthButtons from "./AuthButtons";
 import AvatarIcon from "./AvatarIcon";
 import { useAuthStore } from "../../store/auth.store";
+import AuthButtonsWrapper from "./AuthButtonsWrapper";
 
 export default function Navbar() {
     const user = useAuthStore((state) => state.user);
@@ -16,7 +16,7 @@ export default function Navbar() {
                     >
                         MUSIC<span className="text-base-content">RIDER</span>
                     </Link>
-                    {user ? <AvatarIcon user={user} /> : <AuthButtons />}
+                    {user ? <AvatarIcon user={user} /> : <AuthButtonsWrapper />}
                 </div>
             </nav>
         </header>

@@ -4,9 +4,9 @@ import {
     type SigninSchemaType,
     SigninSchema,
 } from "../../schemas/signin.schema";
-import Field from "../form/Field";
-import Input from "../form/Input";
-import Label from "../form/Label";
+import Field from "../ui/form/Field";
+import Input from "../ui/form/Input";
+import Label from "../ui/form/Label";
 import { useLogin } from "../../features/auth/hooks/useLogin";
 
 export default function SigninForm() {
@@ -46,18 +46,21 @@ export default function SigninForm() {
                 />
             </Field>
 
-            <button
-                type="submit"
-                disabled={isPending}
-                className="btn btn-primary w-full p-4"
-            >
-                Se connecter
-            </button>
-            {isError && (
-                <p className="mt-1 text-sm font-bold text-error">
-                    Erreur lors de la connexion au compte, veuillez réessayer
-                </p>
-            )}
+            <div>
+                <button
+                    type="submit"
+                    disabled={isPending}
+                    className="btn btn-primary w-full p-4"
+                >
+                    Se connecter
+                </button>
+                {isError && (
+                    <p className="mt-1 text-sm font-bold text-error text-center">
+                        Erreur lors de la connexion au compte, veuillez
+                        réessayer
+                    </p>
+                )}
+            </div>
         </form>
     );
 }

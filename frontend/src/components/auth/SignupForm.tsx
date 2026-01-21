@@ -3,9 +3,9 @@ import {
     SignupSchema,
     type SignupSchemaType,
 } from "../../schemas/signup.schema";
-import Field from "../form/Field";
-import Input from "../form/Input";
-import Label from "../form/Label";
+import Field from "../ui/form/Field";
+import Input from "../ui/form/Input";
+import Label from "../ui/form/Label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignup } from "../../features/auth/hooks/useSignup";
 

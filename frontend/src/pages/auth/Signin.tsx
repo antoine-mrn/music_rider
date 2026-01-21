@@ -33,7 +33,7 @@ export default function Signin() {
                     />
                 </div>
                 <p className="font-black text-3xl text-base-content/90 italic">
-                    "Le backling est prêt."
+                    "Le backline est prêt."
                 </p>
                 <p className="text-base-content/70 max-w-sm text-center font-medium italic text-lg">
                     Connectez-vous pour mettre à jour vos riders ou consulter
