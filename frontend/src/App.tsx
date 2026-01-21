@@ -9,6 +9,7 @@ import { ProtectedRoute } from "./components/routing/ProtectedRoute";
 import { useEffect } from "react";
 import { useMe } from "./features/auth/hooks/useMe";
 import { useAuthStore } from "./store/auth.store";
+import { AuthRoute } from "./components/routing/AuthRoute";
 
 function App() {
     const { data: user, isLoading } = useMe();
@@ -35,8 +36,10 @@ function App() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
-                <Route path="/signin" element={<Signin />} />
-                <Route path="/signup" element={<Signup />} />
+                <Route element={<AuthRoute />}>
+                    <Route path="/signin" element={<Signin />} />
+                    <Route path="/signup" element={<Signup />} />
+                </Route>
                 <Route element={<ProtectedRoute />}>
                     <Route path="/profile/:id" element={<Profile />} />
                 </Route>
