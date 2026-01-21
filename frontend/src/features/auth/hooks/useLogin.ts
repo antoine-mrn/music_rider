@@ -12,7 +12,7 @@ export const useLogin = () => {
         mutationFn: (signinData: SigninDto) => authApi.signin(signinData),
         onSuccess: (user) => {
             setUser(user);
-            navigate("/");
+            navigate(`/profile/${user.id}`);
         },
     });
 };
