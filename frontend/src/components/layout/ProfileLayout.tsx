@@ -3,12 +3,12 @@ import Footer from "./Footer";
 
 export default function ProfileLayout() {
     return (
-        <div className="drawer lg:drawer-open">
+        <div className="drawer min-h-screen lg:drawer-open">
             <input id="my-drawer-5" type="checkbox" className="drawer-toggle" />
 
             {/* Contenu principal */}
-            <div className="drawer-content flex flex-col">
-                <div className="mt-22 lg:mt-0 max-w-7xl mx-auto">
+            <div className="drawer-content min-h-screen flex flex-col">
+                <div className="flex-1 max-w-3xl w-full mx-auto">
                     <Outlet />
                 </div>
                 <div className="lg:-ml-80">
