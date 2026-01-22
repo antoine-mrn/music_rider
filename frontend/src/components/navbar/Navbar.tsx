@@ -10,6 +10,12 @@ export default function Navbar() {
         <header className="fixed w-full top-0 z-10 bg-base-200">
             <nav className="navbar block shadow-sm w-full px-4 py-6">
                 <div className="flex justify-between items-center max-w-7xl mx-auto">
+                    <label
+                        htmlFor="my-drawer-5"
+                        className="drawer-button btn btn-primary"
+                    >
+                        Open drawer
+                    </label>
                     <Link
                         to="/"
                         className="text-2xl font-black tracking-tighter text-primary italic"

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useMe } from "./features/auth/hooks/useMe";
 import { useAuthStore } from "./store/auth.store";
 import { AuthRoute } from "./components/routing/AuthRoute";
+import ProfileLayout from "./components/layout/ProfileLayout";
 
 function App() {
     const { data: user, isLoading } = useMe();
@@ -33,6 +34,7 @@ function App() {
         );
     }
     return (
+        // TODO: Améliorer le layout car le Footer est dans le main à cause du scroll de la navbar
         <Routes>
             <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
@@ -41,7 +43,9 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                 </Route>
                 <Route element={<ProtectedRoute />}>
-                    <Route path="/profile/:id" element={<Profile />} />
+                    <Route element={<ProfileLayout />}>
+                        <Route path="/profile/:id" element={<Profile />} />
+                    </Route>
                 </Route>
             </Route>
         </Routes>
