@@ -1,17 +1,15 @@
+import MyBandsSummary from "../../components/profile/MyBandsSummary";
+import ProfileInfo from "../../components/profile/ProfileInfo";
+import QuickOverview from "../../components/profile/QuickOverview";
+
 export default function Profile() {
     return (
-        <div className="w-full">
-            <section className="flex justify-between items-center">
-                <div className="flex flex-col items-center gap-1">
-                    <h1 className="font-black text-4xl tracking-tight">
-                        John Doe
-                    </h1>
-                    <p>john@gmail.com</p>
-                </div>
-                <button className="btn btn-active btn-primary">
-                    Modifier mes infos
-                </button>
-            </section>
+        <div className="w-full h-full flex flex-col gap-8 place-content-center">
+            <ProfileInfo />
+            <div className="flex justify-between">
+                <MyBandsSummary />
+                <QuickOverview />
+            </div>
         </div>
     );
 }

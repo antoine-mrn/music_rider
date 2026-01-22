@@ -8,7 +8,7 @@ export default function ProfileLayout() {
 
             {/* Contenu principal */}
             <div className="drawer-content min-h-screen flex flex-col">
-                <div className="flex-1 max-w-3xl w-full mx-auto">
+                <div className="flex-1 max-w-5xl w-full mx-auto">
                     <Outlet />
                 </div>
                 <div className="lg:-ml-80">
