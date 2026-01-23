@@ -14,7 +14,7 @@ const HomeCard = forwardRef<HTMLLIElement, HomeCardProps>(
                 <div className="card-body">{children}</div>
             </motion.li>
         );
-    }
+    },
 );
 
 export default HomeCard;

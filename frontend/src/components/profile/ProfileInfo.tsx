@@ -2,7 +2,7 @@ export default function ProfileInfo() {
     return (
         <section className="flex items-center gap-4">
             <div className="avatar">
-                <div className="ring-primary ring-offset-base-100 w-24 rounded-full ring-2 ring-offset-2">
+                <div className="ring-primary w-24 rounded-full ring-2 ring-offset-2">
                     <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
                 </div>
             </div>
@@ -12,7 +12,7 @@ export default function ProfileInfo() {
                     john@gmail.com
                 </p>
             </div>
-            <button className="btn btn-primary rounded-2xl px-8 shadow-md shadow-primary/20 ml-auto">
+            <button className="btn btn-primary rounded-lg ml-auto">
                 Modifier mes infos
             </button>
         </section>

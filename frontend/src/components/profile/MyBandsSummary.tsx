@@ -6,7 +6,7 @@ export default function MyBandsSummary() {
         <section>
             <div className="flex justify-between items-center">
                 <SectionTitle title="Mes groupes" />
-                <button className="btn btn-primary rounded-2xl shadow-md shadow-primary/20">
+                <button className="btn btn-primary rounded-lg">
                     + Nouveau
                 </button>
             </div>

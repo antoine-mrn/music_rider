@@ -77,7 +77,7 @@ export default function FeaturesSection() {
                             strokeWidth={2}
                         />
                     </div>
-                    <h3 className="text-primary/80 font-bold text-xl mb-3">
+                    <h3 className="text-primary font-bold text-xl mb-3">
                         Plan de Scène Interactif
                     </h3>
                     <p className="text-base-content/70">
@@ -98,7 +98,7 @@ export default function FeaturesSection() {
                             strokeWidth={2}
                         />
                     </div>
-                    <h3 className="text-primary/80 font-bold text-xl mb-3">
+                    <h3 className="text-primary font-bold text-xl mb-3">
                         Patch List Dynamique
                     </h3>
                     <p className="text-base-content/70">
@@ -119,7 +119,7 @@ export default function FeaturesSection() {
                             strokeWidth={2}
                         />
                     </div>
-                    <h3 className="text-primary/80 font-bold text-xl mb-3">
+                    <h3 className="text-primary font-bold text-xl mb-3">
                         Espace Tournée
                     </h3>
                     <p className="text-base-content/70">

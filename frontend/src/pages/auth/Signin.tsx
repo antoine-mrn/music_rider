@@ -15,7 +15,7 @@ export default function Signin() {
                             Pas de compte ?{" "}
                             <Link
                                 to="/signup"
-                                className="text-primary font-bold hover:underline"
+                                className="link link-hover text-primary font-bold"
                             >
                                 S'inscrire gratuitement
                             </Link>
@@ -32,7 +32,7 @@ export default function Signin() {
                         strokeWidth={2}
                     />
                 </div>
-                <p className="font-black text-3xl text-base-content/90 italic">
+                <p className="font-black text-3xl text-base-content italic">
                     "Le backline est prêt."
                 </p>
                 <p className="text-base-content/70 max-w-sm text-center font-medium italic text-lg">

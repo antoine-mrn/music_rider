@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 export default function Signup() {
     return (
         <div className="flex min-h-screen">
-            <section className="hidden pt-16 bg-primary/90 text-base-100 flex-col justify-center items-center gap-8 lg:flex lg:w-1/2">
+            <section className="hidden pt-16 bg-primary/80 text-base-100 flex-col justify-center items-center gap-8 px-6 lg:flex lg:w-1/2">
                 <div className="max-w-lg">
                     <h2 className="text-5xl font-black leading-tight mb-6 tracking-tight">
                         Rejoignez la <br />
@@ -52,7 +52,7 @@ export default function Signup() {
                             Déjà inscrit ?{" "}
                             <Link
                                 to="/signin"
-                                className="text-primary font-bold hover:underline"
+                                className="link link-hover text-primary font-bold"
                             >
                                 Se connecter
                             </Link>
