@@ -24,7 +24,7 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
                 tabIndex={0}
                 role="button"
                 onClick={() => setIsOpen(!isOpen)}
-                className={`btn btn-ghost btn-circle avatar hover:border hover:border-primary ${isOpen && "border border-primary"}`}
+                className={`btn btn-ghost btn-circle avatar hover:border-primary ${isOpen && "border-primary"}`}
             >
                 <div className="w-10 rounded-full">
                     <img
@@ -36,7 +36,7 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
             <DropdownMenu isOpen={isOpen}>
                 <DropdownMenuTitle title="Mon compte" />
                 <div className="px-4 py-3 border-b border-base-200 mb-2">
-                    <p className="text-xs font-black uppercase text-slate-400 tracking-widest">
+                    <p className="text-xs font-black uppercase text-base-content/50 tracking-widest">
                         Utilisateur
                     </p>
                     <p className="text-sm font-bold text-base-content truncate">
@@ -48,17 +48,17 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
                     <Link
                         to={`profile/${user.id}`}
                         onClick={() => setIsOpen(false)}
-                        className="p-3 hover:bg-primary/10 rounded-xl font-semibold transition-colors"
+                        className="p-3 hover:bg-primary/8 rounded-lg font-semibold"
                     >
                         Mon Profil
                     </Link>
                 </li>
 
-                <li>
+                <li className="mt-1">
                     <button
                         disabled={isPending}
                         onClick={handleLogout}
-                        className="flex p-3 text-error hover:bg-error/10 rounded-xl font-bold transition-colors mt-1"
+                        className="p-3 text-error hover:bg-error/8 rounded-lg font-semibold"
                     >
                         {isPending ? (
                             <span className="loading loading-spinner loading-xs"></span>
