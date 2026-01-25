@@ -1,13 +1,15 @@
 import { Outlet } from "react-router";
 import Navbar from "../navbar/Navbar";
+import Footer from "./Footer";
 
-export default function Layout() {
+export default function PublicLayout() {
     return (
         <div className="min-screen flex flex-col">
-            <Navbar />
-            <main className="flex-1 relative mt-22">
+            <Navbar withDrawer={false} />
+            <main className="flex-1 relative">
                 <Outlet />
             </main>
+            <Footer />
         </div>
     );
 }

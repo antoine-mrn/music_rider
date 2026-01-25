@@ -3,19 +3,22 @@ import AvatarIcon from "./AvatarIcon";
 import { useAuthStore } from "../../store/auth.store";
 import AuthButtonsWrapper from "./AuthButtonsWrapper";
 
-export default function Navbar() {
+export default function Navbar({ withDrawer }: { withDrawer: boolean }) {
     const user = useAuthStore((state) => state.user);
 
     return (
         <header className="fixed w-full top-0 z-10 bg-base-200">
             <nav className="navbar block shadow-sm w-full px-4 py-6">
+                {/* TODO: Résoudre le problème de positionnement du logo selon s'il on a le drawer ou non */}
                 <div className="flex justify-between items-center max-w-7xl mx-auto">
-                    <label
-                        htmlFor="my-drawer-5"
-                        className="drawer-button btn btn-primary"
-                    >
-                        Open drawer
-                    </label>
+                    {withDrawer && (
+                        <label
+                            htmlFor="my-drawer-5"
+                            className="drawer-button btn btn-primary lg:hidden"
+                        >
+                            Open drawer
+                        </label>
+                    )}
                     <Link
                         to="/"
                         className="text-2xl font-black tracking-tighter text-primary italic"
