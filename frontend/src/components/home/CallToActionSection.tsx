@@ -32,7 +32,7 @@ export default function CallToActionSection() {
                         simplifier leur régie.
                     </p>
                     <div className="card-actions">
-                        <button className="btn btn-primary btn-xl rounded-lg mx-auto">
+                        <button className="btn btn-primary btn-block btn-lg rounded-lg mx-auto sm:btn-xl">
                             Commencer maintenant — C'est gratuit
                         </button>
                     </div>

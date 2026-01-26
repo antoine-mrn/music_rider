@@ -5,7 +5,7 @@ import { Menu } from "lucide-react";
 export default function Signin() {
     return (
         <div className="flex min-h-screen">
-            <section className="w-full pt-24 flex flex-col justify-center items-center lg:w-1/2">
+            <section className="w-full pt-22 flex flex-col justify-center items-center lg:w-1/2">
                 <div className="w-xs">
                     <div className="mb-10">
                         <h1 className="text-3xl font-black mb-2 tracking-tight">

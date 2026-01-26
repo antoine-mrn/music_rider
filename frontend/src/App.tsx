@@ -34,7 +34,6 @@ function App() {
         );
     }
     return (
-        // TODO: Améliorer le layout car le Footer est dans le main à cause du scroll de la navbar
         <Routes>
             <Route path="/" element={<PublicLayout />}>
                 <Route index element={<Home />} />

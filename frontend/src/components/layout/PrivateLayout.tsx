@@ -5,7 +5,7 @@ import Navbar from "../navbar/Navbar";
 export default function PrivateLayout() {
     const id = 5;
     return (
-        <div className="min-screen flex flex-col">
+        <div className="min-h-screen flex flex-col">
             <Navbar withDrawer={true} />
             <div className="drawer min-h-screen lg:drawer-open">
                 <input
@@ -43,8 +43,18 @@ export default function PrivateLayout() {
                                     }`
                                 }
                             >
-                                <div className="w-4 h-4 bg-base-content/50 rounded-full group-hover:bg-primary"></div>
-                                Tableau de bord
+                                {({ isActive }) => (
+                                    <>
+                                        <div
+                                            className={`w-4 h-4 rounded-full group-hover:bg-primary ${
+                                                isActive
+                                                    ? "bg-primary"
+                                                    : "bg-base-content/50"
+                                            }`}
+                                        ></div>
+                                        Tableau de bord
+                                    </>
+                                )}
                             </NavLink>
                         </li>
                         <li>
