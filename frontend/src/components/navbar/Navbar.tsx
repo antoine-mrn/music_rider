@@ -9,8 +9,7 @@ export default function Navbar({ withDrawer }: { withDrawer: boolean }) {
     return (
         <header className="fixed w-full top-0 z-10 bg-base-200">
             <nav className="navbar block shadow-sm w-full px-4 py-6">
-                {/* TODO: Résoudre le problème de positionnement du logo selon s'il on a le drawer ou non */}
-                <div className="flex justify-between items-center max-w-7xl mx-auto">
+                <div className="flex gap-4 items-center max-w-7xl mx-auto">
                     {withDrawer && (
                         <label
                             htmlFor="my-drawer-5"
@@ -21,7 +20,7 @@ export default function Navbar({ withDrawer }: { withDrawer: boolean }) {
                     )}
                     <Link
                         to="/"
-                        className="text-2xl font-black tracking-tighter text-primary italic"
+                        className="text-2xl font-black tracking-tighter text-primary italic mr-auto"
                     >
                         MUSIC<span className="text-base-content">RIDER</span>
                     </Link>
