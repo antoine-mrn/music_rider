@@ -1,6 +1,6 @@
 export default function BandCardSummary() {
     return (
-        <article className="card w-62 cursor-pointer card-border border-2 p-4 hover:border-primary/30 transition">
+        <article className="card w-full cursor-pointer card-border border-2 p-4 hover:border-primary/30 transition sm:max-w-64">
             <div className="card-body">
                 {/* Haut de card */}
                 <div className="flex items-center justify-between">

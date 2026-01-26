@@ -30,7 +30,7 @@ export default function PrivateLayout() {
                         aria-label="close sidebar"
                         className="drawer-overlay lg:hidden"
                     ></label>
-                    <ul className="menu bg-base-200 min-h-full w-80 p-4">
+                    <ul className="menu bg-base-200 min-h-full w-64 p-4">
                         {/* lg:pt-24 pour compenser la navbar en desktop */}
                         <li>
                             <a>Sidebar Item 1</a>
