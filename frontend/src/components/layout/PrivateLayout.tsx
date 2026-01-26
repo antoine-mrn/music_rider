@@ -1,8 +1,9 @@
-import { Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 import Footer from "./Footer";
 import Navbar from "../navbar/Navbar";
 
 export default function PrivateLayout() {
+    const id = 5;
     return (
         <div className="min-screen flex flex-col">
             <Navbar withDrawer={true} />
@@ -30,13 +31,39 @@ export default function PrivateLayout() {
                         aria-label="close sidebar"
                         className="drawer-overlay lg:hidden"
                     ></label>
-                    <ul className="menu bg-base-200 min-h-full w-64 p-4">
-                        {/* lg:pt-24 pour compenser la navbar en desktop */}
+                    <ul className="menu bg-base-200 min-h-full w-64 p-4 pt-12 space-y-6">
                         <li>
-                            <a>Sidebar Item 1</a>
+                            <NavLink
+                                to={`profile/${id}`}
+                                className={({ isActive }) =>
+                                    `space-x-4 font-bold text-lg group hover:text-base-content hover:bg-transparent ${
+                                        isActive
+                                            ? "text-base-content"
+                                            : "text-base-content/50"
+                                    }`
+                                }
+                            >
+                                <div className="w-4 h-4 bg-base-content/50 rounded-full group-hover:bg-primary"></div>
+                                Tableau de bord
+                            </NavLink>
                         </li>
                         <li>
-                            <a>Sidebar Item 2</a>
+                            <Link
+                                to="/"
+                                className="space-x-4 font-bold text-lg text-base-content/50 group hover:text-base-content hover:bg-transparent"
+                            >
+                                <div className="w-4 h-4 bg-base-content/50 rounded-full group-hover:bg-primary"></div>
+                                Mes groupes
+                            </Link>
+                        </li>
+                        <li>
+                            <Link
+                                to="/"
+                                className="space-x-4 font-bold text-lg text-base-content/50 group hover:text-base-content hover:bg-transparent"
+                            >
+                                <div className="w-4 h-4 bg-base-content/50 rounded-full group-hover:bg-primary"></div>
+                                Fiches techniques
+                            </Link>
                         </li>
                     </ul>
                 </div>
