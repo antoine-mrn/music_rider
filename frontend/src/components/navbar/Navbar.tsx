@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import AvatarIcon from "./AvatarIcon";
 import { useAuthStore } from "../../store/auth.store";
 import AuthButtonsWrapper from "./AuthButtonsWrapper";
+import { PanelRightClose } from "lucide-react";
 
 export default function Navbar({ withDrawer }: { withDrawer: boolean }) {
     const user = useAuthStore((state) => state.user);
@@ -13,9 +14,9 @@ export default function Navbar({ withDrawer }: { withDrawer: boolean }) {
                     {withDrawer && (
                         <label
                             htmlFor="my-drawer-5"
-                            className="drawer-button btn btn-primary lg:hidden"
+                            className="drawer-button btn border-0 xl:hidden"
                         >
-                            Open drawer
+                            <PanelRightClose />
                         </label>
                     )}
                     <Link

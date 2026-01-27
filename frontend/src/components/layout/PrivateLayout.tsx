@@ -7,7 +7,7 @@ export default function PrivateLayout() {
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar withDrawer={true} />
-            <div className="drawer min-h-screen lg:drawer-open">
+            <div className="drawer min-h-screen xl:drawer-open">
                 <input
                     id="my-drawer-5"
                     type="checkbox"
@@ -29,7 +29,7 @@ export default function PrivateLayout() {
                     <label
                         htmlFor="my-drawer-5"
                         aria-label="close sidebar"
-                        className="drawer-overlay lg:hidden"
+                        className="drawer-overlay"
                     ></label>
                     <ul className="menu bg-base-200 min-h-full w-64 p-4 pt-12 space-y-6">
                         <li>
