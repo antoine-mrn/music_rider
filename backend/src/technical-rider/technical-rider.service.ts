@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { getPaginationMeta } from 'src/utils/pagination';
 import {
+  SummaryTechnicalRider,
   summaryTechnicalRiderSelect,
-  SummaryTechnicalRiderWithMusicStyle,
 } from './types/technical-rider.types';
 import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
 
@@ -15,7 +15,7 @@ export class TechnicalRiderService {
     id: number,
     page: number = 1,
     limit: number = 10,
-  ): Promise<PaginationResult<SummaryTechnicalRiderWithMusicStyle>> {
+  ): Promise<PaginationResult<SummaryTechnicalRider>> {
     const skip = (page - 1) * limit;
 
     const [technicalRider, totalTechnicalRider] = await Promise.all([

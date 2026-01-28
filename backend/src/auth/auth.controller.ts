@@ -13,7 +13,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Public } from 'src/decorators/public.decorator';
 import { RtAuthGuard } from './guards/rt-auth.guard';
 import type { RefreshRequest } from 'src/shared/types/request-with-user';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { AuthUser } from './types/auth-user.interface';
 
 @Controller('auth')

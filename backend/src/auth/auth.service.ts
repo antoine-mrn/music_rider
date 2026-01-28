@@ -10,10 +10,10 @@ import { hash, verify } from 'src/utils/hash';
 import { AuthSessionService } from 'src/auth-session/auth-session.service';
 import { RefreshTokenPayload } from './types/refresh-token-payload.interface';
 import { AuthUser } from './types/auth-user.interface';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { TokensDto } from './dto/tokens.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
-import { UserService } from 'src/users/user.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {

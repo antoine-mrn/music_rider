@@ -17,7 +17,6 @@ export const summaryTechnicalRiderSelect = {
   updatedAt: true,
 } as const;
 
-export type SummaryTechnicalRiderWithMusicStyle =
-  Prisma.TechnicalRiderGetPayload<{
-    select: typeof summaryTechnicalRiderSelect;
-  }>;
+export type SummaryTechnicalRider = Prisma.TechnicalRiderGetPayload<{
+  select: typeof summaryTechnicalRiderSelect;
+}>;

@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from 'prisma/prisma.module';
 import { AuthSessionModule } from './auth-session/auth-session.module';
-import { UserModule } from './users/user.module';
+import { UserModule } from './user/user.module';
 import { BandModule } from './band/band.module';
 import { TechnicalRiderModule } from './technical-rider/technical-rider.module';
 

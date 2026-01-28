@@ -10,4 +10,8 @@ export const userApi = {
             return null;
         }
     },
+    dashboard: async () => {
+        const { data } = await apiClient.get("user/dashboard");
+        return data;
+    },
 };
