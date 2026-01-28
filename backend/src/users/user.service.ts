@@ -5,6 +5,7 @@ import { AuthUserDb } from 'src/auth/types/auth-user-db.interface';
 import { AuthUser } from 'src/auth/types/auth-user.interface';
 import { BandService } from 'src/band/band.service';
 import { TechnicalRiderService } from 'src/technical-rider/technical-rider.service';
+import { DashboardDto } from './dto/dashboard.dto';
 
 export type User = any;
 
@@ -44,13 +45,19 @@ export class UserService {
     return user;
   }
 
-  async getDashboardUser(id: number) {
-    const user = await this.me(id);
-    const bands = await this.bandService.findSummaryBandsByUserId(id);
-    const technicalRider =
-      await this.technicalRider.findSummaryTechnicalRiderByUserId(id);
+  async getDashboardUser(id: number): Promise<DashboardDto> {
+    const [user, bands, technicalRiders] = await Promise.all([
+      this.me(id),
+      this.bandService.findSummaryBandsByUserId(id),
+      this.technicalRider.findSummaryTechnicalRiderByUserId(id),
+    ]);
 
-    return { user, bands, technicalRider };
+    const quickOverview = {
+      totalBands: bands.meta.total,
+      totalTechnicalRiders: technicalRiders.meta.total,
+    };
+
+    return { user, bands, technicalRiders, quickOverview };
   }
 
   async findOneByEmail(email: string): Promise<AuthUserDb | null> {
