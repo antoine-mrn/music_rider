@@ -1,12 +1,9 @@
 import {
   ConflictException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from 'prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'crypto';
 import { hash, verify } from 'src/utils/hash';
@@ -16,13 +13,13 @@ import { AuthUser } from './types/auth-user.interface';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { TokensDto } from './dto/tokens.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
+import { UserService } from 'src/users/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
-    private readonly prismaService: PrismaService,
     private readonly config: ConfigService,
     private readonly authSessionService: AuthSessionService,
   ) {}
@@ -31,21 +28,12 @@ export class AuthService {
     email: string,
     password: string,
   ): Promise<AuthUser | null> {
-    const user = await this.usersService.findOneByEmail(email);
+    const user = await this.userService.findOneByEmail(email);
     if (user && (await verify(password, user.password))) {
       const { password, createdAt, ...result } = user;
       return result;
     }
     return null;
-  }
-
-  async me(email: string): Promise<AuthUser> {
-    const user = await this.usersService.findOneByEmail(email);
-
-    if (!user) throw new NotFoundException();
-
-    const { password, createdAt, ...result } = user;
-    return result;
   }
 
   async signin(user: AuthUser): Promise<AuthResponseDto> {
@@ -63,14 +51,14 @@ export class AuthService {
   }
 
   async signup(newUser: CreateUserDto): Promise<AuthResponseDto> {
-    const user = await this.usersService.findOneByEmail(newUser.email);
+    const user = await this.userService.findOneByEmail(newUser.email);
 
     if (user) throw new ConflictException();
 
     const hashedPassword = await hash(newUser.password);
     newUser = { ...newUser, password: hashedPassword };
 
-    const newUserInBDD = await this.usersService.create(newUser);
+    const newUserInBDD = await this.userService.create(newUser);
     if (!newUserInBDD) throw new UnauthorizedException('Failed to create user');
 
     const newSessionId = randomUUID();

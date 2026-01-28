@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { AuthUserDb } from 'src/auth/types/auth-user-db.interface';
@@ -7,7 +7,7 @@ import { AuthUser } from 'src/auth/types/auth-user.interface';
 export type User = any;
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<AuthUser | null> {
@@ -21,6 +21,26 @@ export class UsersService {
       },
     });
   }
+
+  async me(id: number): Promise<AuthUser> {
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        firstname: true,
+        lastname: true,
+      },
+    });
+
+    if (!user) throw new NotFoundException();
+
+    return user;
+  }
+
+  // async getDashboardUser(id: number) {
+  //   const user =
+  // }
 
   async findOneByEmail(email: string): Promise<AuthUserDb | null> {
     return this.prismaService.user.findUnique({

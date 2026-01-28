@@ -20,14 +20,7 @@ export const authApi = {
         const { data } = await apiClient.post<void>("auth/refresh");
         return data;
     },
-    me: async (): Promise<AuthUserInterface | null> => {
-        try {
-            const { data } = await apiClient.get<AuthUserInterface>("/auth/me");
-            return data;
-        } catch (error) {
-            return null;
-        }
-    },
+
     logout: async (): Promise<void> => {
         const { data } = await apiClient.post<void>("auth/logout");
         return data;

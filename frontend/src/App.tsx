@@ -6,11 +6,11 @@ import Signup from "./pages/auth/Signup";
 import Profile from "./pages/profile/Profile";
 import { ProtectedRoute } from "./components/routing/ProtectedRoute";
 import { useEffect } from "react";
-import { useMe } from "./features/auth/hooks/useMe";
 import { useAuthStore } from "./store/auth.store";
 import { AuthRoute } from "./components/routing/AuthRoute";
 import PrivateLayout from "./components/layout/PrivateLayout";
 import PublicLayout from "./components/layout/PublicLayout";
+import { useMe } from "./features/user/hooks/useMe";
 
 function App() {
     const { data: user, isLoading } = useMe();

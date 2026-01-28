@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { authApi } from "../api/auth.api";
-import type { AuthUserInterface } from "../types";
+import type { AuthUserInterface } from "../../auth/types";
+import { userApi } from "../api/user.api";
 
 export const useMe = () => {
     return useQuery<AuthUserInterface | null, Error>({
         queryKey: ["me"],
-        queryFn: authApi.me,
+        queryFn: userApi.me,
         retry: false,
         staleTime: Infinity,
     });

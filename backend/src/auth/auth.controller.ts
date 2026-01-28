@@ -14,7 +14,6 @@ import { Public } from 'src/decorators/public.decorator';
 import { RtAuthGuard } from './guards/rt-auth.guard';
 import type { RefreshRequest } from 'src/shared/types/request-with-user';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
-import { TokensDto } from './dto/tokens.dto';
 import { AuthUser } from './types/auth-user.interface';
 
 @Controller('auth')
@@ -114,10 +113,5 @@ export class AuthController {
 
     res.clearCookie('access_token', { path: '/' });
     res.clearCookie('refresh_token', { path: '/' });
-  }
-
-  @Get('me')
-  async getProfile(@Request() req) {
-    return await this.authService.me(req.user.email);
   }
 }
