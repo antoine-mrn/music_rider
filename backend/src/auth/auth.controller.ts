@@ -33,7 +33,7 @@ export class AuthController {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
-      maxAge: 15 * 60 * 1000, // 15 min
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 15 min
     });
 
     res.cookie('refresh_token', refreshToken, {
@@ -61,7 +61,7 @@ export class AuthController {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
-      maxAge: 15 * 60 * 1000, // 15 min
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 15 min
     });
 
     res.cookie('refresh_token', refreshToken, {
@@ -89,7 +89,7 @@ export class AuthController {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
-      maxAge: 15 * 60 * 1000, // 15 min
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 15 min
     });
 
     res.cookie('refresh_token', refreshToken, {

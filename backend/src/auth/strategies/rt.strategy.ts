@@ -47,7 +47,7 @@ export class RtStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
     }
 
     return {
-      userId: payload.sub,
+      sub: payload.sub,
       email: payload.email,
       sessionId: payload.sessionId,
     };
