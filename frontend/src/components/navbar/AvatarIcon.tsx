@@ -46,7 +46,7 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
 
                 <li>
                     <Link
-                        to={`profile/${user.id}`}
+                        to={`profile`}
                         onClick={() => setIsOpen(false)}
                         className="p-3 hover:bg-primary/8 rounded-lg font-semibold"
                     >

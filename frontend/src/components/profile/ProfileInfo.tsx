@@ -1,4 +1,10 @@
-export default function ProfileInfo() {
+import type { AuthUserInterface } from "../../features/auth/types";
+
+interface ProfileInfoProps {
+    user: AuthUserInterface;
+}
+
+export default function ProfileInfo({ user }: ProfileInfoProps) {
     return (
         <section className="flex items-center gap-4">
             <div className="avatar">
@@ -7,9 +13,11 @@ export default function ProfileInfo() {
                 </div>
             </div>
             <div className="flex flex-col gap-1">
-                <h1 className="font-black text-4xl tracking-tight">John Doe</h1>
+                <h1 className="font-black text-4xl tracking-tight">
+                    {user.firstname} {user.lastname}
+                </h1>
                 <p className="text-base-content/50 font-medium text-lg">
-                    john@gmail.com
+                    {user.email}
                 </p>
             </div>
             <button className="btn btn-primary rounded-lg ml-auto">

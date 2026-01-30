@@ -3,7 +3,6 @@ import Footer from "./Footer";
 import Navbar from "../navbar/Navbar";
 
 export default function PrivateLayout() {
-    const id = 5;
     return (
         <div className="min-h-screen flex flex-col">
             <Navbar withDrawer={true} />
@@ -34,7 +33,7 @@ export default function PrivateLayout() {
                     <ul className="menu bg-base-200 min-h-full w-64 p-4 pt-12 space-y-6">
                         <li>
                             <NavLink
-                                to={`profile/${id}`}
+                                to={`profile`}
                                 className={({ isActive }) =>
                                     `space-x-4 font-bold text-lg group hover:text-base-content hover:bg-transparent ${
                                         isActive

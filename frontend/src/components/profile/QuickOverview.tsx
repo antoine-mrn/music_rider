@@ -1,4 +1,11 @@
-export default function QuickOverview() {
+interface QuickOverviewProps {
+    overview: {
+        totalBands: number;
+        totalTechnicalRiders: number;
+    };
+}
+
+export default function QuickOverview({ overview }: QuickOverviewProps) {
     return (
         <article className="card w-full h-fit bg-info-content text-neutral-content sm:w-64 lg:w-80">
             <div className="card-body">
@@ -11,7 +18,7 @@ export default function QuickOverview() {
                             Groupes
                         </span>
                         <span className="text-2xl font-black tracking-tighter italic">
-                            02
+                            {overview.totalBands.toString().padStart(2, "0")}
                         </span>
                     </div>
                     <div className="w-full h-0.5 bg-neutral-content/70"></div>
@@ -20,7 +27,9 @@ export default function QuickOverview() {
                             Fiches
                         </span>
                         <span className="text-2xl font-black tracking-tighter italic">
-                            14
+                            {overview.totalTechnicalRiders
+                                .toString()
+                                .padStart(2, "0")}
                         </span>
                     </div>
                 </div>

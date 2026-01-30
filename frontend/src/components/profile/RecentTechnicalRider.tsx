@@ -1,6 +1,14 @@
+import type { SummaryTechnicalRider } from "../../features/technical-rider/types";
+import type { Pagination } from "../../shared/types/pagination.interface";
 import SectionTitle from "../ui/typography/SectionTitle";
 
-export default function RecentTechnicalRider() {
+interface RecentTechnicalRidersProps {
+    technicalRiders: Pagination<SummaryTechnicalRider>;
+}
+
+export default function RecentTechnicalRider({
+    technicalRiders,
+}: RecentTechnicalRidersProps) {
     return (
         <section>
             <SectionTitle title="Fiches techniques récentes" />
@@ -17,33 +25,22 @@ export default function RecentTechnicalRider() {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* row 1 */}
-                        <tr>
-                            <th className="italic font-bold">SMBU</th>
-                            <td className="font-medium uppercase">Scène</td>
-                            <td>Il y a 2 jours</td>
-                            <td className="link link-primary link-hover">
-                                Ouvrir
-                            </td>
-                        </tr>
-                        {/* row 2 */}
-                        <tr>
-                            <th className="italic font-bold">Psyllium</th>
-                            <td className="font-medium uppercase">Bar</td>
-                            <td>Il y a 1 mois</td>
-                            <td className="link link-primary link-hover">
-                                Ouvrir
-                            </td>
-                        </tr>
-                        {/* row 3 */}
-                        <tr>
-                            <th className="italic font-bold">Nox Vale</th>
-                            <td className="font-medium uppercase">Festival</td>
-                            <td>Il y a 2 semaines</td>
-                            <td className="link link-primary link-hover">
-                                Ouvrir
-                            </td>
-                        </tr>
+                        {technicalRiders.data.map(
+                            (rider: SummaryTechnicalRider) => (
+                                <tr key={rider.id}>
+                                    <th className="italic font-bold">
+                                        {rider.band.label}
+                                    </th>
+                                    <td className="font-medium uppercase">
+                                        {rider.riderCategory.label}
+                                    </td>
+                                    <td>{rider.updatedAt}</td>
+                                    <td className="link link-primary link-hover">
+                                        Ouvrir
+                                    </td>
+                                </tr>
+                            ),
+                        )}
                     </tbody>
                 </table>
             </div>

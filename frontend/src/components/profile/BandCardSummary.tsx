@@ -1,9 +1,20 @@
-export default function BandCardSummary() {
+interface BandCardSummaryProps {
+    band: {
+        id: number;
+        label: string;
+        musicStyle: {
+            id: number;
+            label: string;
+        };
+    };
+}
+
+export default function BandCardSummary({ band }: BandCardSummaryProps) {
     return (
-        <article className="card w-full cursor-pointer card-border border-2 p-4 hover:border-primary/30 transition sm:max-w-64">
+        <li className="card w-full cursor-pointer card-border border-2 p-4 hover:border-primary/30 transition sm:max-w-64">
             <div className="card-body">
                 {/* Haut de card */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-4">
                     <div className="rounded-xl bg-primary/8 text-4xl p-3">
                         🎸
                     </div>
@@ -14,9 +25,9 @@ export default function BandCardSummary() {
 
                 {/* Groupe & genre */}
                 <div>
-                    <h3 className="font-bold text-lg">SMBU</h3>
+                    <h3 className="font-bold text-lg">{band.label}</h3>
                     <h4 className="text-base-content/50 font-bold text-md">
-                        Electro / Métal
+                        {band.musicStyle.label}
                     </h4>
                 </div>
 
@@ -34,6 +45,6 @@ export default function BandCardSummary() {
                     </div>
                 </div>
             </div>
-        </article>
+        </li>
     );
 }
