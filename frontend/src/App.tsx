@@ -11,6 +11,7 @@ import { AuthRoute } from "./components/routing/AuthRoute";
 import PrivateLayout from "./components/layout/PrivateLayout";
 import PublicLayout from "./components/layout/PublicLayout";
 import { useMe } from "./features/user/hooks/useMe";
+import EditProfile from "./pages/profile/EditProfile";
 
 function App() {
     const { data: user, isLoading } = useMe();
@@ -45,6 +46,7 @@ function App() {
             <Route element={<ProtectedRoute />}>
                 <Route element={<PrivateLayout />}>
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/profile/editing" element={<EditProfile />} />
                 </Route>
             </Route>
         </Routes>

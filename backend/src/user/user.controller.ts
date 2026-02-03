@@ -25,7 +25,7 @@ export class UserController {
     return await this.userService.getDashboardUser(req.user.sub);
   }
 
-  @Patch('update')
+  @Patch('me')
   async updateUserById(
     @Request() req: AuthRequest,
     @Body() updateUserDto: UpdateUserDto,

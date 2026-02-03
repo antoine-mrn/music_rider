@@ -1,6 +1,7 @@
-import { Link, NavLink, Outlet } from "react-router";
+import { Outlet } from "react-router";
 import Footer from "./Footer";
 import Navbar from "../navbar/Navbar";
+import SideNavLink from "../ui/nav/SideNavLink";
 
 export default function PrivateLayout() {
     return (
@@ -32,47 +33,22 @@ export default function PrivateLayout() {
                     ></label>
                     <ul className="menu bg-base-200 min-h-full w-64 p-4 pt-12 space-y-6">
                         <li>
-                            <NavLink
-                                to={`profile`}
-                                className={({ isActive }) =>
-                                    `space-x-4 font-bold text-lg group hover:text-base-content hover:bg-transparent ${
-                                        isActive
-                                            ? "text-base-content"
-                                            : "text-base-content/50"
-                                    }`
-                                }
-                            >
-                                {({ isActive }) => (
-                                    <>
-                                        <div
-                                            className={`w-4 h-4 rounded-full group-hover:bg-primary ${
-                                                isActive
-                                                    ? "bg-primary"
-                                                    : "bg-base-content/50"
-                                            }`}
-                                        ></div>
-                                        Tableau de bord
-                                    </>
-                                )}
-                            </NavLink>
+                            <SideNavLink
+                                path="profile"
+                                label="Tableau de bord"
+                            />
                         </li>
                         <li>
-                            <Link
-                                to="/"
-                                className="space-x-4 font-bold text-lg text-base-content/50 group hover:text-base-content hover:bg-transparent"
-                            >
-                                <div className="w-4 h-4 bg-base-content/50 rounded-full group-hover:bg-primary"></div>
-                                Mes groupes
-                            </Link>
+                            <SideNavLink
+                                path="profile/editing"
+                                label="Paramètres"
+                            />
                         </li>
                         <li>
-                            <Link
-                                to="/"
-                                className="space-x-4 font-bold text-lg text-base-content/50 group hover:text-base-content hover:bg-transparent"
-                            >
-                                <div className="w-4 h-4 bg-base-content/50 rounded-full group-hover:bg-primary"></div>
-                                Fiches techniques
-                            </Link>
+                            <SideNavLink path="/" label="Mes groupes" />
+                        </li>
+                        <li>
+                            <SideNavLink path="/" label="Fiches techniques" />
                         </li>
                     </ul>
                 </div>
