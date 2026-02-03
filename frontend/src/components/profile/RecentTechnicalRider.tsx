@@ -34,7 +34,11 @@ export default function RecentTechnicalRider({
                                     <td className="font-medium uppercase">
                                         {rider.riderCategory.label}
                                     </td>
-                                    <td>{rider.updatedAt}</td>
+                                    <td>
+                                        {new Date(
+                                            technicalRiders.data[0].updatedAt,
+                                        ).toLocaleString("fr")}
+                                    </td>
                                     <td className="link link-primary link-hover">
                                         Ouvrir
                                     </td>
