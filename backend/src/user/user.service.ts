@@ -2,10 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { AuthUserDb } from 'src/auth/types/auth-user-db.interface';
-import { AuthUser } from 'src/auth/types/auth-user.interface';
+import { AuthUser, AuthUserSelect } from 'src/auth/types/auth-user.interface';
 import { BandService } from 'src/band/band.service';
 import { TechnicalRiderService } from 'src/technical-rider/technical-rider.service';
 import { DashboardDto } from './dto/dashboard.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 export type User = any;
 
@@ -32,12 +33,7 @@ export class UserService {
   async me(id: number): Promise<AuthUser> {
     const user = await this.prismaService.user.findUnique({
       where: { id },
-      select: {
-        id: true,
-        email: true,
-        firstname: true,
-        lastname: true,
-      },
+      select: AuthUserSelect,
     });
 
     if (!user) throw new NotFoundException();
@@ -81,5 +77,16 @@ export class UserService {
       where: { email },
     });
     return count > 0;
+  }
+
+  async updateUserById(
+    id: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<AuthUser> {
+    return await this.prismaService.user.update({
+      where: { id },
+      data: { ...updateUserDto },
+      select: AuthUserSelect,
+    });
   }
 }
