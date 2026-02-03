@@ -8,6 +8,7 @@ interface MyBandsSummaryProps {
 }
 
 export default function MyBandsSummary({ bandSummary }: MyBandsSummaryProps) {
+    console.log("🚀 ~ MyBandsSummary ~ bandSummary:", bandSummary);
     return (
         <section>
             <div className="flex justify-between items-center">

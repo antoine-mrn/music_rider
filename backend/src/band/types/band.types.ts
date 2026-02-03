@@ -1,16 +1,23 @@
-import { Prisma } from '@prisma/client';
+import { BAND_ROLE } from 'src/shared/types/band-role.enum';
 
-export const summaryBandSelect = {
-  id: true,
-  label: true,
+export interface SummaryBandRaw {
+  id: number;
+  label: string;
   musicStyle: {
-    select: {
-      id: true,
-      label: true,
-    },
-  },
-} as const;
+    id: number;
+    label: string;
+  } | null;
+  memberships: {
+    role: keyof typeof BAND_ROLE;
+  }[];
+}
 
-export type SummaryBandWithMusicStyle = Prisma.BandGetPayload<{
-  select: typeof summaryBandSelect;
-}>;
+export interface SummaryBand {
+  id: number;
+  label: string;
+  musicStyle: {
+    id: number;
+    label: string;
+  } | null;
+  userRole: BAND_ROLE;
+}

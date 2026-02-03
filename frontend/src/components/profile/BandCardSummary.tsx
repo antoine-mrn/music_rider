@@ -1,15 +1,6 @@
-interface BandCardSummaryProps {
-    band: {
-        id: number;
-        label: string;
-        musicStyle: {
-            id: number;
-            label: string;
-        };
-    };
-}
+import type { SummaryBand } from "../../features/band/types";
 
-export default function BandCardSummary({ band }: BandCardSummaryProps) {
+export default function BandCardSummary({ band }: { band: SummaryBand }) {
     return (
         <li className="card w-full cursor-pointer card-border border-2 p-4 hover:border-primary/30 transition sm:max-w-64">
             <div className="card-body">
@@ -19,7 +10,7 @@ export default function BandCardSummary({ band }: BandCardSummaryProps) {
                         🎸
                     </div>
                     <span className="badge rounded-2xl italic font-bold">
-                        Leader
+                        {band.userRole}
                     </span>
                 </div>
 
@@ -31,8 +22,9 @@ export default function BandCardSummary({ band }: BandCardSummaryProps) {
                     </h4>
                 </div>
 
+                {/* TODO: Est-ce que je met le nombre de personnes dans le groupe ?  */}
                 {/* Nombre de personnes */}
-                <div className="avatar-group -space-x-6">
+                {/* <div className="avatar-group -space-x-6">
                     <div className="avatar">
                         <div className="w-12">
                             <img src="https://img.daisyui.com/images/profile/demo/batperson@192.webp" />
@@ -43,7 +35,7 @@ export default function BandCardSummary({ band }: BandCardSummaryProps) {
                             <span>+99</span>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         </li>
     );

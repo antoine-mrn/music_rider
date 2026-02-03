@@ -5,4 +5,5 @@ export interface SummaryBand {
         id: number;
         label: string;
     };
+    userRole: string;
 }

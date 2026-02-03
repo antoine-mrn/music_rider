@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import {
-  summaryBandSelect,
-  SummaryBandWithMusicStyle,
-} from './types/band.types';
 import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
+import { BAND_ROLE } from 'src/shared/types/band-role.enum';
 import { getPaginationMeta } from 'src/utils/pagination';
+import { SummaryBand, SummaryBandRaw } from './types/band.types';
 
 @Injectable()
 export class BandService {
@@ -15,7 +13,7 @@ export class BandService {
     id: number,
     page: number = 1,
     limit: number = 10,
-  ): Promise<PaginationResult<SummaryBandWithMusicStyle>> {
+  ): Promise<PaginationResult<SummaryBand>> {
     const skip = (page - 1) * limit;
 
     const [bands, totalBands] = await Promise.all([
@@ -27,7 +25,20 @@ export class BandService {
             },
           },
         },
-        select: summaryBandSelect,
+        select: {
+          id: true,
+          label: true,
+          musicStyle: {
+            select: {
+              id: true,
+              label: true,
+            },
+          },
+          memberships: {
+            select: { role: true },
+            where: { userId: id },
+          },
+        },
         orderBy: {
           updatedAt: 'desc',
         },
@@ -46,7 +57,19 @@ export class BandService {
     ]);
 
     const meta = getPaginationMeta(totalBands, page, limit);
+    const mapData = this.__mapSummaryBand(bands);
 
-    return { data: bands, meta };
+    return { data: mapData, meta };
+  }
+
+  __mapSummaryBand(bands: SummaryBandRaw[]): SummaryBand[] {
+    return bands.map((band: SummaryBandRaw) => ({
+      id: band.id,
+      label: band.label,
+      musicStyle: band.musicStyle
+        ? { id: band.musicStyle.id, label: band.musicStyle.label }
+        : null,
+      userRole: BAND_ROLE[band.memberships[0].role],
+    }));
   }
 }
