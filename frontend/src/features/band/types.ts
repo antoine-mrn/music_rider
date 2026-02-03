@@ -1,3 +1,5 @@
+import type { UserBandRole } from "../../shared/types/user-band-role.type";
+
 export interface SummaryBand {
     id: number;
     label: string;
@@ -5,5 +7,5 @@ export interface SummaryBand {
         id: number;
         label: string;
     };
-    userRole: string;
+    userRole: UserBandRole;
 }
