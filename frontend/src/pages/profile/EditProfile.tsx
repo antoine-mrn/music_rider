@@ -1,10 +1,42 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import Field from "../../components/ui/form/Field";
 import Input from "../../components/ui/form/Input";
 import Label from "../../components/ui/form/Label";
 import { useMeEdit } from "../../features/user/hooks/useMeEdit";
+import {
+    EditProfileSchema,
+    type EditProfileSchemaType,
+} from "../../schemas/edit-profile.schema";
+import { property } from "zod";
 
 export default function EditProfile() {
-    const { data } = useMeEdit();
+    const { data: me } = useMeEdit();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, dirtyFields },
+    } = useForm<EditProfileSchemaType>({
+        resolver: zodResolver(EditProfileSchema),
+        values: {
+            firstname: me?.firstname ?? "",
+            lastname: me?.lastname ?? "",
+            email: me?.email ?? "",
+        },
+    });
+
+    const onSubmit = handleSubmit(async (data) => {
+        console.log("🚀 ~ EditProfile ~ me:", me);
+        console.log("🚀 ~ EditProfile ~ data:", data);
+
+        let dataUpdated: Partial<EditProfileSchemaType> = {};
+
+        for (const prop in dirtyFields) {
+            dataUpdated[prop] = data[prop];
+        }
+        console.log("🚀 ~ EditProfile ~ dataUpdated:", dataUpdated);
+    });
 
     return (
         <div className="h-full max-w-4xl mx-auto flex flex-col gap-8 place-content-center px-8 mt-10">
@@ -26,7 +58,7 @@ export default function EditProfile() {
                 </div>
             </section>
 
-            <form className="space-y-10">
+            <form onSubmit={onSubmit} className="space-y-10">
                 <div className="flex gap-6">
                     <Field>
                         <Label label="Prénom" htmlFor="firstname" />
@@ -34,7 +66,8 @@ export default function EditProfile() {
                             type="text"
                             id="firstname"
                             placeholder="John"
-                            value={data?.firstname}
+                            {...register("firstname")}
+                            error={errors.firstname && errors.firstname.message}
                         />
                     </Field>
                     <Field>
@@ -43,7 +76,8 @@ export default function EditProfile() {
                             type="text"
                             id="lastname"
                             placeholder="Doe"
-                            value={data?.lastname}
+                            {...register("lastname")}
+                            error={errors.lastname && errors.lastname.message}
                         />
                     </Field>
                 </div>
@@ -53,7 +87,8 @@ export default function EditProfile() {
                         type="email"
                         id="email"
                         placeholder="john.doe@mail.com"
-                        value={data?.email}
+                        {...register("email")}
+                        error={errors.email && errors.email.message}
                     />
                 </Field>
 
@@ -69,7 +104,10 @@ export default function EditProfile() {
                 </section>
 
                 <div className="flex gap-4">
-                    <button className="btn btn-primary flex-1 rounded-lg uppercase italic font-black">
+                    <button
+                        type="submit"
+                        className="btn btn-primary flex-1 rounded-lg uppercase italic font-black"
+                    >
                         Sauvegarder les changements
                     </button>
                     <button className="btn rounded-lg flex-1 uppercase italic font-black">
