@@ -1,10 +1,13 @@
 import Field from "../../components/ui/form/Field";
 import Input from "../../components/ui/form/Input";
 import Label from "../../components/ui/form/Label";
+import { useMeEdit } from "../../features/user/hooks/useMeEdit";
 
 export default function EditProfile() {
+    const { data } = useMeEdit();
+
     return (
-        <div className="w-full h-full max-w-4xl mx-auto flex flex-col gap-8 place-content-center px-8 mt-10">
+        <div className="h-full max-w-4xl mx-auto flex flex-col gap-8 place-content-center px-8 mt-10">
             <section className="card w-full card-border border-2 p-4">
                 <div className="card-body flex-row items-center gap-4">
                     <div className="avatar">
@@ -27,11 +30,21 @@ export default function EditProfile() {
                 <div className="flex gap-6">
                     <Field>
                         <Label label="Prénom" htmlFor="firstname" />
-                        <Input type="text" id="firstname" placeholder="John" />
+                        <Input
+                            type="text"
+                            id="firstname"
+                            placeholder="John"
+                            value={data?.firstname}
+                        />
                     </Field>
                     <Field>
                         <Label label="Nom" htmlFor="lastname" />
-                        <Input type="text" id="lastname" placeholder="Doe" />
+                        <Input
+                            type="text"
+                            id="lastname"
+                            placeholder="Doe"
+                            value={data?.lastname}
+                        />
                     </Field>
                 </div>
                 <Field>
@@ -40,6 +53,7 @@ export default function EditProfile() {
                         type="email"
                         id="email"
                         placeholder="john.doe@mail.com"
+                        value={data?.email}
                     />
                 </Field>
 
@@ -53,6 +67,15 @@ export default function EditProfile() {
                         </div>
                     </div>
                 </section>
+
+                <div className="flex gap-4">
+                    <button className="btn btn-primary flex-1 rounded-lg uppercase italic font-black">
+                        Sauvegarder les changements
+                    </button>
+                    <button className="btn rounded-lg flex-1 uppercase italic font-black">
+                        Annuler
+                    </button>
+                </div>
             </form>
         </div>
     );
