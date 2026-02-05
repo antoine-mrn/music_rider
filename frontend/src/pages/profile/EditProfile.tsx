@@ -1,45 +1,12 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import Field from "../../components/ui/form/Field";
-import Input from "../../components/ui/form/Input";
-import Label from "../../components/ui/form/Label";
 import { useMeEdit } from "../../features/user/hooks/useMeEdit";
-import {
-    EditProfileSchema,
-    type EditProfileSchemaType,
-} from "../../schemas/edit-profile.schema";
 import { useUpdateMe } from "../../features/user/hooks/useUpdateMe";
+import EditProfileForm from "../../components/profile/EditProfileForm";
 
 export default function EditProfile() {
-    const { data: me } = useMeEdit();
+    const { data: me, isLoading } = useMeEdit();
     const { mutateAsync: updateMe, isPending } = useUpdateMe();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isDirty, dirtyFields },
-    } = useForm<EditProfileSchemaType>({
-        resolver: zodResolver(EditProfileSchema),
-        values: {
-            firstname: me?.firstname ?? "",
-            lastname: me?.lastname ?? "",
-            email: me?.email ?? "",
-        },
-    });
-
-    const onSubmit = handleSubmit(async (data) => {
-        if (isDirty) {
-            const dataUpdated: Partial<EditProfileSchemaType> = Object.keys(
-                dirtyFields,
-            ).reduce(
-                (acc, cur) =>
-                    (acc = { ...acc, [cur]: data[cur as keyof typeof data] }),
-                {},
-            );
-
-            await updateMe(dataUpdated);
-        }
-    });
+    if (isLoading || !me) return <p>Je charge</p>;
 
     return (
         <div className="h-full max-w-4xl mx-auto flex flex-col gap-8 place-content-center px-8 mt-10">
@@ -61,68 +28,11 @@ export default function EditProfile() {
                 </div>
             </section>
 
-            <form onSubmit={onSubmit} className="space-y-10">
-                <div className="flex gap-6">
-                    <Field>
-                        <Label label="Prénom" htmlFor="firstname" />
-                        <Input
-                            type="text"
-                            id="firstname"
-                            placeholder="John"
-                            {...register("firstname")}
-                            error={errors.firstname && errors.firstname.message}
-                        />
-                    </Field>
-                    <Field>
-                        <Label label="Nom" htmlFor="lastname" />
-                        <Input
-                            type="text"
-                            id="lastname"
-                            placeholder="Doe"
-                            {...register("lastname")}
-                            error={errors.lastname && errors.lastname.message}
-                        />
-                    </Field>
-                </div>
-                <Field>
-                    <Label label="e-mail" htmlFor="email" />
-                    <Input
-                        type="email"
-                        id="email"
-                        placeholder="john.doe@mail.com"
-                        {...register("email")}
-                        error={errors.email && errors.email.message}
-                    />
-                </Field>
-
-                <section className="card w-full card-border border-2 p-4 bg-base-200">
-                    <div className="card-body">
-                        <h2 className="card-title">Sécurité</h2>
-                        <div className="card-actions">
-                            <button className="btn btn-soft rounded-lg italic">
-                                Modifier le mot de passe
-                            </button>
-                        </div>
-                    </div>
-                </section>
-
-                <div className="flex gap-4">
-                    <button
-                        disabled={isPending}
-                        type="submit"
-                        className="btn btn-primary flex-1 rounded-lg uppercase italic font-black"
-                    >
-                        {isPending ? (
-                            <span className="loading loading-spinner"></span>
-                        ) : (
-                            "Sauvegarder les changements"
-                        )}
-                    </button>
-                    <button className="btn rounded-lg flex-1 uppercase italic font-black">
-                        Annuler
-                    </button>
-                </div>
-            </form>
+            <EditProfileForm
+                me={me}
+                updateMe={updateMe}
+                isPending={isPending}
+            />
         </div>
     );
 }
