@@ -8,15 +8,16 @@ import {
     EditProfileSchema,
     type EditProfileSchemaType,
 } from "../../schemas/edit-profile.schema";
-import { property } from "zod";
+import { useUpdateMe } from "../../features/user/hooks/useUpdateMe";
 
 export default function EditProfile() {
     const { data: me } = useMeEdit();
+    const { mutateAsync: updateMe, isPending, isError } = useUpdateMe();
 
     const {
         register,
         handleSubmit,
-        formState: { errors, dirtyFields },
+        formState: { errors, isDirty, dirtyFields },
     } = useForm<EditProfileSchemaType>({
         resolver: zodResolver(EditProfileSchema),
         values: {
@@ -27,15 +28,17 @@ export default function EditProfile() {
     });
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log("🚀 ~ EditProfile ~ me:", me);
-        console.log("🚀 ~ EditProfile ~ data:", data);
+        if (isDirty) {
+            const dataUpdated: Partial<EditProfileSchemaType> = Object.keys(
+                dirtyFields,
+            ).reduce(
+                (acc, cur) =>
+                    (acc = { ...acc, [cur]: data[cur as keyof typeof data] }),
+                {},
+            );
 
-        let dataUpdated: Partial<EditProfileSchemaType> = {};
-
-        for (const prop in dirtyFields) {
-            dataUpdated[prop] = data[prop];
+            await updateMe(dataUpdated);
         }
-        console.log("🚀 ~ EditProfile ~ dataUpdated:", dataUpdated);
     });
 
     return (
@@ -105,10 +108,15 @@ export default function EditProfile() {
 
                 <div className="flex gap-4">
                     <button
+                        disabled={isPending}
                         type="submit"
                         className="btn btn-primary flex-1 rounded-lg uppercase italic font-black"
                     >
-                        Sauvegarder les changements
+                        {isPending ? (
+                            <span className="loading loading-spinner"></span>
+                        ) : (
+                            "Sauvegarder les changements"
+                        )}
                     </button>
                     <button className="btn rounded-lg flex-1 uppercase italic font-black">
                         Annuler
