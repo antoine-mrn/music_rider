@@ -12,7 +12,7 @@ import { useUpdateMe } from "../../features/user/hooks/useUpdateMe";
 
 export default function EditProfile() {
     const { data: me } = useMeEdit();
-    const { mutateAsync: updateMe, isPending, isError } = useUpdateMe();
+    const { mutateAsync: updateMe, isPending } = useUpdateMe();
 
     const {
         register,

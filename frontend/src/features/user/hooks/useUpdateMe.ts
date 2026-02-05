@@ -3,6 +3,7 @@ import { useAuthStore } from "../../../store/auth.store";
 import type { EditProfileSchemaType } from "../../../schemas/edit-profile.schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { AuthUserInterface } from "../../auth/types";
+import { toast } from "sonner";
 
 export const useUpdateMe = () => {
     const setUser = useAuthStore((state) => state.setUser);
@@ -20,6 +21,11 @@ export const useUpdateMe = () => {
             queryClient.invalidateQueries({ queryKey: ["dashboard"] });
 
             setUser(user);
+
+            toast.success("Profile mis à jour avec succès ✏️");
+        },
+        onError: () => {
+            toast.error("Erreur lors de la mise à jour du profile");
         },
     });
 };

@@ -12,6 +12,7 @@ import PrivateLayout from "./components/layout/PrivateLayout";
 import PublicLayout from "./components/layout/PublicLayout";
 import { useMe } from "./features/user/hooks/useMe";
 import EditProfile from "./pages/profile/EditProfile";
+import { Toaster } from "sonner";
 
 function App() {
     const { data: user, isLoading } = useMe();
@@ -35,21 +36,34 @@ function App() {
         );
     }
     return (
-        <Routes>
-            <Route path="/" element={<PublicLayout />}>
-                <Route index element={<Home />} />
-                <Route element={<AuthRoute />}>
-                    <Route path="/signin" element={<Signin />} />
-                    <Route path="/signup" element={<Signup />} />
+        <>
+            <Routes>
+                <Route path="/" element={<PublicLayout />}>
+                    <Route index element={<Home />} />
+                    <Route element={<AuthRoute />}>
+                        <Route path="/signin" element={<Signin />} />
+                        <Route path="/signup" element={<Signup />} />
+                    </Route>
                 </Route>
-            </Route>
-            <Route element={<ProtectedRoute />}>
-                <Route element={<PrivateLayout />}>
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/profile/editing" element={<EditProfile />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route element={<PrivateLayout />}>
+                        <Route path="/profile" element={<Profile />} />
+                        <Route
+                            path="/profile/editing"
+                            element={<EditProfile />}
+                        />
+                    </Route>
                 </Route>
-            </Route>
-        </Routes>
+            </Routes>
+            <Toaster
+                toastOptions={{
+                    style: {
+                        backgroundColor: "var(--color-base-100)",
+                        color: "var(--color-base-content)",
+                    },
+                }}
+            />
+        </>
     );
 }
 
