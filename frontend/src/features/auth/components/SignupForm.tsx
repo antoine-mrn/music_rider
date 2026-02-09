@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
-import {
-    SignupSchema,
-    type SignupSchemaType,
-} from "../../schemas/signup.schema";
-import Field from "../ui/form/Field";
-import Input from "../ui/form/Input";
-import Label from "../ui/form/Label";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSignup } from "../../features/auth/hooks/useSignup";
+import { useSignup } from "../hooks/useSignup";
+import Field from "../../../components/ui/form/Field";
+import Input from "../../../components/ui/form/Input";
+import Label from "../../../components/ui/form/Label";
+import {
+    type SignupSchemaType,
+    SignupSchema,
+} from "../../../schemas/signup.schema";
 
 export default function SignupForm() {
     const { mutateAsync: signup, isPending, isError } = useSignup();

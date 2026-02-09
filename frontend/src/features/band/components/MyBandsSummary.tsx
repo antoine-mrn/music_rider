@@ -1,6 +1,6 @@
-import type { SummaryBand } from "../../features/band/types";
-import type { Pagination } from "../../shared/types/pagination.interface";
-import SectionTitle from "../ui/typography/SectionTitle";
+import SectionTitle from "../../../components/ui/typography/SectionTitle";
+import type { Pagination } from "../../../shared/types/pagination.interface";
+import type { SummaryBand } from "../types";
 import BandCardSummary from "./BandCardSummary";
 
 interface MyBandsSummaryProps {

@@ -1,6 +1,6 @@
-import type { SummaryTechnicalRider } from "../../features/technical-rider/types";
-import type { Pagination } from "../../shared/types/pagination.interface";
-import SectionTitle from "../ui/typography/SectionTitle";
+import SectionTitle from "../../../components/ui/typography/SectionTitle";
+import type { Pagination } from "../../../shared/types/pagination.interface";
+import type { SummaryTechnicalRider } from "../types";
 
 interface RecentTechnicalRidersProps {
     technicalRiders: Pagination<SummaryTechnicalRider>;

@@ -1,4 +1,4 @@
-import type { SummaryBand } from "../../features/band/types";
+import type { SummaryBand } from "../types";
 
 export default function BandCardSummary({ band }: { band: SummaryBand }) {
     return (

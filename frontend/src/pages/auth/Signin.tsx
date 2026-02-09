@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import SigninForm from "../../components/auth/SigninForm";
 import { Menu } from "lucide-react";
+import SigninForm from "../../features/auth/components/SigninForm";
 
 export default function Signin() {
     return (

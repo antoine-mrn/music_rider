@@ -1,4 +1,4 @@
-import type { AuthUserInterface } from "../../features/auth/types";
+import type { AuthUserInterface } from "../../auth/types";
 
 interface ProfileInfoProps {
     user: AuthUserInterface;

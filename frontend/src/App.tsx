@@ -10,9 +10,9 @@ import { useAuthStore } from "./store/auth.store";
 import { AuthRoute } from "./components/routing/AuthRoute";
 import PrivateLayout from "./components/layout/PrivateLayout";
 import PublicLayout from "./components/layout/PublicLayout";
-import { useMe } from "./features/user/hooks/useMe";
-import EditProfile from "./pages/profile/EditProfile";
+import { useMe } from "./features/profile/hooks/useMe";
 import { Toaster } from "sonner";
+import EditProfile from "./pages/profile/EditProfile";
 
 function App() {
     const { data: user, isLoading } = useMe();

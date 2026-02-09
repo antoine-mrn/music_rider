@@ -1,6 +1,6 @@
-import { useMeEdit } from "../../features/user/hooks/useMeEdit";
-import { useUpdateMe } from "../../features/user/hooks/useUpdateMe";
-import EditProfileForm from "../../components/profile/EditProfileForm";
+import EditProfileForm from "../../features/profile/components/EditProfileForm";
+import { useMeEdit } from "../../features/profile/hooks/useMeEdit";
+import { useUpdateMe } from "../../features/profile/hooks/useUpdateMe";
 
 export default function EditProfile() {
     const { data: me, isLoading } = useMeEdit();

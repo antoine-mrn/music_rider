@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import Field from "../../../components/ui/form/Field";
+import Input from "../../../components/ui/form/Input";
+import Label from "../../../components/ui/form/Label";
 import {
     type SigninSchemaType,
     SigninSchema,
-} from "../../schemas/signin.schema";
-import Field from "../ui/form/Field";
-import Input from "../ui/form/Input";
-import Label from "../ui/form/Label";
-import { useLogin } from "../../features/auth/hooks/useLogin";
+} from "../../../schemas/signin.schema";
+import { useLogin } from "../hooks/useLogin";
 
 export default function SigninForm() {
     const { mutateAsync: signin, isPending, isError } = useLogin();

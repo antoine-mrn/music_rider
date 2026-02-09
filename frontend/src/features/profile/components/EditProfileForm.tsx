@@ -1,13 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import type { AuthUserInterface } from "../../features/auth/types";
+import Field from "../../../components/ui/form/Field";
+import Input from "../../../components/ui/form/Input";
+import Label from "../../../components/ui/form/Label";
 import {
     EditProfileSchema,
     type EditProfileSchemaType,
-} from "../../schemas/edit-profile.schema";
-import Field from "../ui/form/Field";
-import Input from "../ui/form/Input";
-import Label from "../ui/form/Label";
+} from "../../../schemas/edit-profile.schema";
+import type { AuthUserInterface } from "../../auth/types";
 
 interface EditProfileFormProps {
     me: AuthUserInterface;

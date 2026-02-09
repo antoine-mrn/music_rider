@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import SignupForm from "../../components/auth/SignupForm";
 import { Check } from "lucide-react";
+import SignupForm from "../../features/auth/components/SignupForm";
 
 export default function Signup() {
     return (

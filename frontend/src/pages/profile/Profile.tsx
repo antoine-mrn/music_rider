@@ -1,8 +1,8 @@
-import MyBandsSummary from "../../components/profile/MyBandsSummary";
-import ProfileInfo from "../../components/profile/ProfileInfo";
-import QuickOverview from "../../components/profile/QuickOverview";
-import RecentTechnicalRider from "../../components/profile/RecentTechnicalRider";
-import { useDashboard } from "../../features/user/hooks/useDashboard";
+import MyBandsSummary from "../../features/band/components/MyBandsSummary";
+import ProfileInfo from "../../features/profile/components/ProfileInfo";
+import QuickOverview from "../../features/profile/components/QuickOverview";
+import { useDashboard } from "../../features/profile/hooks/useDashboard";
+import RecentTechnicalRider from "../../features/technical-rider/components/RecentTechnicalRider";
 
 export default function Profile() {
     const { data, isLoading, isError } = useDashboard();
