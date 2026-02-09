@@ -40,15 +40,18 @@ export default function PrivateLayout() {
                         </li>
                         <li>
                             <SideNavLink
-                                path="profile/editing"
-                                label="Paramètres"
+                                path="/profile/bands"
+                                label="Mes groupes"
                             />
                         </li>
                         <li>
-                            <SideNavLink path="/" label="Mes groupes" />
+                            <SideNavLink path="/" label="Fiches techniques" />
                         </li>
                         <li>
-                            <SideNavLink path="/" label="Fiches techniques" />
+                            <SideNavLink
+                                path="profile/editing"
+                                label="Paramètres"
+                            />
                         </li>
                     </ul>
                 </div>

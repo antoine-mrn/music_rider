@@ -13,6 +13,7 @@ import PublicLayout from "./components/layout/PublicLayout";
 import { useMe } from "./features/profile/hooks/useMe";
 import { Toaster } from "sonner";
 import EditProfile from "./pages/profile/EditProfile";
+import MyBands from "./pages/band/MyBands";
 
 function App() {
     const { data: user, isLoading } = useMe();
@@ -52,6 +53,7 @@ function App() {
                             path="/profile/editing"
                             element={<EditProfile />}
                         />
+                        <Route path="/profile/bands" element={<MyBands />} />
                     </Route>
                 </Route>
             </Routes>

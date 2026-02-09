@@ -11,7 +11,7 @@ export default function SideNavLink({ path, label }: SideNavLinkProps) {
             to={path}
             end
             className={({ isActive }) =>
-                `space-x-4 font-bold text-lg group hover:text-base-content hover:bg-transparent ${
+                `space-x-4 font-bold text-lg group italic hover:text-base-content hover:bg-transparent ${
                     isActive ? "text-base-content" : "text-base-content/50"
                 }`
             }

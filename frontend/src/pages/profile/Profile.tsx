@@ -1,3 +1,6 @@
+import PageContentWrapper from "../../components/layout/PageContentWrapper";
+import PageWrapper from "../../components/layout/PageWrapper";
+import PageTitle from "../../components/ui/typography/PageTitle";
 import MyBandsSummary from "../../features/band/components/MyBandsSummary";
 import ProfileInfo from "../../features/profile/components/ProfileInfo";
 import QuickOverview from "../../features/profile/components/QuickOverview";
@@ -11,13 +14,16 @@ export default function Profile() {
     if (isError || !data) return <p>Problème</p>;
 
     return (
-        <div className="w-full h-full flex flex-col gap-8 place-content-center px-8 mt-10">
-            <ProfileInfo user={data?.user} />
-            <div className="space-y-4 sm:flex sm:justify-between sm:flex-row-reverse sm:gap-2 sm:space-y-0">
-                <QuickOverview overview={data.quickOverview} />
-                <MyBandsSummary bandSummary={data.bands} />
-            </div>
-            <RecentTechnicalRider technicalRiders={data.technicalRiders} />
-        </div>
+        <PageWrapper>
+            <PageTitle title="Mon profile" />
+            <PageContentWrapper>
+                <ProfileInfo user={data?.user} />
+                <div className="space-y-4 sm:flex sm:justify-between sm:flex-row-reverse sm:gap-2 sm:space-y-0">
+                    <QuickOverview overview={data.quickOverview} />
+                    <MyBandsSummary bandSummary={data.bands} />
+                </div>
+                <RecentTechnicalRider technicalRiders={data.technicalRiders} />
+            </PageContentWrapper>
+        </PageWrapper>
     );
 }
