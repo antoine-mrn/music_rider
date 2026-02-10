@@ -17,7 +17,6 @@ export default function MyBandsSummary({ bandSummary }: MyBandsSummaryProps) {
                 </button>
             </div>
 
-            {/* TODO: PRévoir un bouton load more pour les groupes */}
             {bandSummary.data ? (
                 <ul className="mt-4 gap-2 grid grid-cols-1 md:grid-cols-2">
                     {bandSummary.data.map((band: SummaryBand) => (

@@ -12,7 +12,7 @@ export class BandService {
   async findSummaryBandsByUserId(
     id: number,
     page: number = 1,
-    limit: number = 10,
+    limit: number = 6,
   ): Promise<PaginationResult<SummaryBand>> {
     const skip = (page - 1) * limit;
 

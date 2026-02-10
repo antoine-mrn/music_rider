@@ -2,7 +2,7 @@ import type { SummaryBand } from "../types";
 
 export default function BandCardSummary({ band }: { band: SummaryBand }) {
     return (
-        <li className="card w-full cursor-pointer card-border border-2 p-4 hover:border-primary/30 transition sm:max-w-64">
+        <li className="card w-full cursor-pointer card-border border-2 p-4 hover:border-primary/30 transition">
             <div className="card-body">
                 {/* Haut de card */}
                 <div className="flex items-center justify-between gap-4">
