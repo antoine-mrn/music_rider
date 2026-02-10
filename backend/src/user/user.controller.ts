@@ -21,7 +21,6 @@ export class UserController {
 
   @Get('dashboard')
   async getDashboardUser(@Request() req: AuthRequest) {
-    console.log('🚀 ~ UserController ~ getDashboardUser ~ req:', req.user);
     return await this.userService.getDashboardUser(req.user.sub);
   }
 
