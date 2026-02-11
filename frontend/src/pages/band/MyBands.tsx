@@ -15,6 +15,9 @@ export default function MyBands() {
         <PageWrapper>
             <PageTitle title="Mes groupes" />
             <PageContentWrapper>
+                <button className="btn btn-primary rounded-lg w-fit">
+                    + Nouveau
+                </button>
                 {bandsSummary?.data ? (
                     <ul className="mt-4 gap-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                         {bandsSummary.data.map((band) => (
