@@ -39,10 +39,7 @@ export default function PrivateLayout() {
                             />
                         </li>
                         <li>
-                            <SideNavLink
-                                path="/profile/bands"
-                                label="Mes groupes"
-                            />
+                            <SideNavLink path="/bands" label="Mes groupes" />
                         </li>
                         <li>
                             <SideNavLink path="/" label="Fiches techniques" />

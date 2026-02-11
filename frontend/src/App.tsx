@@ -14,6 +14,7 @@ import { useMe } from "./features/profile/hooks/useMe";
 import { Toaster } from "sonner";
 import EditProfile from "./pages/profile/EditProfile";
 import MyBands from "./pages/band/MyBands";
+import BandDetails from "./pages/band/BandDetails";
 
 function App() {
     const { data: user, isLoading } = useMe();
@@ -53,7 +54,11 @@ function App() {
                             path="/profile/editing"
                             element={<EditProfile />}
                         />
-                        <Route path="/profile/bands" element={<MyBands />} />
+                        <Route path="/bands" element={<MyBands />} />
+                        <Route
+                            path="/bands/:bandId"
+                            element={<BandDetails />}
+                        />
                     </Route>
                 </Route>
             </Routes>
