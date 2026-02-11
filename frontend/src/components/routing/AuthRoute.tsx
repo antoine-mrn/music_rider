@@ -8,7 +8,7 @@ export const AuthRoute = () => {
     if (!isAuthenticated) return null;
 
     if (user) {
-        return <Navigate to={`/profile/${user.id}`} replace />;
+        return <Navigate to={`/profile`} replace />;
     }
 
     return <Outlet />;
