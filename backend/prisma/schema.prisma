@@ -66,10 +66,22 @@ model UserBand {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
-  band Band @relation(fields: [bandId], references: [id])
+  user                User                 @relation(fields: [userId], references: [id])
+  band                Band                 @relation(fields: [bandId], references: [id])
+  userBandInstruments UserBandInstrument[]
 
   @@id([userId, bandId])
+}
+
+model UserBandInstrument {
+  userId       Int
+  bandId       Int
+  instrumentId Int
+
+  userBand   UserBand   @relation(fields: [userId, bandId], references: [userId, bandId])
+  instrument Instrument @relation(fields: [instrumentId], references: [id])
+
+  @@id([userId, bandId, instrumentId])
 }
 
 enum BandRole {
@@ -182,9 +194,10 @@ model Instrument {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  instrumentCategory   InstrumentCategory @relation(fields: [instrumentCategoryId], references: [id])
+  instrumentCategory   InstrumentCategory   @relation(fields: [instrumentCategoryId], references: [id])
   instrumentCategoryId Int
   stageInstruments     StageInstrument[]
+  userBandInstruments  UserBandInstrument[]
 }
 
 model StageInstrument {
