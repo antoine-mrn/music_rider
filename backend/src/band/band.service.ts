@@ -62,6 +62,57 @@ export class BandService {
     return { data: mapData, meta };
   }
 
+  async findBandDetailById(bandId: number) {
+    return this.prismaService.band.findUnique({
+      where: { id: bandId },
+      select: {
+        id: true,
+        label: true,
+        createdAt: true,
+        musicStyle: {
+          select: {
+            id: true,
+            label: true,
+          },
+        },
+        bandContacts: {
+          select: {
+            firstname: true,
+            lastname: true,
+          },
+        },
+        _count: {
+          select: {
+            memberships: true,
+          },
+        },
+        memberships: {
+          select: {
+            user: {
+              select: {
+                firstname: true,
+                lastname: true,
+              },
+            },
+          },
+        },
+        technicalRiders: {
+          select: {
+            id: true,
+            title: true,
+            riderCategory: {
+              select: {
+                id: true,
+                label: true,
+              },
+            },
+            updatedAt: true,
+          },
+        },
+      },
+    });
+  }
+
   __mapSummaryBand(bands: SummaryBandRaw[]): SummaryBand[] {
     return bands.map((band: SummaryBandRaw) => ({
       id: band.id,
