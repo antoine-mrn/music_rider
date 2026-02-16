@@ -10,4 +10,8 @@ export const bandApi = {
         );
         return data;
     },
+    bandDetails: async (bandId: number): Promise<any> => {
+        const { data } = await apiClient.get(`band/${bandId}`);
+        return data;
+    },
 };

@@ -54,11 +54,8 @@ function App() {
                             path="/profile/editing"
                             element={<EditProfile />}
                         />
-                        <Route path="/bands" element={<MyBands />} />
-                        <Route
-                            path="/bands/:bandId"
-                            element={<BandDetails />}
-                        />
+                        <Route path="/band" element={<MyBands />} />
+                        <Route path="/band/:bandId" element={<BandDetails />} />
                     </Route>
                 </Route>
             </Routes>
