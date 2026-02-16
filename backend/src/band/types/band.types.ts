@@ -81,30 +81,3 @@ export const bandDetailSelect = {
 export type BandDetailRaw = Prisma.BandGetPayload<{
   select: typeof bandDetailSelect;
 }>;
-
-export interface BandDetail {
-  id: number;
-  label: string;
-  memberCount: number;
-  musicStyle: {
-    id: number;
-    label: string;
-  } | null;
-  members: {
-    id: number;
-    firstname: string;
-    lastname: string;
-    role: BAND_ROLE;
-    instruments: {
-      id: number;
-      label: string;
-    }[];
-  }[];
-  bandContacts: {
-    isPrimary: boolean;
-    firstname: string | null;
-    lastname: string | null;
-  }[];
-  createdAt: Date;
-  updatedAt: Date;
-}

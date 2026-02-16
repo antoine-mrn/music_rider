@@ -9,7 +9,8 @@ import {
 import { BandService } from './band.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
 import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
-import { BandDetail, SummaryBand } from './types/band.types';
+import { SummaryBand } from './types/band.types';
+import { BandDetails } from './dto/band-details.dto';
 
 @Controller('band')
 export class BandController {
@@ -31,7 +32,7 @@ export class BandController {
   @Get(':bandId')
   async findBandDetailById(
     @Param('bandId', ParseIntPipe) bandId: number,
-  ): Promise<BandDetail> {
+  ): Promise<BandDetails> {
     return await this.bandService.findBandDetailById(bandId);
   }
 }

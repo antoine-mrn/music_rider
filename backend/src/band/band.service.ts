@@ -4,12 +4,12 @@ import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
 import { BAND_ROLE } from 'src/shared/types/band-role.enum';
 import { getPaginationMeta } from 'src/utils/pagination';
 import {
-  BandDetail,
   BandDetailRaw,
   bandDetailSelect,
   SummaryBand,
   SummaryBandRaw,
 } from './types/band.types';
+import { BandDetails } from './dto/band-details.dto';
 
 @Injectable()
 export class BandService {
@@ -68,7 +68,7 @@ export class BandService {
     return { data: mapData, meta };
   }
 
-  async findBandDetailById(bandId: number): Promise<BandDetail> {
+  async findBandDetailById(bandId: number): Promise<BandDetails> {
     const band = await this.prismaService.band.findUnique({
       where: { id: bandId },
       select: bandDetailSelect,
@@ -90,7 +90,7 @@ export class BandService {
     }));
   }
 
-  __mapBandDetails(band: BandDetailRaw): BandDetail {
+  __mapBandDetails(band: BandDetailRaw): BandDetails {
     return {
       id: band.id,
       label: band.label,
