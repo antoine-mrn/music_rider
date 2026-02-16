@@ -1,9 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
 import { BAND_ROLE } from 'src/shared/types/band-role.enum';
 import { getPaginationMeta } from 'src/utils/pagination';
-import { SummaryBand, SummaryBandRaw } from './types/band.types';
+import {
+  BandDetail,
+  BandDetailRaw,
+  bandDetailSelect,
+  SummaryBand,
+  SummaryBandRaw,
+} from './types/band.types';
 
 @Injectable()
 export class BandService {
@@ -62,55 +68,15 @@ export class BandService {
     return { data: mapData, meta };
   }
 
-  async findBandDetailById(bandId: number) {
-    return this.prismaService.band.findUnique({
+  async findBandDetailById(bandId: number): Promise<BandDetail> {
+    const band = await this.prismaService.band.findUnique({
       where: { id: bandId },
-      select: {
-        id: true,
-        label: true,
-        createdAt: true,
-        musicStyle: {
-          select: {
-            id: true,
-            label: true,
-          },
-        },
-        bandContacts: {
-          select: {
-            firstname: true,
-            lastname: true,
-          },
-        },
-        _count: {
-          select: {
-            memberships: true,
-          },
-        },
-        memberships: {
-          select: {
-            user: {
-              select: {
-                firstname: true,
-                lastname: true,
-              },
-            },
-          },
-        },
-        technicalRiders: {
-          select: {
-            id: true,
-            title: true,
-            riderCategory: {
-              select: {
-                id: true,
-                label: true,
-              },
-            },
-            updatedAt: true,
-          },
-        },
-      },
+      select: bandDetailSelect,
     });
+
+    if (!band) throw new NotFoundException();
+
+    return this.__mapBandDetails(band);
   }
 
   __mapSummaryBand(bands: SummaryBandRaw[]): SummaryBand[] {
@@ -122,5 +88,35 @@ export class BandService {
         : null,
       userRole: BAND_ROLE[band.memberships[0].role],
     }));
+  }
+
+  __mapBandDetails(band: BandDetailRaw): BandDetail {
+    return {
+      id: band.id,
+      label: band.label,
+      musicStyle: band.musicStyle
+        ? {
+            id: band.musicStyle.id,
+            label: band.musicStyle.label,
+          }
+        : null,
+      members: band.memberships.map((member) => ({
+        id: member.user.id,
+        firstname: member.user.firstname,
+        lastname: member.user.lastname,
+        role: BAND_ROLE[member.role],
+        instruments: member.userBandInstruments.map(({ instrument }) => ({
+          id: instrument.id,
+          label: instrument.label,
+        })),
+      })),
+      bandContacts: band.bandContacts.map((contact) => ({
+        isPrimary: contact.isPrimary,
+        firstname: contact.firstname ?? null,
+        lastname: contact.lastname ?? null,
+      })),
+      createdAt: band.createdAt,
+      updatedAt: band.updatedAt,
+    };
   }
 }
