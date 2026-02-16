@@ -94,6 +94,7 @@ export class BandService {
     return {
       id: band.id,
       label: band.label,
+      memberCount: band.memberships.length,
       musicStyle: band.musicStyle
         ? {
             id: band.musicStyle.id,

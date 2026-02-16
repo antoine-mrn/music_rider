@@ -85,6 +85,7 @@ export type BandDetailRaw = Prisma.BandGetPayload<{
 export interface BandDetail {
   id: number;
   label: string;
+  memberCount: number;
   musicStyle: {
     id: number;
     label: string;
