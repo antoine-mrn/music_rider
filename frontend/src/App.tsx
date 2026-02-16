@@ -15,6 +15,7 @@ import { Toaster } from "sonner";
 import EditProfile from "./pages/profile/EditProfile";
 import MyBands from "./pages/band/MyBands";
 import BandDetails from "./pages/band/BandDetails";
+import Loading from "./components/layout/Loading";
 
 function App() {
     const { data: user, isLoading } = useMe();
@@ -30,13 +31,8 @@ function App() {
         }
     }, [user, isLoading, setUser]);
 
-    if (isLoading) {
-        return (
-            <div className="h-screen flex items-center justify-center">
-                <span className="loading loading-spinner loading-lg"></span>
-            </div>
-        );
-    }
+    if (isLoading) return <Loading />;
+
     return (
         <>
             <Routes>

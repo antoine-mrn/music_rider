@@ -5,11 +5,21 @@ import PageTitle from "../../components/ui/typography/PageTitle";
 import BandCardSummary from "../../features/band/components/BandCardSummary";
 import { useSummaryBands } from "../../features/band/hooks/useSummaryBands";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Loading from "../../components/layout/Loading";
+import ErrorInfo from "../../components/layout/ErrorInfo";
 
 export default function MyBands() {
     const [page, setPage] = useState(1);
 
-    const { data: bandsSummary, isPlaceholderData } = useSummaryBands(page);
+    const {
+        data: bandsSummary,
+        isLoading,
+        isError,
+        isPlaceholderData,
+    } = useSummaryBands(page);
+
+    if (isLoading) return <Loading />;
+    if (isError) return <ErrorInfo onRetry={() => useSummaryBands(page)} />;
 
     return (
         <PageWrapper>

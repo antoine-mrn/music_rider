@@ -1,3 +1,4 @@
+import Loading from "../../components/layout/Loading";
 import PageContentWrapper from "../../components/layout/PageContentWrapper";
 import PageWrapper from "../../components/layout/PageWrapper";
 import PageTitle from "../../components/ui/typography/PageTitle";
@@ -9,7 +10,7 @@ export default function EditProfile() {
     const { data: me, isLoading } = useMeEdit();
     const { mutateAsync: updateMe, isPending } = useUpdateMe();
 
-    if (isLoading || !me) return <p>Je charge</p>;
+    if (isLoading || !me) return <Loading />;
 
     return (
         <PageWrapper className="max-w-4xl">

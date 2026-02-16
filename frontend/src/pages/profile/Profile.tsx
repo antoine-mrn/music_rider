@@ -1,3 +1,5 @@
+import ErrorInfo from "../../components/layout/ErrorInfo";
+import Loading from "../../components/layout/Loading";
 import PageContentWrapper from "../../components/layout/PageContentWrapper";
 import PageWrapper from "../../components/layout/PageWrapper";
 import PageTitle from "../../components/ui/typography/PageTitle";
@@ -10,8 +12,8 @@ import RecentTechnicalRider from "../../features/technical-rider/components/Rece
 export default function Profile() {
     const { data, isLoading, isError } = useDashboard();
 
-    if (isLoading) return <p>Je charge</p>;
-    if (isError || !data) return <p>Problème</p>;
+    if (isLoading) return <Loading />;
+    if (isError || !data) return <ErrorInfo onRetry={() => useDashboard()} />;
 
     return (
         <PageWrapper>
