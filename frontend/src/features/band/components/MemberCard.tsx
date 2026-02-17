@@ -12,7 +12,7 @@ export default function MemberCard({ member }: { member: BandMember }) {
                 <span className="font-black">
                     {member.firstname} {member.lastname}
                 </span>
-                <span className="text-base-content/50">
+                <span className="text-base-content/50 uppercase font-semibold text-xs">
                     {member.instruments.map((i) => i.label).join(" / ")}
                 </span>
             </div>

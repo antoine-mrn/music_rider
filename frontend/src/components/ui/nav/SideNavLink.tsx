@@ -3,13 +3,18 @@ import { NavLink } from "react-router";
 interface SideNavLinkProps {
     path: string;
     label: string;
+    exactMatch?: boolean;
 }
 
-export default function SideNavLink({ path, label }: SideNavLinkProps) {
+export default function SideNavLink({
+    path,
+    label,
+    exactMatch = true,
+}: SideNavLinkProps) {
     return (
         <NavLink
             to={path}
-            end
+            end={exactMatch}
             className={({ isActive }) =>
                 `space-x-4 font-bold text-lg group italic hover:text-base-content hover:bg-transparent ${
                     isActive ? "text-base-content" : "text-base-content/50"

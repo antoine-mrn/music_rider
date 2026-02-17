@@ -4,7 +4,7 @@ import type { BandMember } from "../types";
 import MemberCard from "./MemberCard";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
-const DEFAULT_VISIBLE = 1;
+const DEFAULT_VISIBLE = 4;
 
 export default function MemberSection({
     memberCount,
@@ -27,6 +27,7 @@ export default function MemberSection({
                     <span className="font-bold text-primary">
                         {memberCount}
                     </span>
+                    {/* TODO: Ajouter la fonctionnalité d'ajout de membres */}
                     <button className="ml-auto btn btn-primary btn-outline rounded-lg">
                         + Ajouter
                     </button>
