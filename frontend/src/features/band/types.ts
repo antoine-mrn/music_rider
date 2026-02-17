@@ -10,6 +10,19 @@ export interface SummaryBand {
     userRole: UserBandRole;
 }
 
+export interface BandMember {
+    id: number;
+    firstname: string;
+    lastname: string;
+    role: UserBandRole;
+    instruments: BandInstrument[];
+}
+
+export interface BandInstrument {
+    id: number;
+    label: string;
+}
+
 export interface BandDetails {
     id: number;
     label: string;
@@ -18,16 +31,7 @@ export interface BandDetails {
         id: number;
         label: string;
     } | null;
-    members: {
-        id: number;
-        firstname: string;
-        lastname: string;
-        role: UserBandRole;
-        instruments: {
-            id: number;
-            label: string;
-        }[];
-    }[];
+    members: BandMember[];
     bandContacts: {
         isPrimary: boolean;
         firstname: string | null;

@@ -5,7 +5,7 @@ import Loading from "../../components/layout/Loading";
 import ErrorInfo from "../../components/layout/ErrorInfo";
 import PageTitle from "../../components/ui/typography/PageTitle";
 import { ChevronLeft } from "lucide-react";
-import SectionTitle from "../../components/ui/typography/SectionTitle";
+import MemberSection from "../../features/band/components/MemberSection";
 
 export default function BandDetails() {
     const { bandId } = useParams();
@@ -15,15 +15,11 @@ export default function BandDetails() {
         data: band,
         isLoading,
         isError,
+        refetch,
     } = useBandDetails(parseInt(bandId ?? "0"));
 
     if (isLoading) return <Loading />;
-    if (isError)
-        return (
-            <ErrorInfo
-                onRetry={() => useBandDetails(parseInt(bandId ?? "0"))}
-            />
-        );
+    if (isError) return <ErrorInfo onRetry={refetch} />;
 
     return (
         <PageWrapper>
@@ -42,34 +38,10 @@ export default function BandDetails() {
                 </div>
             </div>
 
-            <section className="card card-border border-2">
-                <div className="card-body">
-                    <div className="card-title gap-4">
-                        <SectionTitle title="Musiciens" />
-                        <span className="font-bold text-primary">
-                            {band?.memberCount}
-                        </span>
-                        <button className="ml-auto btn btn-primary btn-outline rounded-lg">
-                            + Ajouter
-                        </button>
-                    </div>
-
-                    <ul className="flex gap-4">
-                        {band?.members.slice(0, 4).map((member) => (
-                            <li className="flex flex-col bg-base-200 rounded-lg p-4">
-                                <span className="font-black">
-                                    {member.firstname} {member.lastname}
-                                </span>
-                                <span className="text-base-content/50">
-                                    {member.instruments
-                                        .map((i) => i.label)
-                                        .join(" / ")}
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </section>
+            <MemberSection
+                memberCount={band?.memberCount ?? 0}
+                bandMembers={band?.members ?? []}
+            />
         </PageWrapper>
     );
 }

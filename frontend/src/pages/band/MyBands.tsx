@@ -40,7 +40,7 @@ export default function MyBands() {
                 {bandsSummary?.data && (
                     <div className="flex items-center justify-center gap-4">
                         <button
-                            className="btn btn-soft rounded-lg"
+                            className="btn btn-secondary btn-sm rounded-lg"
                             onClick={() =>
                                 setPage((old) => Math.max(old - 1, 1))
                             }
@@ -48,9 +48,9 @@ export default function MyBands() {
                         >
                             <ChevronLeft />
                         </button>
-                        <span>{page}</span>
+                        <span className="text-sm font-bold">{page}</span>
                         <button
-                            className="btn btn-soft rounded-lg"
+                            className="btn btn-secondary btn-sm rounded-lg"
                             onClick={() => {
                                 if (
                                     !isPlaceholderData &&

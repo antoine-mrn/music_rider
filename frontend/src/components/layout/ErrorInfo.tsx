@@ -2,7 +2,7 @@ import { AlertCircle, RotateCw } from "lucide-react";
 
 interface ErrorInfoProps {
     message?: string;
-    onRetry?: (param?: string | number) => void;
+    onRetry?: () => void;
 }
 
 export default function ErrorInfoProps({
@@ -23,7 +23,7 @@ export default function ErrorInfoProps({
 
             {onRetry && (
                 <button
-                    onClick={() => onRetry()}
+                    onClick={onRetry}
                     className="btn btn-ghost btn-sm text-primary rounded-lg font-black italic uppercase tracking-widest hover:bg-primary/10"
                 >
                     <RotateCw /> Réessayer
