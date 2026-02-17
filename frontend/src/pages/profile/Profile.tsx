@@ -10,10 +10,10 @@ import { useDashboard } from "../../features/profile/hooks/useDashboard";
 import RecentTechnicalRider from "../../features/technical-rider/components/RecentTechnicalRider";
 
 export default function Profile() {
-    const { data, isLoading, isError } = useDashboard();
+    const { data, isLoading, isError, refetch } = useDashboard();
 
     if (isLoading) return <Loading />;
-    if (isError || !data) return <ErrorInfo onRetry={() => useDashboard()} />;
+    if (isError || !data) return <ErrorInfo onRetry={refetch} />;
 
     return (
         <PageWrapper>

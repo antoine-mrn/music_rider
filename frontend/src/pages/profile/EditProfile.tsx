@@ -1,3 +1,4 @@
+import ErrorInfo from "../../components/layout/ErrorInfo";
 import Loading from "../../components/layout/Loading";
 import PageContentWrapper from "../../components/layout/PageContentWrapper";
 import PageWrapper from "../../components/layout/PageWrapper";
@@ -7,10 +8,11 @@ import { useMeEdit } from "../../features/profile/hooks/useMeEdit";
 import { useUpdateMe } from "../../features/profile/hooks/useUpdateMe";
 
 export default function EditProfile() {
-    const { data: me, isLoading } = useMeEdit();
+    const { data: me, isLoading, isError, refetch } = useMeEdit();
     const { mutateAsync: updateMe, isPending } = useUpdateMe();
 
     if (isLoading || !me) return <Loading />;
+    if (isError) return <ErrorInfo onRetry={refetch} />;
 
     return (
         <PageWrapper className="max-w-4xl">

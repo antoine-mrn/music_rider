@@ -16,10 +16,11 @@ export default function MyBands() {
         isLoading,
         isError,
         isPlaceholderData,
+        refetch,
     } = useSummaryBands(page);
 
     if (isLoading) return <Loading />;
-    if (isError) return <ErrorInfo onRetry={() => useSummaryBands(page)} />;
+    if (isError) return <ErrorInfo onRetry={refetch} />;
 
     return (
         <PageWrapper>
