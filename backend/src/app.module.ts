@@ -8,6 +8,8 @@ import { AuthSessionModule } from './auth-session/auth-session.module';
 import { UserModule } from './user/user.module';
 import { BandModule } from './band/band.module';
 import { TechnicalRiderModule } from './technical-rider/technical-rider.module';
+import { SupabaseModule } from 'supabase/supabase.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { TechnicalRiderModule } from './technical-rider/technical-rider.module';
     AuthSessionModule,
     BandModule,
     TechnicalRiderModule,
+    SupabaseModule,
+    MediaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
