@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { AuthUserDb } from 'src/auth/types/auth-user-db.interface';
@@ -7,6 +11,8 @@ import { BandService } from 'src/band/band.service';
 import { TechnicalRiderService } from 'src/technical-rider/technical-rider.service';
 import { DashboardDto } from './dto/dashboard.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { MediaService } from 'src/media/media.service';
+import { ConfigService } from '@nestjs/config';
 
 export type User = any;
 
@@ -16,6 +22,8 @@ export class UserService {
     private readonly prismaService: PrismaService,
     private readonly bandService: BandService,
     private readonly technicalRider: TechnicalRiderService,
+    private readonly mediaService: MediaService,
+    readonly configService: ConfigService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<AuthUser | null> {
@@ -88,5 +96,51 @@ export class UserService {
       data: { ...updateUserDto },
       select: AuthUserSelect,
     });
+  }
+
+  async updateAvatarByUserId(
+    userId: number,
+    file: Express.Multer.File,
+  ): Promise<{ success: true }> {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      select: { id: true, avatarId: true },
+    });
+
+    if (!user) throw new NotFoundException('Utilisateur non trouvé');
+
+    const oldAvatarId = user.avatarId;
+    console.log(
+      '🚀 ~ UserService ~ updateAvatarByUserId ~ oldAvatarId:',
+      oldAvatarId,
+    );
+
+    const newAvatar = await this.mediaService.upload(file, 'avatars');
+
+    const newMedia = this.prismaService.$transaction(async (tx) => {
+      const media = await tx.media.create({
+        data: {
+          bucket: this.configService.getOrThrow('SUPABASE_BUCKET'),
+          path: newAvatar.path,
+          folder: 'avatars',
+        },
+      });
+
+      await tx.user.update({
+        where: { id: userId },
+        data: { avatarId: media.id },
+      });
+
+      return media;
+    });
+
+    if (!newMedia)
+      throw new InternalServerErrorException('Impossible de créer le media');
+
+    if (oldAvatarId) {
+      await this.mediaService.deleteMedia(oldAvatarId, 'avatars');
+    }
+
+    return { success: true };
   }
 }

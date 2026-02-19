@@ -3,9 +3,10 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { BandModule } from 'src/band/band.module';
 import { TechnicalRiderModule } from 'src/technical-rider/technical-rider.module';
+import { MediaModule } from 'src/media/media.module';
 
 @Module({
-  imports: [BandModule, TechnicalRiderModule],
+  imports: [BandModule, TechnicalRiderModule, MediaModule],
   controllers: [UserController],
   providers: [UserService],
   exports: [UserService],

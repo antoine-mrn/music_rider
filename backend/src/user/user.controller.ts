@@ -1,9 +1,20 @@
-import { Controller, Get, Post, Body, Request, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Request,
+  Patch,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthUser } from 'src/auth/types/auth-user.interface';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FileValidationPipe } from 'src/shared/pipes/file-validation.pipe';
 
 @Controller('user')
 export class UserController {
@@ -30,5 +41,15 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<AuthUser> {
     return await this.userService.updateUserById(req.user.sub, updateUserDto);
+  }
+
+  @Patch('me/avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  async updateAvatarByUserId(
+    @UploadedFile(new FileValidationPipe())
+    file: Express.Multer.File,
+    @Request() req: AuthRequest,
+  ): Promise<{ success: true }> {
+    return this.userService.updateAvatarByUserId(req.user.sub, file);
   }
 }

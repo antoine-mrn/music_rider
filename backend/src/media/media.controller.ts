@@ -18,7 +18,6 @@ export class MediaController {
     @UploadedFile(new FileValidationPipe())
     file: Express.Multer.File,
   ) {
-    console.log(file);
-    return await this.mediaService.upload(file);
+    return await this.mediaService.upload(file, 'avatars');
   }
 }
