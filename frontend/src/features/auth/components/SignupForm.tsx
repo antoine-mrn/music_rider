@@ -8,6 +8,7 @@ import {
     type SignupSchemaType,
     SignupSchema,
 } from "../../../schemas/signup.schema";
+import Button from "../../../components/ui/button/Button";
 
 export default function SignupForm() {
     const { mutateAsync: signup, isPending, isError } = useSignup();
@@ -83,13 +84,9 @@ export default function SignupForm() {
                 />
             </Field>
 
-            <button
-                type="submit"
-                disabled={isPending}
-                className="btn btn-primary w-full p-4"
-            >
+            <Button type="submit" disabled={isPending} className="w-full p-4">
                 Commencer l'aventure
-            </button>
+            </Button>
             {isError && (
                 <p className="mt-1 text-sm font-bold text-error">
                     Erreur lors de la création du compte, veuillez réessayer

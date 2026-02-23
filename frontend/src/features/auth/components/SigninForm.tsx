@@ -8,6 +8,7 @@ import {
     SigninSchema,
 } from "../../../schemas/signin.schema";
 import { useLogin } from "../hooks/useLogin";
+import Button from "../../../components/ui/button/Button";
 
 export default function SigninForm() {
     const { mutateAsync: signin, isPending, isError } = useLogin();
@@ -47,13 +48,13 @@ export default function SigninForm() {
             </Field>
 
             <div>
-                <button
+                <Button
                     type="submit"
                     disabled={isPending}
-                    className="btn btn-primary w-full p-4"
+                    className="w-full p-4"
                 >
                     Se connecter
-                </button>
+                </Button>
                 {isError && (
                     <p className="mt-1 text-sm font-bold text-error text-center">
                         Erreur lors de la connexion au compte, veuillez

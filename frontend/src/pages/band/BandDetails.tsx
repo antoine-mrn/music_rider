@@ -6,6 +6,7 @@ import ErrorInfo from "../../components/layout/ErrorInfo";
 import PageTitle from "../../components/ui/typography/PageTitle";
 import { ChevronLeft } from "lucide-react";
 import MemberSection from "../../features/band/components/MemberSection";
+import Button from "../../components/ui/button/Button";
 
 export default function BandDetails() {
     const { bandId } = useParams();
@@ -24,12 +25,13 @@ export default function BandDetails() {
     return (
         <PageWrapper>
             <div className="flex gap-4 items-center">
-                <button
+                <Button
                     onClick={() => navigate(-1)}
-                    className="btn btn-soft btn-circle"
+                    shape="circle"
+                    variant="soft"
                 >
                     <ChevronLeft />
-                </button>
+                </Button>
                 <div className="space-y-1">
                     <span className="badge badge-soft badge-primary">
                         {band?.musicStyle?.label}

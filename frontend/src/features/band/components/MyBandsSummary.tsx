@@ -1,3 +1,4 @@
+import Button from "../../../components/ui/button/Button";
 import SectionTitle from "../../../components/ui/typography/SectionTitle";
 import type { Pagination } from "../../../shared/types/pagination.interface";
 import type { SummaryBand } from "../types";
@@ -12,9 +13,9 @@ export default function MyBandsSummary({ bandSummary }: MyBandsSummaryProps) {
         <section>
             <div className="flex justify-between items-center">
                 <SectionTitle title="Mes groupes" />
-                <button className="btn btn-primary rounded-lg">
+                <Button>
                     + <span className="hidden md:inline">Nouveau</span>
-                </button>
+                </Button>
             </div>
 
             {bandSummary.data ? (

@@ -8,6 +8,7 @@ import {
     type EditProfileSchemaType,
 } from "../../../schemas/edit-profile.schema";
 import type { AuthUserInterface } from "../../auth/types";
+import Button from "../../../components/ui/button/Button";
 
 interface EditProfileFormProps {
     me: AuthUserInterface;
@@ -86,28 +87,31 @@ export default function EditProfileForm({
                 <div className="card-body">
                     <h2 className="card-title">Sécurité</h2>
                     <div className="card-actions">
-                        <button className="btn btn-soft rounded-lg italic">
+                        <Button className="italic" typeStyle="soft">
                             Modifier le mot de passe
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </section>
 
             <div className="flex gap-4">
-                <button
+                <Button
                     disabled={isPending}
                     type="submit"
-                    className="btn btn-primary flex-1 rounded-lg uppercase italic font-black"
+                    className="flex-1 uppercase italic font-black"
                 >
                     {isPending ? (
                         <span className="loading loading-spinner"></span>
                     ) : (
                         "Sauvegarder les changements"
                     )}
-                </button>
-                <button className="btn rounded-lg flex-1 uppercase italic font-black">
+                </Button>
+                <Button
+                    className="rounded-lg flex-1 uppercase italic font-black"
+                    variant="soft"
+                >
                     Annuler
-                </button>
+                </Button>
             </div>
         </form>
     );

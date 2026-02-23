@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { useClickOutside } from "../../hooks/useClickOutside";
 import AuthMenuMobile from "./AuthMenuMobile";
+import Button from "../ui/button/Button";
 
 export default function AuthButtonsMobile() {
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -9,9 +10,10 @@ export default function AuthButtonsMobile() {
 
     return (
         <div ref={dropdownRef} className="dropdown dropdown-end">
-            <button
+            <Button
                 onClick={() => setIsOpen(!isOpen)}
-                className="btn btn-ghost btn-circle swap swap-rotate"
+                className="btn-circle swap swap-rotate"
+                variant="ghost"
             >
                 <input type="checkbox" checked={isOpen} readOnly />
 
@@ -30,7 +32,7 @@ export default function AuthButtonsMobile() {
                 >
                     <path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
                 </svg>
-            </button>
+            </Button>
 
             <AuthMenuMobile isOpen={isOpen} />
         </div>

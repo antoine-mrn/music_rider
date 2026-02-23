@@ -1,4 +1,6 @@
+import { Link } from "react-router";
 import type { AuthUserInterface } from "../../auth/types";
+import Button from "../../../components/ui/button/Button";
 
 interface ProfileInfoProps {
     user: AuthUserInterface;
@@ -26,9 +28,9 @@ export default function ProfileInfo({ user }: ProfileInfoProps) {
                     {user.email}
                 </p>
             </div>
-            <button className="btn btn-primary rounded-lg ml-auto">
-                Modifier mes infos
-            </button>
+            <Link className="ml-auto" to="/profile/editing">
+                <Button>Modifier mes infos</Button>
+            </Link>
         </section>
     );
 }

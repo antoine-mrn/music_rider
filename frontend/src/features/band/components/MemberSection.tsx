@@ -3,6 +3,7 @@ import SectionTitle from "../../../components/ui/typography/SectionTitle";
 import type { BandMember } from "../types";
 import MemberCard from "./MemberCard";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import Button from "../../../components/ui/button/Button";
 
 const DEFAULT_VISIBLE = 4;
 
@@ -28,9 +29,9 @@ export default function MemberSection({
                         {memberCount}
                     </span>
                     {/* TODO: Ajouter la fonctionnalité d'ajout de membres */}
-                    <button className="ml-auto btn btn-primary btn-outline rounded-lg">
+                    <Button className="ml-auto" typeStyle="outline">
                         + Ajouter
-                    </button>
+                    </Button>
                 </div>
 
                 <ul className="flex gap-4">
@@ -40,9 +41,12 @@ export default function MemberSection({
                 </ul>
 
                 {bandMembers.length > DEFAULT_VISIBLE && (
-                    <button
+                    <Button
                         onClick={() => setIsAllVisible(!isAllVisible)}
-                        className="w-fit mx-auto mt-4 btn btn-secondary btn-sm btn-outline rounded-lg"
+                        className="w-fit mx-auto mt-4"
+                        variant="secondary"
+                        typeStyle="outline"
+                        size="sm"
                     >
                         {isAllVisible ? (
                             <>
@@ -55,7 +59,7 @@ export default function MemberSection({
                                 <ChevronDown />
                             </>
                         )}
-                    </button>
+                    </Button>
                 )}
             </div>
         </section>

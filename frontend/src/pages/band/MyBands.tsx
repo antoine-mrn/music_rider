@@ -7,6 +7,7 @@ import { useSummaryBands } from "../../features/band/hooks/useSummaryBands";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Loading from "../../components/layout/Loading";
 import ErrorInfo from "../../components/layout/ErrorInfo";
+import Button from "../../components/ui/button/Button";
 
 export default function MyBands() {
     const [page, setPage] = useState(1);
@@ -26,9 +27,7 @@ export default function MyBands() {
         <PageWrapper>
             <PageTitle title="Mes groupes" />
             <PageContentWrapper>
-                <button className="btn btn-primary rounded-lg w-fit">
-                    + Nouveau
-                </button>
+                <Button className="w-fit">+ Nouveau</Button>
                 {bandsSummary?.data ? (
                     <ul className="mt-4 gap-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                         {bandsSummary.data.map((band) => (
@@ -40,18 +39,20 @@ export default function MyBands() {
                 )}
                 {bandsSummary?.data && (
                     <div className="flex items-center justify-center gap-4">
-                        <button
-                            className="btn btn-secondary btn-sm rounded-lg"
+                        <Button
+                            size="sm"
+                            variant="secondary"
                             onClick={() =>
                                 setPage((old) => Math.max(old - 1, 1))
                             }
                             disabled={page === 1}
                         >
                             <ChevronLeft />
-                        </button>
+                        </Button>
                         <span className="text-sm font-bold">{page}</span>
-                        <button
-                            className="btn btn-secondary btn-sm rounded-lg"
+                        <Button
+                            size="sm"
+                            variant="secondary"
                             onClick={() => {
                                 if (
                                     !isPlaceholderData &&
@@ -66,7 +67,7 @@ export default function MyBands() {
                             }
                         >
                             <ChevronRight />
-                        </button>
+                        </Button>
                     </div>
                 )}
             </PageContentWrapper>

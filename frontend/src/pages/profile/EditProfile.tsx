@@ -2,6 +2,7 @@ import ErrorInfo from "../../components/layout/ErrorInfo";
 import Loading from "../../components/layout/Loading";
 import PageContentWrapper from "../../components/layout/PageContentWrapper";
 import PageWrapper from "../../components/layout/PageWrapper";
+import Button from "../../components/ui/button/Button";
 import PageTitle from "../../components/ui/typography/PageTitle";
 import EditProfileForm from "../../features/profile/components/EditProfileForm";
 import { useMeEdit } from "../../features/profile/hooks/useMeEdit";
@@ -26,9 +27,9 @@ export default function EditProfile() {
                             </div>
                         </div>
                         <div className="flex flex-col gap-4">
-                            <button className="btn btn-primary rounded-lg uppercase italic font-black">
+                            <Button className="uppercase italic font-black">
                                 Changer la photo
-                            </button>
+                            </Button>
                             <span className="text-base-content/50 font-black">
                                 JPG, PNG ou GIF. Max 2MB.
                             </span>
