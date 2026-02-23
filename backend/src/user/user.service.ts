@@ -14,6 +14,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { MediaService } from 'src/media/media.service';
 import { ConfigService } from '@nestjs/config';
 import { UpdateAvatarDto } from './dto/update-avatar.dto';
+import { MeResponseDto } from 'src/auth/dto/me-response-dto';
 
 export type User = any;
 
@@ -27,7 +28,9 @@ export class UserService {
     readonly configService: ConfigService,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<AuthUser | null> {
+  async create(
+    createUserDto: CreateUserDto,
+  ): Promise<Omit<MeResponseDto, 'avatarUrl'> | null> {
     return await this.prismaService.user.create({
       data: createUserDto,
       select: {
@@ -39,7 +42,7 @@ export class UserService {
     });
   }
 
-  async me(id: number): Promise<AuthUser> {
+  async me(id: number): Promise<MeResponseDto> {
     const user = await this.prismaService.user.findUnique({
       where: { id },
       select: AuthUserSelect,
@@ -47,7 +50,15 @@ export class UserService {
 
     if (!user) throw new NotFoundException();
 
-    return user;
+    return {
+      id: user.id,
+      email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      avatarUrl: user.avatar
+        ? this.mediaService.getPublicUrl(user.avatar.bucket, user.avatar.path)
+        : null,
+    };
   }
 
   async getDashboardUser(id: number): Promise<DashboardDto> {
@@ -138,6 +149,9 @@ export class UserService {
       await this.mediaService.deleteMedia(oldAvatarId, 'avatars');
     }
 
-    return { id: newMedia.id, path: this.mediaService.getPublicUrl(newMedia) };
+    return {
+      id: newMedia.id,
+      path: this.mediaService.getPublicUrl(newMedia.bucket, newMedia.path),
+    };
   }
 }

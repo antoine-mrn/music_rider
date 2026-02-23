@@ -16,6 +16,7 @@ import { AuthUser } from 'src/auth/types/auth-user.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileValidationPipe } from 'src/shared/pipes/file-validation.pipe';
 import { UpdateAvatarDto } from './dto/update-avatar.dto';
+import { MeResponseDto } from 'src/auth/dto/me-response-dto';
 
 @Controller('user')
 export class UserController {
@@ -27,7 +28,7 @@ export class UserController {
   }
 
   @Get('me')
-  async getProfile(@Request() req: AuthRequest): Promise<AuthUser> {
+  async getProfile(@Request() req: AuthRequest): Promise<MeResponseDto> {
     return await this.userService.me(req.user.sub);
   }
 

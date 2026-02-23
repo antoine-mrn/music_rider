@@ -68,11 +68,11 @@ export class MediaService {
     return { success: true };
   }
 
-  getPublicUrl(media: Media): string {
+  getPublicUrl(bucket: string, path: string): string {
     const { data } = this.supabaseService
       .getClient()
-      .storage.from(media.bucket + '/' + media.folder)
-      .getPublicUrl(media.path);
+      .storage.from(bucket)
+      .getPublicUrl(path);
 
     return data.publicUrl;
   }
