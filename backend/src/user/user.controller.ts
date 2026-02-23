@@ -15,6 +15,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthUser } from 'src/auth/types/auth-user.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileValidationPipe } from 'src/shared/pipes/file-validation.pipe';
+import { UpdateAvatarDto } from './dto/update-avatar.dto';
 
 @Controller('user')
 export class UserController {
@@ -49,7 +50,7 @@ export class UserController {
     @UploadedFile(new FileValidationPipe())
     file: Express.Multer.File,
     @Request() req: AuthRequest,
-  ): Promise<{ success: true }> {
+  ): Promise<UpdateAvatarDto> {
     return this.userService.updateAvatarByUserId(req.user.sub, file);
   }
 }

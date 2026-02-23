@@ -13,6 +13,7 @@ import { DashboardDto } from './dto/dashboard.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { MediaService } from 'src/media/media.service';
 import { ConfigService } from '@nestjs/config';
+import { UpdateAvatarDto } from './dto/update-avatar.dto';
 
 export type User = any;
 
@@ -101,7 +102,7 @@ export class UserService {
   async updateAvatarByUserId(
     userId: number,
     file: Express.Multer.File,
-  ): Promise<{ success: true }> {
+  ): Promise<UpdateAvatarDto> {
     const user = await this.prismaService.user.findUnique({
       where: { id: userId },
       select: { id: true, avatarId: true },
@@ -110,14 +111,10 @@ export class UserService {
     if (!user) throw new NotFoundException('Utilisateur non trouvé');
 
     const oldAvatarId = user.avatarId;
-    console.log(
-      '🚀 ~ UserService ~ updateAvatarByUserId ~ oldAvatarId:',
-      oldAvatarId,
-    );
 
     const newAvatar = await this.mediaService.upload(file, 'avatars');
 
-    const newMedia = this.prismaService.$transaction(async (tx) => {
+    const newMedia = await this.prismaService.$transaction(async (tx) => {
       const media = await tx.media.create({
         data: {
           bucket: this.configService.getOrThrow('SUPABASE_BUCKET'),
@@ -141,6 +138,6 @@ export class UserService {
       await this.mediaService.deleteMedia(oldAvatarId, 'avatars');
     }
 
-    return { success: true };
+    return { id: newMedia.id, path: this.mediaService.getPublicUrl(newMedia) };
   }
 }
