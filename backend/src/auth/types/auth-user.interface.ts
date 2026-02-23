@@ -1,13 +1,13 @@
 import { Prisma } from '@prisma/client';
 
-export interface AuthUser {
+export interface CurrentUser {
   id: number;
   email: string;
   firstname: string;
   lastname: string;
 }
 
-export const MeSelect = {
+export const currentUserSelect = {
   id: true,
   email: true,
   firstname: true,
@@ -20,4 +20,6 @@ export const MeSelect = {
   },
 } satisfies Prisma.UserSelect;
 
-export type MeUser = Prisma.UserGetPayload<{ select: typeof MeSelect }>;
+export type CurrentUserEntity = Prisma.UserGetPayload<{
+  select: typeof currentUserSelect;
+}>;

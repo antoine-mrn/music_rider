@@ -9,13 +9,11 @@ import { randomUUID } from 'crypto';
 import { hash, verify } from 'src/utils/hash';
 import { AuthSessionService } from 'src/auth-session/auth-session.service';
 import { RefreshTokenPayload } from './types/refresh-token-payload.interface';
-import { AuthUser, MeUser } from './types/auth-user.interface';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { AuthResponseDto } from './dto/auth-response.dto';
 import { UserService } from 'src/user/user.service';
 import { TokensDto } from './dto/tokens.dto';
-import { SigninResult } from './dto/signin-result.interface';
-
+import { AuthResult } from './types/auth-result.interface';
+import { CurrentUser, CurrentUserEntity } from './types/auth-user.interface';
 @Injectable()
 export class AuthService {
   constructor(
@@ -28,7 +26,7 @@ export class AuthService {
   async validateUser(
     email: string,
     password: string,
-  ): Promise<AuthUser | null> {
+  ): Promise<CurrentUser | null> {
     const user = await this.userService.findOneByEmail(email);
     if (user && (await verify(password, user.password))) {
       const { password, createdAt, ...result } = user;
@@ -37,7 +35,7 @@ export class AuthService {
     return null;
   }
 
-  async signin(user: MeUser): Promise<SigninResult> {
+  async signin(user: CurrentUserEntity): Promise<AuthResult> {
     const newSessionId = randomUUID();
 
     const { accessToken, refreshToken } = await this.__getTokens(
@@ -56,7 +54,7 @@ export class AuthService {
     };
   }
 
-  async signup(newUser: CreateUserDto): Promise<AuthResponseDto> {
+  async signup(newUser: CreateUserDto): Promise<AuthResult> {
     const user = await this.userService.findOneByEmail(newUser.email);
 
     if (user) throw new ConflictException();
@@ -77,7 +75,11 @@ export class AuthService {
 
     await this.__createNewSession(newSessionId, newUserInBDD.id, refreshToken);
 
-    return { accessToken, refreshToken, user: newUserInBDD };
+    return {
+      accessToken,
+      refreshToken,
+      user: await this.userService.me(newUserInBDD.id),
+    };
   }
 
   async refresh(payload: RefreshTokenPayload): Promise<TokensDto> {
