@@ -9,11 +9,12 @@ import { randomUUID } from 'crypto';
 import { hash, verify } from 'src/utils/hash';
 import { AuthSessionService } from 'src/auth-session/auth-session.service';
 import { RefreshTokenPayload } from './types/refresh-token-payload.interface';
-import { AuthUser } from './types/auth-user.interface';
+import { AuthUser, MeUser } from './types/auth-user.interface';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { TokensDto } from './dto/tokens.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { UserService } from 'src/user/user.service';
+import { TokensDto } from './dto/tokens.dto';
+import { SigninResult } from './dto/signin-result.interface';
 
 @Injectable()
 export class AuthService {
@@ -36,7 +37,7 @@ export class AuthService {
     return null;
   }
 
-  async signin(user: AuthUser): Promise<AuthResponseDto> {
+  async signin(user: MeUser): Promise<SigninResult> {
     const newSessionId = randomUUID();
 
     const { accessToken, refreshToken } = await this.__getTokens(
@@ -46,8 +47,13 @@ export class AuthService {
     );
 
     await this.__createNewSession(newSessionId, user.id, refreshToken);
+    const userResult = await this.userService.me(user.id);
 
-    return { accessToken, refreshToken, user };
+    return {
+      accessToken,
+      refreshToken,
+      user: userResult,
+    };
   }
 
   async signup(newUser: CreateUserDto): Promise<AuthResponseDto> {

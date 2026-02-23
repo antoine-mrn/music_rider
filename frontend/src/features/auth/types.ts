@@ -3,7 +3,7 @@ export interface AuthUserInterface {
     email: string;
     firstname: string;
     lastname: string;
-    avartarUrl?: string;
+    avatarUrl: string | null;
 }
 
 export interface SigninDto {

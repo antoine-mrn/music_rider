@@ -14,7 +14,9 @@ import { Public } from 'src/decorators/public.decorator';
 import { RtAuthGuard } from './guards/rt-auth.guard';
 import type { RefreshRequest } from 'src/shared/types/request-with-user';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { AuthUser } from './types/auth-user.interface';
+import { AuthUser, MeUser } from './types/auth-user.interface';
+import { MeResponseDto } from './dto/me-response-dto';
+import { AuthResponseDto } from './dto/auth-response.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -52,7 +54,7 @@ export class AuthController {
   async signin(
     @Res({ passthrough: true }) res: Response,
     @Request() req,
-  ): Promise<AuthUser> {
+  ): Promise<MeResponseDto> {
     const { accessToken, refreshToken, user } = await this.authService.signin(
       req.user,
     );
@@ -61,7 +63,7 @@ export class AuthController {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 15 min
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     res.cookie('refresh_token', refreshToken, {

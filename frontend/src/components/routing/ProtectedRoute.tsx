@@ -9,6 +9,7 @@ export const ProtectedRoute = ({
     redirectPath = "/signin",
 }: ProtectedRouteProps) => {
     const user = useAuthStore((state) => state.user);
+
     const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
     if (!isAuthenticated) return null;

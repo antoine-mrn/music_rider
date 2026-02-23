@@ -7,6 +7,7 @@ export const authApi = {
             "auth/signin",
             signinDto,
         );
+
         return data;
     },
     signup: async (signupDto: SignupDto): Promise<AuthUserInterface> => {

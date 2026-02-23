@@ -6,7 +6,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { AuthUserDb } from 'src/auth/types/auth-user-db.interface';
-import { AuthUser, AuthUserSelect } from 'src/auth/types/auth-user.interface';
+import { AuthUser, MeSelect, MeUser } from 'src/auth/types/auth-user.interface';
 import { BandService } from 'src/band/band.service';
 import { TechnicalRiderService } from 'src/technical-rider/technical-rider.service';
 import { DashboardDto } from './dto/dashboard.dto';
@@ -28,9 +28,7 @@ export class UserService {
     readonly configService: ConfigService,
   ) {}
 
-  async create(
-    createUserDto: CreateUserDto,
-  ): Promise<Omit<MeResponseDto, 'avatarUrl'> | null> {
+  async create(createUserDto: CreateUserDto): Promise<AuthUser | null> {
     return await this.prismaService.user.create({
       data: createUserDto,
       select: {
@@ -45,20 +43,12 @@ export class UserService {
   async me(id: number): Promise<MeResponseDto> {
     const user = await this.prismaService.user.findUnique({
       where: { id },
-      select: AuthUserSelect,
+      select: MeSelect,
     });
 
     if (!user) throw new NotFoundException();
 
-    return {
-      id: user.id,
-      email: user.email,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      avatarUrl: user.avatar
-        ? this.mediaService.getPublicUrl(user.avatar.bucket, user.avatar.path)
-        : null,
-    };
+    return this.getMewithAvatar(user);
   }
 
   async getDashboardUser(id: number): Promise<DashboardDto> {
@@ -102,11 +92,11 @@ export class UserService {
   async updateUserById(
     id: number,
     updateUserDto: UpdateUserDto,
-  ): Promise<AuthUser> {
+  ): Promise<MeUser> {
     return await this.prismaService.user.update({
       where: { id },
       data: { ...updateUserDto },
-      select: AuthUserSelect,
+      select: MeSelect,
     });
   }
 
@@ -152,6 +142,18 @@ export class UserService {
     return {
       id: newMedia.id,
       path: this.mediaService.getPublicUrl(newMedia.bucket, newMedia.path),
+    };
+  }
+
+  getMewithAvatar(user: MeUser): MeResponseDto {
+    return {
+      id: user.id,
+      email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      avatarUrl: user.avatar
+        ? this.mediaService.getPublicUrl(user.avatar.bucket, user.avatar.path)
+        : null,
     };
   }
 }
