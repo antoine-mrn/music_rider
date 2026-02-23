@@ -9,7 +9,13 @@ export default function ProfileInfo({ user }: ProfileInfoProps) {
         <section className="flex items-center gap-4">
             <div className="avatar">
                 <div className="ring-primary w-24 rounded-full ring-2 ring-offset-2">
-                    <img src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp" />
+                    <img
+                        src={
+                            user.avatarUrl
+                                ? user.avatarUrl
+                                : "/default-avatar.png"
+                        }
+                    />
                 </div>
             </div>
             <div className="flex flex-col gap-1">
