@@ -13,7 +13,11 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
 import { TokensDto } from './dto/tokens.dto';
 import { AuthResult } from './types/auth-result.interface';
-import { CurrentUser, CurrentUserEntity } from './types/auth-user.interface';
+import {
+  CurrentUser,
+  CurrentUserEntity,
+} from 'src/user/types/auth-user.interface';
+
 @Injectable()
 export class AuthService {
   constructor(

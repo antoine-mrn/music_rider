@@ -1,6 +1,6 @@
-import { AuthUser } from '../types/auth-user.interface';
+import { CurrentUser } from 'src/user/types/auth-user.interface';
 import { TokensDto } from './tokens.dto';
 
 export interface AuthResponseDto extends TokensDto {
-  user: AuthUser;
+  user: CurrentUser;
 }

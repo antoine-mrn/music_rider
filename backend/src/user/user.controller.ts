@@ -12,11 +12,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthUser } from 'src/auth/types/auth-user.interface';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileValidationPipe } from 'src/shared/pipes/file-validation.pipe';
 import { UpdateAvatarDto } from './dto/update-avatar.dto';
-import { MeResponseDto } from 'src/auth/dto/me-response-dto';
+import { CurrentUserDto } from './dto/current-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -28,7 +27,7 @@ export class UserController {
   }
 
   @Get('me')
-  async getProfile(@Request() req: AuthRequest): Promise<MeResponseDto> {
+  async getProfile(@Request() req: AuthRequest): Promise<CurrentUserDto> {
     return await this.userService.me(req.user.sub);
   }
 
@@ -41,7 +40,7 @@ export class UserController {
   async updateUserById(
     @Request() req: AuthRequest,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<AuthUser> {
+  ): Promise<CurrentUserDto> {
     return await this.userService.updateUserById(req.user.sub, updateUserDto);
   }
 

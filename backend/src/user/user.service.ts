@@ -6,7 +6,6 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { AuthUserDb } from 'src/auth/types/auth-user-db.interface';
-import { AuthUser, MeSelect, MeUser } from 'src/auth/types/auth-user.interface';
 import { BandService } from 'src/band/band.service';
 import { TechnicalRiderService } from 'src/technical-rider/technical-rider.service';
 import { DashboardDto } from './dto/dashboard.dto';
@@ -14,7 +13,12 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { MediaService } from 'src/media/media.service';
 import { ConfigService } from '@nestjs/config';
 import { UpdateAvatarDto } from './dto/update-avatar.dto';
-import { MeResponseDto } from 'src/auth/dto/me-response-dto';
+import {
+  CurrentUser,
+  CurrentUserEntity,
+  currentUserSelect,
+} from './types/auth-user.interface';
+import { CurrentUserDto } from './dto/current-user.dto';
 
 export type User = any;
 
@@ -28,7 +32,7 @@ export class UserService {
     readonly configService: ConfigService,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<AuthUser | null> {
+  async create(createUserDto: CreateUserDto): Promise<CurrentUser | null> {
     return await this.prismaService.user.create({
       data: createUserDto,
       select: {
@@ -40,10 +44,10 @@ export class UserService {
     });
   }
 
-  async me(id: number): Promise<MeResponseDto> {
+  async me(id: number): Promise<CurrentUserDto> {
     const user = await this.prismaService.user.findUnique({
       where: { id },
-      select: MeSelect,
+      select: currentUserSelect,
     });
 
     if (!user) throw new NotFoundException();
@@ -92,12 +96,14 @@ export class UserService {
   async updateUserById(
     id: number,
     updateUserDto: UpdateUserDto,
-  ): Promise<MeUser> {
-    return await this.prismaService.user.update({
+  ): Promise<CurrentUserDto> {
+    const userUpdated = await this.prismaService.user.update({
       where: { id },
       data: { ...updateUserDto },
-      select: MeSelect,
+      select: currentUserSelect,
     });
+
+    return this.getMewithAvatar(userUpdated);
   }
 
   async updateAvatarByUserId(
@@ -145,7 +151,7 @@ export class UserService {
     };
   }
 
-  getMewithAvatar(user: MeUser): MeResponseDto {
+  getMewithAvatar(user: CurrentUserEntity): CurrentUserDto {
     return {
       id: user.id,
       email: user.email,

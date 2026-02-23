@@ -14,7 +14,7 @@ import { Public } from 'src/decorators/public.decorator';
 import { RtAuthGuard } from './guards/rt-auth.guard';
 import type { RefreshRequest } from 'src/shared/types/request-with-user';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { CurrentUserDto } from './dto/current-user.dto';
+import { CurrentUserDto } from 'src/user/dto/current-user.dto';
 
 @Controller('auth')
 export class AuthController {
