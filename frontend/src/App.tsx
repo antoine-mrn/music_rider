@@ -20,14 +20,10 @@ import Loading from "./components/layout/Loading";
 function App() {
     const { data: user, isLoading } = useMe();
     const setUser = useAuthStore((state) => state.setUser);
-    const setIsAuthenticated = useAuthStore(
-        (state) => state.setIsAuthenticated,
-    );
 
     useEffect(() => {
         if (!isLoading) {
             setUser(user ?? null);
-            setIsAuthenticated();
         }
     }, [user, isLoading, setUser]);
 

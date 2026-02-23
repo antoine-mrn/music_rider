@@ -10,10 +10,6 @@ export const ProtectedRoute = ({
 }: ProtectedRouteProps) => {
     const user = useAuthStore((state) => state.user);
 
-    const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-    if (!isAuthenticated) return null;
-
     if (!user) {
         return <Navigate to={redirectPath} replace />;
     }
