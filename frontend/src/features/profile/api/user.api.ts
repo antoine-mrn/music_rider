@@ -27,4 +27,8 @@ export const userApi = {
 
         return data;
     },
+    updateAvatar: async (formData: FormData) => {
+        const { data } = await apiClient.patch("/user/me/avatar", formData);
+        return data;
+    },
 };
