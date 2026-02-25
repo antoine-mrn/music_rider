@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../../../components/ui/button/Button";
+import { ALLOWED_IMAGE_TYPES } from "../../../shared/constantes/allowed-images-types.constante";
 
 interface UpdateAvatarFormProps {
     currentAvatar: string;
@@ -26,11 +27,7 @@ export default function UpdateAvatarForm({
             return;
         }
 
-        if (
-            !["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
-                file.type,
-            )
-        ) {
+        if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
             setError("Format invalide");
             return;
         }
@@ -65,7 +62,7 @@ export default function UpdateAvatarForm({
                     <label className="relative group w-24 h-24 cursor-pointer">
                         <input
                             type="file"
-                            accept="image/*"
+                            accept={[...ALLOWED_IMAGE_TYPES].join(",")}
                             onChange={handleNewAvatar}
                             className="hidden"
                         />

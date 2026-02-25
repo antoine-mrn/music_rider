@@ -6,8 +6,8 @@ import PageTitle from "../../components/ui/typography/PageTitle";
 import EditProfileForm from "../../features/profile/components/EditProfileForm";
 import { useMeEdit } from "../../features/profile/hooks/useMeEdit";
 import { useUpdateMe } from "../../features/profile/hooks/useUpdateMe";
-import { useUpdateAvatar } from "../../features/profile/hooks/useUpdateavatar";
 import UpdateAvatarForm from "../../features/profile/components/UpdateAvatarForm";
+import { useUpdateAvatar } from "../../features/profile/hooks/useUpdateAvatar";
 
 export default function EditProfile() {
     const { data: me, isLoading, isError, refetch } = useMeEdit();
