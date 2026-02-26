@@ -26,9 +26,9 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
                 onClick={() => setIsOpen(!isOpen)}
                 className={`btn btn-ghost btn-circle avatar hover:border-primary ${isOpen && "border-primary"}`}
             >
-                <div className="w-10 rounded-full">
+                <div className="w-16 rounded-full">
                     <img
-                        alt="Tailwind CSS Navbar component"
+                        alt="Avatar"
                         src={
                             user.avatarUrl
                                 ? user.avatarUrl

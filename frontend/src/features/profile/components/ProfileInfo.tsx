@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import type { AuthUserInterface } from "../../auth/types";
 import Button from "../../../components/ui/button/Button";
+import Avatar from "../../../components/ui/avatar/Avatar";
 
 interface ProfileInfoProps {
     user: AuthUserInterface;
@@ -9,17 +10,7 @@ interface ProfileInfoProps {
 export default function ProfileInfo({ user }: ProfileInfoProps) {
     return (
         <section className="flex items-center gap-4">
-            <div className="avatar">
-                <div className="ring-primary w-24 rounded-full ring-2 ring-offset-2">
-                    <img
-                        src={
-                            user.avatarUrl
-                                ? user.avatarUrl
-                                : "/default-avatar.png"
-                        }
-                    />
-                </div>
-            </div>
+            <Avatar src={user.avatarUrl} ring={true} size="lg" />
             <div className="flex flex-col gap-1">
                 <h1 className="font-black text-4xl tracking-tight">
                     {user.firstname} {user.lastname}
