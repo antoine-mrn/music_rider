@@ -10,10 +10,15 @@ import {
   SummaryBandRaw,
 } from './types/band.types';
 import { BandDetails } from './dto/band-details.dto';
+import { UserService } from 'src/user/user.service';
+import { MediaService } from 'src/media/media.service';
 
 @Injectable()
 export class BandService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly mediaService: MediaService,
+  ) {}
 
   async findSummaryBandsByUserId(
     id: number,
@@ -106,6 +111,12 @@ export class BandService {
         firstname: member.user.firstname,
         lastname: member.user.lastname,
         role: BAND_ROLE[member.role],
+        avatarUrl: member.user.avatar
+          ? this.mediaService.getPublicUrl(
+              member.user.avatar.bucket,
+              member.user.avatar.path,
+            )
+          : null,
         instruments: member.userBandInstruments.map(({ instrument }) => ({
           id: instrument.id,
           label: instrument.label,

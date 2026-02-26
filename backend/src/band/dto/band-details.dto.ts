@@ -13,6 +13,7 @@ export class BandDetails {
     firstname: string;
     lastname: string;
     role: BAND_ROLE;
+    avatarUrl: string | null;
     instruments: {
       id: number;
       label: string;

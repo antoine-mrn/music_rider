@@ -5,7 +5,7 @@ export default function MemberCard({ member }: { member: BandMember }) {
         <li className="flex items-center gap-4 bg-base-300 rounded-lg p-4 w-72">
             <div className="avatar">
                 <div className="w-12 rounded-full">
-                    <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+                    <img src={member.avatarUrl ?? "/default-avatar.png"} />
                 </div>
             </div>
             <div className="flex flex-col">

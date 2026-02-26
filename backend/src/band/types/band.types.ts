@@ -47,6 +47,7 @@ export const bandDetailSelect = {
           id: true,
           firstname: true,
           lastname: true,
+          avatar: { select: { bucket: true, path: true } },
         },
       },
       userBandInstruments: {

@@ -14,6 +14,7 @@ export interface BandMember {
     id: number;
     firstname: string;
     lastname: string;
+    avatarUrl: string | null;
     role: UserBandRole;
     instruments: BandInstrument[];
 }
