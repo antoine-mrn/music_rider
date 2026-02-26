@@ -10,7 +10,6 @@ import {
   SummaryBandRaw,
 } from './types/band.types';
 import { BandDetails } from './dto/band-details.dto';
-import { UserService } from 'src/user/user.service';
 import { MediaService } from 'src/media/media.service';
 
 @Injectable()
@@ -122,11 +121,26 @@ export class BandService {
           label: instrument.label,
         })),
       })),
-      bandContacts: band.bandContacts.map((contact) => ({
-        isPrimary: contact.isPrimary,
-        firstname: contact.firstname ?? null,
-        lastname: contact.lastname ?? null,
-      })),
+      primaryContact: (() => {
+        const primary = band.bandContacts.find((c) => c.isPrimary);
+
+        return primary
+          ? {
+              isPrimary: primary.isPrimary,
+              firstname: primary.firstname ?? null,
+              lastname: primary.lastname ?? null,
+              contactRole: primary.contactRole?.label ?? null,
+            }
+          : null;
+      })(),
+      bandContacts: band.bandContacts
+        .filter((c) => c.isPrimary !== true)
+        .map((contact) => ({
+          isPrimary: contact.isPrimary,
+          firstname: contact.firstname ?? null,
+          lastname: contact.lastname ?? null,
+          contactRole: contact.contactRole.label ?? null,
+        })),
       createdAt: band.createdAt,
       updatedAt: band.updatedAt,
     };

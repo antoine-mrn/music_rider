@@ -37,6 +37,7 @@ export const bandDetailSelect = {
       isPrimary: true,
       firstname: true,
       lastname: true,
+      contactRole: { select: { id: true, label: true } },
     },
   },
   memberships: {

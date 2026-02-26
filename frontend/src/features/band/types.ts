@@ -33,11 +33,16 @@ export interface BandDetails {
         label: string;
     } | null;
     members: BandMember[];
+    primaryContact: {
+        isPrimary: boolean;
+        firstname: string | null;
+        lastname: string | null;
+    };
     bandContacts: {
         isPrimary: boolean;
         firstname: string | null;
         lastname: string | null;
     }[];
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 }

@@ -19,10 +19,17 @@ export class BandDetails {
       label: string;
     }[];
   }[];
+  primaryContact: {
+    isPrimary: boolean;
+    firstname: string | null;
+    lastname: string | null;
+    contactRole: string | null;
+  } | null;
   bandContacts: {
     isPrimary: boolean;
     firstname: string | null;
     lastname: string | null;
+    contactRole: string | null;
   }[];
   createdAt: Date;
   updatedAt: Date;
