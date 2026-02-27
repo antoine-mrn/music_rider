@@ -2,15 +2,17 @@ import SectionTitle from "../../../components/ui/typography/SectionTitle";
 import type { Pagination } from "../../../shared/types/pagination.interface";
 import type { SummaryTechnicalRider } from "../types";
 
-interface RecentTechnicalRidersProps {
+interface TechnicalRiderTablePreviewProps {
     technicalRiders: Pagination<SummaryTechnicalRider>;
+    className?: string;
 }
 
 export default function RecentTechnicalRider({
     technicalRiders,
-}: RecentTechnicalRidersProps) {
+    className,
+}: TechnicalRiderTablePreviewProps) {
     return (
-        <section>
+        <section className={className}>
             <SectionTitle title="Fiches techniques récentes" />
 
             <div className="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 mt-4">

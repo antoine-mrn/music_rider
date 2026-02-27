@@ -7,6 +7,7 @@ import PageTitle from "../../components/ui/typography/PageTitle";
 import { ChevronLeft } from "lucide-react";
 import MemberSection from "../../features/band/components/MemberSection";
 import Button from "../../components/ui/button/Button";
+import PrimaryContactSection from "../../features/band/components/PrimaryContactSection";
 
 export default function BandDetails() {
     const { bandId } = useParams();
@@ -18,7 +19,6 @@ export default function BandDetails() {
         isError,
         refetch,
     } = useBandDetails(parseInt(bandId ?? "0"));
-    console.log("🚀 ~ BandDetails ~ band:", band);
 
     if (isLoading) return <Loading />;
     if (isError) return <ErrorInfo onRetry={refetch} />;
@@ -46,25 +46,18 @@ export default function BandDetails() {
                     <PageTitle title={band?.label ?? ""} />
                 </div>
             </div>
+            <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
+                <PrimaryContactSection
+                    primaryContact={band?.primaryContact ?? null}
+                    className="lg:order-2"
+                />
 
-            <MemberSection
-                memberCount={band?.memberCount ?? 0}
-                bandMembers={band?.members ?? []}
-            />
-
-            <article className="card w-full h-fit bg-info-content text-neutral-content sm:w-64 lg:w-80">
-                <div className="card-body">
-                    <h2 className="card-title italic font-black text-xl">
-                        Contact principal
-                    </h2>
-                    <div className="mt-4">
-                        <h3>
-                            {band?.primaryContact &&
-                                `${band.primaryContact.firstname} ${band.primaryContact.lastname}`}
-                        </h3>
-                    </div>
-                </div>
-            </article>
+                <MemberSection
+                    memberCount={band?.memberCount ?? 0}
+                    bandMembers={band?.members ?? []}
+                    className="lg:col-span-2"
+                />
+            </div>
         </PageWrapper>
     );
 }

@@ -7,7 +7,7 @@ import MyBandsSummary from "../../features/band/components/MyBandsSummary";
 import ProfileInfo from "../../features/profile/components/ProfileInfo";
 import QuickOverview from "../../features/profile/components/QuickOverview";
 import { useDashboard } from "../../features/profile/hooks/useDashboard";
-import RecentTechnicalRider from "../../features/technical-rider/components/RecentTechnicalRider";
+import TechnicalRiderTablePreview from "../../features/technical-rider/components/TechnicalRiderTablePreview";
 
 export default function Profile() {
     const { data, isLoading, isError, refetch } = useDashboard();
@@ -20,11 +20,20 @@ export default function Profile() {
             <PageTitle title="Mon profile" />
             <PageContentWrapper>
                 <ProfileInfo user={data?.user} />
-                <div className="space-y-4 sm:flex sm:justify-between sm:flex-row-reverse sm:gap-2 sm:space-y-0">
-                    <QuickOverview overview={data.quickOverview} />
-                    <MyBandsSummary bandSummary={data.bands} />
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                    <QuickOverview
+                        overview={data.quickOverview}
+                        className="lg:order-2"
+                    />
+                    <MyBandsSummary
+                        bandSummary={data.bands}
+                        className="lg:col-span-2 lg:order-1"
+                    />
+                    <TechnicalRiderTablePreview
+                        technicalRiders={data.technicalRiders}
+                        className="order-3 lg:col-span-3"
+                    />
                 </div>
-                <RecentTechnicalRider technicalRiders={data.technicalRiders} />
             </PageContentWrapper>
         </PageWrapper>
     );

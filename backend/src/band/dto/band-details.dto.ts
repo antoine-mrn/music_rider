@@ -21,15 +21,19 @@ export class BandDetails {
   }[];
   primaryContact: {
     isPrimary: boolean;
-    firstname: string | null;
-    lastname: string | null;
-    contactRole: string | null;
+    firstname: string;
+    lastname: string;
+    email: string | null;
+    phone: string | null;
+    contactRole: string;
   } | null;
   bandContacts: {
     isPrimary: boolean;
-    firstname: string | null;
-    lastname: string | null;
-    contactRole: string | null;
+    firstname: string;
+    lastname: string;
+    email: string | null;
+    phone: string | null;
+    contactRole: string;
   }[];
   createdAt: Date;
   updatedAt: Date;

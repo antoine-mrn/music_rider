@@ -29,7 +29,7 @@ export default function MyBands() {
             <PageContentWrapper>
                 <Button className="w-fit">+ Nouveau</Button>
                 {bandsSummary?.data ? (
-                    <ul className="mt-4 gap-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                    <ul className="gap-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                         {bandsSummary.data.map((band) => (
                             <BandCardSummary key={band.id} band={band} />
                         ))}

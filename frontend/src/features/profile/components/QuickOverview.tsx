@@ -3,11 +3,17 @@ interface QuickOverviewProps {
         totalBands: number;
         totalTechnicalRiders: number;
     };
+    className?: string;
 }
 
-export default function QuickOverview({ overview }: QuickOverviewProps) {
+export default function QuickOverview({
+    overview,
+    className,
+}: QuickOverviewProps) {
     return (
-        <article className="card w-full h-fit bg-info-content text-neutral-content sm:w-64 lg:w-80">
+        <article
+            className={`card bg-info-content text-neutral-content ${className}`}
+        >
             <div className="card-body">
                 <h2 className="card-title italic font-black text-xl">
                     Aperçu rapide

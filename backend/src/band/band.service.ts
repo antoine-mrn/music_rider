@@ -95,6 +95,8 @@ export class BandService {
   }
 
   __mapBandDetails(band: BandDetailRaw): BandDetails {
+    const primaryContact = band.bandContacts.find((c) => c.isPrimary);
+
     return {
       id: band.id,
       label: band.label,
@@ -121,28 +123,35 @@ export class BandService {
           label: instrument.label,
         })),
       })),
-      primaryContact: (() => {
-        const primary = band.bandContacts.find((c) => c.isPrimary);
-
-        return primary
-          ? {
-              isPrimary: primary.isPrimary,
-              firstname: primary.firstname ?? null,
-              lastname: primary.lastname ?? null,
-              contactRole: primary.contactRole?.label ?? null,
-            }
-          : null;
-      })(),
+      primaryContact: primaryContact
+        ? {
+            isPrimary: primaryContact.isPrimary,
+            firstname: this.__getContactField(primaryContact, 'firstname'),
+            lastname: this.__getContactField(primaryContact, 'lastname'),
+            email: this.__getContactField(primaryContact, 'email'),
+            phone: this.__getContactField(primaryContact, 'phone'),
+            contactRole: primaryContact.contactRole?.label ?? null,
+          }
+        : null,
       bandContacts: band.bandContacts
         .filter((c) => c.isPrimary !== true)
         .map((contact) => ({
           isPrimary: contact.isPrimary,
-          firstname: contact.firstname ?? null,
-          lastname: contact.lastname ?? null,
+          firstname: this.__getContactField(contact, 'firstname'),
+          lastname: this.__getContactField(contact, 'lastname'),
+          email: this.__getContactField(contact, 'email'),
+          phone: this.__getContactField(contact, 'phone'),
           contactRole: contact.contactRole.label ?? null,
         })),
       createdAt: band.createdAt,
       updatedAt: band.updatedAt,
     };
+  }
+
+  __getContactField(
+    contact: BandDetailRaw['bandContacts'][number],
+    field: keyof BandDetailRaw['bandContacts'][number],
+  ): string {
+    return contact.user?.[field] ?? contact[field] ?? '';
   }
 }

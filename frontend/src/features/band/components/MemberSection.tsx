@@ -10,9 +10,11 @@ const DEFAULT_VISIBLE = 4;
 export default function MemberSection({
     memberCount,
     bandMembers,
+    className,
 }: {
     memberCount: number;
     bandMembers: BandMember[];
+    className?: string;
 }) {
     const [isAllVisible, setIsAllVisible] = useState(false);
 
@@ -21,7 +23,7 @@ export default function MemberSection({
         : bandMembers.slice(0, DEFAULT_VISIBLE);
 
     return (
-        <section className="card card-border border-2">
+        <section className={`card card-border border-2 ${className}`}>
             <div className="card-body">
                 <div className="card-title gap-4">
                     <SectionTitle title="Musiciens" />

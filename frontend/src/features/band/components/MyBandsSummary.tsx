@@ -6,15 +6,19 @@ import BandCardSummary from "./BandCardSummary";
 
 interface MyBandsSummaryProps {
     bandSummary: Pagination<SummaryBand>;
+    className?: string;
 }
 
-export default function MyBandsSummary({ bandSummary }: MyBandsSummaryProps) {
+export default function MyBandsSummary({
+    bandSummary,
+    className,
+}: MyBandsSummaryProps) {
     return (
-        <section>
+        <section className={className}>
             <div className="flex justify-between items-center">
                 <SectionTitle title="Mes groupes" />
                 <Button>
-                    + <span className="hidden md:inline">Nouveau</span>
+                    + <span>Nouveau</span>
                 </Button>
             </div>
 

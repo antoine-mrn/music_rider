@@ -24,6 +24,15 @@ export interface BandInstrument {
     label: string;
 }
 
+export interface BandContact {
+    isPrimary: boolean;
+    firstname: string;
+    lastname: string;
+    email: string | null;
+    phone: string | null;
+    contactRole: string;
+}
+
 export interface BandDetails {
     id: number;
     label: string;
@@ -33,16 +42,8 @@ export interface BandDetails {
         label: string;
     } | null;
     members: BandMember[];
-    primaryContact: {
-        isPrimary: boolean;
-        firstname: string | null;
-        lastname: string | null;
-    };
-    bandContacts: {
-        isPrimary: boolean;
-        firstname: string | null;
-        lastname: string | null;
-    }[];
+    primaryContact: BandContact | null;
+    bandContacts: BandContact[];
     createdAt: string;
     updatedAt: string;
 }
