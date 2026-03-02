@@ -1,4 +1,5 @@
 import type { UserBandRole } from "../../shared/types/user-band-role.type";
+import type { SummaryTechnicalRider } from "../technical-rider/types";
 
 export interface SummaryBand {
     id: number;
@@ -44,6 +45,7 @@ export interface BandDetails {
     members: BandMember[];
     primaryContact: BandContact | null;
     bandContacts: BandContact[];
+    technicalRiders: SummaryTechnicalRider[];
     createdAt: string;
     updatedAt: string;
 }

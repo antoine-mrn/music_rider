@@ -8,6 +8,7 @@ import { ChevronLeft } from "lucide-react";
 import MemberSection from "../../features/band/components/MemberSection";
 import Button from "../../components/ui/button/Button";
 import PrimaryContactSection from "../../features/band/components/PrimaryContactSection";
+import TechnicalRiderTablePreview from "../../features/technical-rider/components/TechnicalRiderTablePreview";
 
 export default function BandDetails() {
     const { bandId } = useParams();
@@ -56,6 +57,11 @@ export default function BandDetails() {
                     memberCount={band?.memberCount ?? 0}
                     bandMembers={band?.members ?? []}
                     className="lg:col-span-2"
+                />
+
+                <TechnicalRiderTablePreview
+                    technicalRiders={band?.technicalRiders ?? null}
+                    className="order-3 lg:col-span-3"
                 />
             </div>
         </PageWrapper>

@@ -1,4 +1,5 @@
 import { BAND_ROLE } from 'src/shared/types/band-role.enum';
+import { SummaryTechnicalRider } from 'src/technical-rider/types/technical-rider.types';
 
 export class BandDetails {
   id: number;
@@ -35,6 +36,7 @@ export class BandDetails {
     phone: string | null;
     contactRole: string;
   }[];
+  technicalRiders: SummaryTechnicalRider[];
   createdAt: Date;
   updatedAt: Date;
 }

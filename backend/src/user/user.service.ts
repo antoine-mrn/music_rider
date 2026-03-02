@@ -56,7 +56,7 @@ export class UserService {
   }
 
   async getDashboardUser(id: number): Promise<DashboardDto> {
-    const [user, bands, technicalRiders] = await Promise.all([
+    const [user, bands, technicalRidersResult] = await Promise.all([
       this.me(id),
       this.bandService.findSummaryBandsByUserId(id),
       this.technicalRider.findSummaryTechnicalRiderByUserId(id),
@@ -64,10 +64,15 @@ export class UserService {
 
     const quickOverview = {
       totalBands: bands.meta.total,
-      totalTechnicalRiders: technicalRiders.meta.total,
+      totalTechnicalRiders: technicalRidersResult.totalTechnicalRiders,
     };
 
-    return { user, bands, technicalRiders, quickOverview };
+    return {
+      user,
+      bands,
+      technicalRiders: technicalRidersResult.data,
+      quickOverview,
+    };
   }
 
   async findOneByEmail(email: string): Promise<AuthUserDb | null> {

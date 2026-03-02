@@ -6,7 +6,7 @@ import type { SummaryTechnicalRider } from "../technical-rider/types";
 export interface DashboardInterface {
     user: AuthUserInterface;
     bands: Pagination<SummaryBand>;
-    technicalRiders: Pagination<SummaryTechnicalRider>;
+    technicalRiders: SummaryTechnicalRider[];
     quickOverview: {
         totalBands: number;
         totalTechnicalRiders: number;

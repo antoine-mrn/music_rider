@@ -6,7 +6,7 @@ import { CurrentUserDto } from './current-user.dto';
 export interface DashboardDto {
   user: CurrentUserDto;
   bands: PaginationResult<SummaryBand>;
-  technicalRiders: PaginationResult<SummaryTechnicalRider>;
+  technicalRiders: SummaryTechnicalRider[];
   quickOverview: {
     totalBands: number;
     totalTechnicalRiders: number;

@@ -13,12 +13,9 @@ export class TechnicalRiderService {
 
   async findSummaryTechnicalRiderByUserId(
     id: number,
-    page: number = 1,
     limit: number = 10,
-  ): Promise<PaginationResult<SummaryTechnicalRider>> {
-    const skip = (page - 1) * limit;
-
-    const [technicalRider, totalTechnicalRider] = await Promise.all([
+  ): Promise<{ data: SummaryTechnicalRider[]; totalTechnicalRiders: number }> {
+    const [technicalRider, totalTechnicalRiders] = await Promise.all([
       this.prismaService.technicalRider.findMany({
         where: {
           band: {
@@ -34,7 +31,6 @@ export class TechnicalRiderService {
           updatedAt: 'desc',
         },
         take: limit,
-        skip,
       }),
       this.prismaService.technicalRider.count({
         where: {
@@ -49,8 +45,6 @@ export class TechnicalRiderService {
       }),
     ]);
 
-    const meta = getPaginationMeta(totalTechnicalRider, page, limit);
-
-    return { data: technicalRider, meta };
+    return { data: technicalRider, totalTechnicalRiders };
   }
 }

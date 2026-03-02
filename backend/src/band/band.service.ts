@@ -143,6 +143,19 @@ export class BandService {
           phone: this.__getContactField(contact, 'phone'),
           contactRole: contact.contactRole.label ?? null,
         })),
+      technicalRiders: band.technicalRiders.map((rider) => ({
+        id: rider.id,
+        title: rider.title,
+        band: {
+          id: rider.band.id,
+          label: rider.band.label,
+        },
+        riderCategory: {
+          id: rider.riderCategory.id,
+          label: rider.riderCategory.label,
+        },
+        updatedAt: rider.updatedAt,
+      })),
       createdAt: band.createdAt,
       updatedAt: band.updatedAt,
     };

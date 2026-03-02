@@ -78,6 +78,12 @@ export const bandDetailSelect = {
       id: true,
       title: true,
       updatedAt: true,
+      band: {
+        select: {
+          id: true,
+          label: true,
+        },
+      },
       riderCategory: {
         select: {
           id: true,
