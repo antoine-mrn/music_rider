@@ -10,6 +10,7 @@ import { BandModule } from './band/band.module';
 import { TechnicalRiderModule } from './technical-rider/technical-rider.module';
 import { SupabaseModule } from 'supabase/supabase.module';
 import { MediaModule } from './media/media.module';
+import { StyleModule } from './style/style.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MediaModule } from './media/media.module';
     TechnicalRiderModule,
     SupabaseModule,
     MediaModule,
+    StyleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

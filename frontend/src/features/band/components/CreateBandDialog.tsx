@@ -1,24 +1,45 @@
-import type { Ref } from "react";
+import type { RefObject } from "react";
+import Button from "../../../components/ui/button/Button";
+import Label from "../../../components/ui/form/Label";
+import Field from "../../../components/ui/form/Field";
+import Input from "../../../components/ui/form/Input";
+import { useGetAllMusicStyles } from "../../music-style/hooks/useGetAllMusicStyle";
+import Select from "../../../components/ui/form/Select";
 
 export default function CreateBandDialog({
     dialogRef,
 }: {
-    dialogRef: Ref<HTMLDialogElement>;
+    dialogRef: RefObject<HTMLDialogElement | null>;
 }) {
+    const { data } = useGetAllMusicStyles();
+
     return (
-        <dialog ref={dialogRef} id="my_modal_3" className="modal">
+        <dialog ref={dialogRef} className="modal">
             <div className="modal-box">
                 <form method="dialog">
-                    {/* if there is a button in form, it will close the modal */}
-                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                        ✕
-                    </button>
+                    <Button className="absolute right-2 top-2" size="sm">
+                        x
+                    </Button>
                 </form>
-                <h3 className="font-bold text-lg">Hello!</h3>
-                <p className="py-4">
-                    Press ESC key or click on ✕ button to close
-                </p>
+                <h2 className="font-bold text-lg">Créer un nouveau groupe</h2>
+                <form className="mt-8 space-y-4">
+                    <Field>
+                        <Label htmlFor="label" label="Nom *" />
+                        <Input
+                            id="label"
+                            value=""
+                            placeholder="Nom du groupe (50 caractères max)"
+                        />
+                    </Field>
+                    <Field>
+                        <Label htmlFor="style" label="Style *" />
+                        {data && <Select values={data} />}
+                    </Field>
+                </form>
             </div>
+            <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+            </form>
         </dialog>
     );
 }
