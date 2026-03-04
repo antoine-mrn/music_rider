@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PageContentWrapper from "../../components/layout/PageContentWrapper";
 import PageWrapper from "../../components/layout/PageWrapper";
 import PageTitle from "../../components/ui/typography/PageTitle";
@@ -8,9 +8,11 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Loading from "../../components/layout/Loading";
 import ErrorInfo from "../../components/layout/ErrorInfo";
 import Button from "../../components/ui/button/Button";
+import CreateBandDialog from "../../features/band/components/CreateBandDialog";
 
 export default function MyBands() {
     const [page, setPage] = useState(1);
+    const dialogRef = useRef<HTMLDialogElement>(null);
 
     const {
         data: bandsSummary,
@@ -27,7 +29,13 @@ export default function MyBands() {
         <PageWrapper>
             <PageTitle title="Mes groupes" />
             <PageContentWrapper>
-                <Button className="w-fit">+ Nouveau</Button>
+                <Button
+                    onClick={() => dialogRef.current?.showModal()}
+                    className="w-fit"
+                >
+                    + Nouveau
+                </Button>
+                <CreateBandDialog dialogRef={dialogRef} />
                 {bandsSummary?.data ? (
                     <ul className="gap-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                         {bandsSummary.data.map((band) => (
