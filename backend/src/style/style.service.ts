@@ -11,6 +11,7 @@ export class StyleService {
         id: true,
         label: true,
       },
+      orderBy: { label: 'asc' },
     });
   }
 }

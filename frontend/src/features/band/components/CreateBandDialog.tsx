@@ -5,6 +5,12 @@ import Field from "../../../components/ui/form/Field";
 import Input from "../../../components/ui/form/Input";
 import { useGetAllMusicStyles } from "../../music-style/hooks/useGetAllMusicStyle";
 import Select from "../../../components/ui/form/Select";
+import {
+    CreateBandSchema,
+    type CreateBandSchemaType,
+} from "../../../schemas/create-band.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 export default function CreateBandDialog({
     dialogRef,
@@ -12,6 +18,18 @@ export default function CreateBandDialog({
     dialogRef: RefObject<HTMLDialogElement | null>;
 }) {
     const { data } = useGetAllMusicStyles();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<CreateBandSchemaType>({
+        resolver: zodResolver(CreateBandSchema),
+    });
+
+    const onSubmit = handleSubmit(async (data) => {
+        console.log(data);
+    });
 
     return (
         <dialog ref={dialogRef} className="modal">
@@ -22,19 +40,32 @@ export default function CreateBandDialog({
                     </Button>
                 </form>
                 <h2 className="font-bold text-lg">Créer un nouveau groupe</h2>
-                <form className="mt-8 space-y-4">
+                <form onSubmit={onSubmit} className="mt-8 space-y-4">
                     <Field>
-                        <Label htmlFor="label" label="Nom *" />
+                        <Label htmlFor="label" label="Nom" />
                         <Input
                             id="label"
-                            value=""
                             placeholder="Nom du groupe (50 caractères max)"
+                            {...register("label")}
+                            error={errors.label && errors.label.message}
                         />
                     </Field>
                     <Field>
-                        <Label htmlFor="style" label="Style *" />
-                        {data && <Select values={data} />}
+                        <Label htmlFor="style" label="Style" />
+                        {data && (
+                            <Select
+                                id="style"
+                                className="w-full"
+                                defaultOption="Choissiez un style"
+                                values={data}
+                                {...register("style")}
+                                error={errors.style && errors.style.message}
+                            />
+                        )}
                     </Field>
+                    <Button type="submit" className="btn-block">
+                        Créer le groupe
+                    </Button>
                 </form>
             </div>
             <form method="dialog" className="modal-backdrop">

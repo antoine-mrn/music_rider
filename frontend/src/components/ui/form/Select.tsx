@@ -2,24 +2,28 @@ import type { SelectHTMLAttributes } from "react";
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
     className?: string;
+    defaultOption: string;
     values: { id: number; label: string }[];
     error?: string;
 }
 
 export default function Select({
     className,
+    defaultOption,
     values,
     error,
     ...props
 }: SelectProps) {
     return (
-        <div className="w-full">
+        <div>
             <select
-                defaultValue="Choisissez un style"
-                className="select appearance-none"
+                defaultValue=""
+                className="select appearance-none w-full"
                 {...props}
             >
-                <option disabled={true}>Choisissez un style</option>
+                <option disabled value="">
+                    {defaultOption}
+                </option>
                 {values.map((value) => (
                     <option key={value.id}>{value.label}</option>
                 ))}
