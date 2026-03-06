@@ -58,8 +58,8 @@ export default function CreateBandDialog({
                                 className="w-full"
                                 defaultOption="Choissiez un style"
                                 values={data}
-                                {...register("style")}
-                                error={errors.style && errors.style.message}
+                                {...register("styleId")}
+                                error={errors.styleId && errors.styleId.message}
                             />
                         )}
                     </Field>

@@ -11,6 +11,7 @@ import {
 } from './types/band.types';
 import { BandDetails } from './dto/band-details.dto';
 import { MediaService } from 'src/media/media.service';
+import { CreateBandDto } from './dto/create-band.dto';
 
 @Injectable()
 export class BandService {
@@ -18,6 +19,12 @@ export class BandService {
     private readonly prismaService: PrismaService,
     private readonly mediaService: MediaService,
   ) {}
+
+  async createBand(data: CreateBandDto) {
+    return await this.prismaService.band.create({
+      data: { label: data.label, musicStyleId: data.styleId },
+    });
+  }
 
   async findSummaryBandsByUserId(
     id: number,

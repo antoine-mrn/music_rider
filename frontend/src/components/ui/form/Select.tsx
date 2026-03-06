@@ -25,7 +25,9 @@ export default function Select({
                     {defaultOption}
                 </option>
                 {values.map((value) => (
-                    <option key={value.id}>{value.label}</option>
+                    <option key={value.id} value={value.id}>
+                        {value.label}
+                    </option>
                 ))}
             </select>
             {error && (
