@@ -1,4 +1,3 @@
-import type { RefObject } from "react";
 import Button from "../../../components/ui/button/Button";
 import Label from "../../../components/ui/form/Label";
 import Field from "../../../components/ui/form/Field";
@@ -12,11 +11,14 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useCreateBand } from "../hooks/useCreateBand";
+import Modal from "../../../components/ui/modal/Modal";
 
 export default function CreateBandDialog({
-    dialogRef,
+    isOpen,
+    onClose,
 }: {
-    dialogRef: RefObject<HTMLDialogElement | null>;
+    isOpen: boolean;
+    onClose: () => void;
 }) {
     const { data: musicStyles } = useGetAllMusicStyles();
     const { mutateAsync: createBand, isPending } = useCreateBand();
@@ -33,7 +35,7 @@ export default function CreateBandDialog({
     });
 
     return (
-        <dialog ref={dialogRef} className="modal">
+        <Modal isOpen={isOpen} onClose={onClose}>
             <div className="modal-box">
                 <form method="dialog">
                     <Button className="absolute right-2 top-2" size="sm">
@@ -76,6 +78,6 @@ export default function CreateBandDialog({
             <form method="dialog" className="modal-backdrop">
                 <button>close</button>
             </form>
-        </dialog>
+        </Modal>
     );
 }

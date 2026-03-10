@@ -18,7 +18,7 @@ export const bandApi = {
     createBand: async (
         bandData: CreateBandSchemaType,
     ): Promise<CreatedBand> => {
-        const { data } = await apiClient.post("band", bandData);
+        const { data } = await apiClient.post<CreatedBand>("band", bandData);
         return data;
     },
 };
