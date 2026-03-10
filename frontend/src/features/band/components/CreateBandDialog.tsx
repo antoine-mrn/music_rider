@@ -11,14 +11,15 @@ import {
 } from "../../../schemas/create-band.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useCreateBand } from "../hooks/useCreateBand";
 
 export default function CreateBandDialog({
     dialogRef,
 }: {
     dialogRef: RefObject<HTMLDialogElement | null>;
 }) {
-    const { data } = useGetAllMusicStyles();
-
+    const { data: musicStyles } = useGetAllMusicStyles();
+    const { mutateAsync: createBand, isPending } = useCreateBand();
     const {
         register,
         handleSubmit,
@@ -28,7 +29,7 @@ export default function CreateBandDialog({
     });
 
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
+        await createBand(data);
     });
 
     return (
@@ -52,18 +53,22 @@ export default function CreateBandDialog({
                     </Field>
                     <Field>
                         <Label htmlFor="style" label="Style" />
-                        {data && (
+                        {musicStyles && (
                             <Select
                                 id="style"
                                 className="w-full"
                                 defaultOption="Choissiez un style"
-                                values={data}
+                                values={musicStyles}
                                 {...register("styleId")}
                                 error={errors.styleId && errors.styleId.message}
                             />
                         )}
                     </Field>
-                    <Button type="submit" className="btn-block">
+                    <Button
+                        type="submit"
+                        disabled={isPending}
+                        className="btn-block"
+                    >
                         Créer le groupe
                     </Button>
                 </form>

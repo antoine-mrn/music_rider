@@ -35,6 +35,8 @@ apiClient.interceptors.response.use(
                 return Promise.reject(refreshError);
             }
         }
-        return Promise.reject(error);
+        const message =
+            error.response?.data?.error?.message || "Une erreur est survenue";
+        return Promise.reject(new Error(message));
     },
 );

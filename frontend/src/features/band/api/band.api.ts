@@ -1,6 +1,7 @@
 import { apiClient } from "../../../lib/axios";
+import type { CreateBandSchemaType } from "../../../schemas/create-band.schema";
 import type { Pagination } from "../../../shared/types/pagination.interface";
-import type { BandDetails, SummaryBand } from "../types";
+import type { BandDetails, CreatedBand, SummaryBand } from "../types";
 
 export const bandApi = {
     summaryBands: async (page: number): Promise<Pagination<SummaryBand>> => {
@@ -12,6 +13,12 @@ export const bandApi = {
     },
     bandDetails: async (bandId: number): Promise<BandDetails> => {
         const { data } = await apiClient.get<BandDetails>(`band/${bandId}`);
+        return data;
+    },
+    createBand: async (
+        bandData: CreateBandSchemaType,
+    ): Promise<CreatedBand> => {
+        const { data } = await apiClient.post("band", bandData);
         return data;
     },
 };

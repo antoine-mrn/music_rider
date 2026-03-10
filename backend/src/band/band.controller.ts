@@ -14,16 +14,17 @@ import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
 import { SummaryBand } from './types/band.types';
 import { BandDetails } from './dto/band-details.dto';
 import { CreateBandDto } from './dto/create-band.dto';
-import { create } from 'domain';
 
 @Controller('band')
 export class BandController {
   constructor(private readonly bandService: BandService) {}
 
   @Post()
-  async createBand(@Body() createBand: CreateBandDto) {
-    //TODO : ajouter le créateur du groupe dans la liste des membres
-    return await this.bandService.createBand(createBand);
+  async createBand(
+    @Body() createBand: CreateBandDto,
+    @Request() req: AuthRequest,
+  ) {
+    return await this.bandService.createBand(createBand, req.user.sub);
   }
 
   @Get('bands-summary')

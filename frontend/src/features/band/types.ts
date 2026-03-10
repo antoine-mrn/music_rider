@@ -49,3 +49,11 @@ export interface BandDetails {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface CreatedBand {
+    id: number;
+    label: string;
+    musicStyleId: number;
+    createdAt: string;
+    updatedAt: string;
+}

@@ -20,9 +20,13 @@ export class BandService {
     private readonly mediaService: MediaService,
   ) {}
 
-  async createBand(data: CreateBandDto) {
+  async createBand(data: CreateBandDto, userId: number) {
     return await this.prismaService.band.create({
-      data: { label: data.label, musicStyleId: data.styleId },
+      data: {
+        label: data.label,
+        musicStyleId: data.styleId,
+        memberships: { create: { userId, role: 'LEADER' } },
+      },
     });
   }
 
