@@ -9,7 +9,7 @@ export default function PrivateLayout() {
             <Navbar withDrawer={true} />
             <div className="drawer min-h-screen xl:drawer-open">
                 <input
-                    id="my-drawer-5"
+                    id="side-drawer"
                     type="checkbox"
                     className="drawer-toggle"
                 />
@@ -27,7 +27,7 @@ export default function PrivateLayout() {
                 {/* Sidebar */}
                 <div className="drawer-side z-20 mt-22 lg:mt-0 lg:top-22 lg:h-[calc(100vh-88px)]">
                     <label
-                        htmlFor="my-drawer-5"
+                        htmlFor="side-drawer"
                         aria-label="close sidebar"
                         className="drawer-overlay"
                     ></label>

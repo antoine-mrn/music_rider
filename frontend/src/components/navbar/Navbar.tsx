@@ -13,7 +13,7 @@ export default function Navbar({ withDrawer }: { withDrawer: boolean }) {
                 <div className="flex gap-4 items-center max-w-7xl mx-auto">
                     {withDrawer && (
                         <label
-                            htmlFor="my-drawer-5"
+                            htmlFor="side-drawer"
                             className="drawer-button btn border-0 xl:hidden"
                         >
                             <PanelRightClose />

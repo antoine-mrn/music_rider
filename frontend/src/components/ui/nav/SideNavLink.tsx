@@ -15,6 +15,12 @@ export default function SideNavLink({
         <NavLink
             to={path}
             end={exactMatch}
+            onClick={() => {
+                const sideDrawer = document.getElementById(
+                    "side-drawer",
+                ) as HTMLInputElement;
+                if (sideDrawer) sideDrawer.checked = false;
+            }}
             className={({ isActive }) =>
                 `space-x-4 font-bold text-lg group italic hover:text-base-content hover:bg-transparent ${
                     isActive ? "text-base-content" : "text-base-content/50"
