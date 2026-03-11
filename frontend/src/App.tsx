@@ -39,7 +39,11 @@ function App() {
                         <Route path="/signup" element={<Signup />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute />}>
+                <Route
+                    element={
+                        <ProtectedRoute user={user} isLoading={isLoading} />
+                    }
+                >
                     <Route element={<PrivateLayout />}>
                         <Route path="/profile" element={<Profile />} />
                         <Route
