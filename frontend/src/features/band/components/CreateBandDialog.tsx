@@ -21,7 +21,13 @@ export default function CreateBandDialog({
     onClose: () => void;
 }) {
     const { data: musicStyles } = useGetAllMusicStyles();
-    const { mutateAsync: createBand, isPending } = useCreateBand();
+    const {
+        mutateAsync: createBand,
+        isPending,
+        isError,
+        error,
+    } = useCreateBand();
+
     const {
         register,
         handleSubmit,
@@ -32,6 +38,7 @@ export default function CreateBandDialog({
 
     const onSubmit = handleSubmit(async (data) => {
         await createBand(data);
+        onClose();
     });
 
     return (
@@ -73,6 +80,12 @@ export default function CreateBandDialog({
                     >
                         Créer le groupe
                     </Button>
+
+                    {isError && (
+                        <p className="mt-1 text-sm font-bold text-error text-center">
+                            {error.message}
+                        </p>
+                    )}
                 </form>
             </div>
             <form method="dialog" className="modal-backdrop">
