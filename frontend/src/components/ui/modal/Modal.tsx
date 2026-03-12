@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
+import Button from "../button/Button";
 
 interface ModalProps {
     isOpen: boolean;
@@ -15,7 +16,21 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
 
     return (
         <dialog ref={dialogRef} className="modal" onClose={onClose}>
-            {children}
+            <div className="modal-box">
+                <form method="dialog">
+                    <Button
+                        className="absolute right-2 top-2"
+                        size="sm"
+                        variant="secondary"
+                    >
+                        x
+                    </Button>
+                </form>
+                {children}
+            </div>
+            <form method="dialog" className="modal-backdrop">
+                <button>close</button>
+            </form>
         </dialog>
     );
 }

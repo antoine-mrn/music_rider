@@ -43,53 +43,43 @@ export default function CreateBandDialog({
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
-            <div className="modal-box">
-                <form method="dialog">
-                    <Button className="absolute right-2 top-2" size="sm">
-                        x
-                    </Button>
-                </form>
-                <h2 className="font-bold text-lg">Créer un nouveau groupe</h2>
-                <form onSubmit={onSubmit} className="mt-8 space-y-4">
-                    <Field>
-                        <Label htmlFor="label" label="Nom" />
-                        <Input
-                            id="label"
-                            placeholder="Nom du groupe (50 caractères max)"
-                            {...register("label")}
-                            error={errors.label && errors.label.message}
+            <h2 className="font-bold text-lg">Créer un nouveau groupe</h2>
+            <form onSubmit={onSubmit} className="mt-8 space-y-4">
+                <Field>
+                    <Label htmlFor="label" label="Nom" />
+                    <Input
+                        id="label"
+                        placeholder="Nom du groupe (50 caractères max)"
+                        {...register("label")}
+                        error={errors.label && errors.label.message}
+                    />
+                </Field>
+                <Field>
+                    <Label htmlFor="style" label="Style" />
+                    {musicStyles && (
+                        <Select
+                            id="style"
+                            className="w-full"
+                            defaultOption="Choissiez un style"
+                            values={musicStyles}
+                            {...register("styleId")}
+                            error={errors.styleId && errors.styleId.message}
                         />
-                    </Field>
-                    <Field>
-                        <Label htmlFor="style" label="Style" />
-                        {musicStyles && (
-                            <Select
-                                id="style"
-                                className="w-full"
-                                defaultOption="Choissiez un style"
-                                values={musicStyles}
-                                {...register("styleId")}
-                                error={errors.styleId && errors.styleId.message}
-                            />
-                        )}
-                    </Field>
-                    <Button
-                        type="submit"
-                        disabled={isPending}
-                        className="btn-block"
-                    >
-                        Créer le groupe
-                    </Button>
-
-                    {isError && (
-                        <p className="mt-1 text-sm font-bold text-error text-center">
-                            {error.message}
-                        </p>
                     )}
-                </form>
-            </div>
-            <form method="dialog" className="modal-backdrop">
-                <button>close</button>
+                </Field>
+                <Button
+                    type="submit"
+                    disabled={isPending}
+                    className="btn-block"
+                >
+                    Créer le groupe
+                </Button>
+
+                {isError && (
+                    <p className="mt-1 text-sm font-bold text-error text-center">
+                        {error.message}
+                    </p>
+                )}
             </form>
         </Modal>
     );
