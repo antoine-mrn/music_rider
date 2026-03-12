@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router";
 import type { SummaryBand } from "../types";
+import { ROUTES } from "../../../routes";
 
 export default function BandCardSummary({ band }: { band: SummaryBand }) {
     const navigate = useNavigate();
 
     return (
         <li
-            onClick={() => navigate(`/band/${band.id}`)}
+            onClick={() => navigate(ROUTES.BAND_DETAILS(band.id))}
             className="card w-full cursor-pointer card-border border-2 p-4 hover:border-primary/30 transition"
         >
             <div className="card-body">

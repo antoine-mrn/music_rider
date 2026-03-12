@@ -2,6 +2,7 @@ import { Outlet } from "react-router";
 import Footer from "./Footer";
 import Navbar from "../navbar/Navbar";
 import SideNavLink from "../ui/nav/SideNavLink";
+import { ROUTES } from "../../routes";
 
 export default function PrivateLayout() {
     return (
@@ -34,23 +35,26 @@ export default function PrivateLayout() {
                     <ul className="menu bg-base-200 min-h-full w-64 p-4 pt-12 space-y-6">
                         <li>
                             <SideNavLink
-                                path="profile"
+                                path={ROUTES.PROFILE}
                                 label="Tableau de bord"
                             />
                         </li>
                         <li>
                             <SideNavLink
-                                path="/band"
+                                path={ROUTES.BANDS}
                                 label="Mes groupes"
                                 exactMatch={false}
                             />
                         </li>
                         <li>
-                            <SideNavLink path="/" label="Fiches techniques" />
+                            <SideNavLink
+                                path={ROUTES.HOME}
+                                label="Fiches techniques"
+                            />
                         </li>
                         <li>
                             <SideNavLink
-                                path="profile/editing"
+                                path={ROUTES.PROFILE_EDIT}
                                 label="Paramètres"
                             />
                         </li>

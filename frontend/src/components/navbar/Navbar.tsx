@@ -3,6 +3,7 @@ import AvatarIcon from "./AvatarIcon";
 import { useAuthStore } from "../../store/auth.store";
 import AuthButtonsWrapper from "./AuthButtonsWrapper";
 import { PanelRightClose } from "lucide-react";
+import { ROUTES } from "../../routes";
 
 export default function Navbar({ withDrawer }: { withDrawer: boolean }) {
     const user = useAuthStore((state) => state.user);
@@ -20,7 +21,7 @@ export default function Navbar({ withDrawer }: { withDrawer: boolean }) {
                         </label>
                     )}
                     <Link
-                        to="/"
+                        to={ROUTES.HOME}
                         className="text-2xl font-black tracking-tighter text-primary italic mr-auto"
                     >
                         MUSIC<span className="text-base-content">RIDER</span>

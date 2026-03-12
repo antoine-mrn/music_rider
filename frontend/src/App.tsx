@@ -16,6 +16,7 @@ import EditProfile from "./pages/profile/EditProfile";
 import MyBands from "./pages/band/MyBands";
 import BandDetails from "./pages/band/BandDetails";
 import Loading from "./components/layout/Loading";
+import { ROUTES } from "./routes";
 
 function App() {
     const { data: user, isLoading } = useMe();
@@ -32,11 +33,11 @@ function App() {
     return (
         <>
             <Routes>
-                <Route path="/" element={<PublicLayout />}>
+                <Route path={ROUTES.HOME} element={<PublicLayout />}>
                     <Route index element={<Home />} />
                     <Route element={<AuthRoute />}>
-                        <Route path="/signin" element={<Signin />} />
-                        <Route path="/signup" element={<Signup />} />
+                        <Route path={ROUTES.SIGNIN} element={<Signin />} />
+                        <Route path={ROUTES.SIGNUP} element={<Signup />} />
                     </Route>
                 </Route>
                 <Route
@@ -45,13 +46,16 @@ function App() {
                     }
                 >
                     <Route element={<PrivateLayout />}>
-                        <Route path="/profile" element={<Profile />} />
+                        <Route path={ROUTES.PROFILE} element={<Profile />} />
                         <Route
-                            path="/profile/editing"
+                            path={ROUTES.PROFILE_EDIT}
                             element={<EditProfile />}
                         />
-                        <Route path="/band" element={<MyBands />} />
-                        <Route path="/band/:bandId" element={<BandDetails />} />
+                        <Route path={ROUTES.BANDS} element={<MyBands />} />
+                        <Route
+                            path={ROUTES.BAND_DETAILS()}
+                            element={<BandDetails />}
+                        />
                     </Route>
                 </Route>
             </Routes>

@@ -5,6 +5,7 @@ import { useClickOutside } from "../../hooks/useClickOutside";
 import DropdownMenu from "../ui/dropdown/DropdownMenu";
 import DropdownMenuTitle from "../ui/dropdown/DropdownMenuTitle";
 import { Link } from "react-router";
+import { ROUTES } from "../../routes";
 
 export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -50,7 +51,7 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
 
                 <li>
                     <Link
-                        to={`profile`}
+                        to={ROUTES.PROFILE}
                         onClick={() => setIsOpen(false)}
                         className="p-3 hover:bg-primary/8 rounded-lg font-semibold"
                     >

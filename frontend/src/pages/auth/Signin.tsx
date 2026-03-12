@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { Menu } from "lucide-react";
 import SigninForm from "../../features/auth/components/SigninForm";
+import { ROUTES } from "../../routes";
 
 export default function Signin() {
     return (
@@ -14,7 +15,7 @@ export default function Signin() {
                         <p className="text-base-content/70 font-medium">
                             Pas de compte ?{" "}
                             <Link
-                                to="/signup"
+                                to={ROUTES.SIGNUP}
                                 className="link link-hover text-primary font-bold"
                             >
                                 S'inscrire gratuitement

@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import AuthButton from "../ui/button/AuthButton";
 import DropdownMenu from "../ui/dropdown/DropdownMenu";
 import DropdownMenuTitle from "../ui/dropdown/DropdownMenuTitle";
+import { ROUTES } from "../../routes";
 
 export default function AuthMenuMobile({ isOpen }: { isOpen: boolean }) {
     return (
@@ -9,10 +10,10 @@ export default function AuthMenuMobile({ isOpen }: { isOpen: boolean }) {
             <DropdownMenuTitle title="Connexion" />
 
             <li className="flex flex-col gap-3 mt-2">
-                <AuthButton to="/signin" variant="soft">
+                <AuthButton to={ROUTES.SIGNIN} variant="soft">
                     Se connecter
                 </AuthButton>
-                <AuthButton to="/signup" variant="primary">
+                <AuthButton to={ROUTES.SIGNUP} variant="primary">
                     Créer un compte
                 </AuthButton>
             </li>

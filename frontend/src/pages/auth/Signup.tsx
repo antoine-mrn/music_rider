@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { Check } from "lucide-react";
 import SignupForm from "../../features/auth/components/SignupForm";
+import { ROUTES } from "../../routes";
 
 export default function Signup() {
     return (
@@ -51,7 +52,7 @@ export default function Signup() {
                         <p className="text-base-content/70 font-medium">
                             Déjà inscrit ?{" "}
                             <Link
-                                to="/signin"
+                                to={ROUTES.SIGNIN}
                                 className="link link-hover text-primary font-bold"
                             >
                                 Se connecter

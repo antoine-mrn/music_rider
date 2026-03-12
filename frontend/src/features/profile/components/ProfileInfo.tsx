@@ -3,6 +3,7 @@ import type { AuthUserInterface } from "../../auth/types";
 import Button from "../../../components/ui/button/Button";
 import Avatar from "../../../components/ui/avatar/Avatar";
 import { UserRoundCog } from "lucide-react";
+import { ROUTES } from "../../../routes";
 
 interface ProfileInfoProps {
     user: AuthUserInterface;
@@ -20,7 +21,7 @@ export default function ProfileInfo({ user }: ProfileInfoProps) {
                     {user.email}
                 </p>
             </div>
-            <Link className="ml-auto" to="/profile/editing">
+            <Link className="ml-auto" to={ROUTES.PROFILE_EDIT}>
                 <Button className="hidden sm:inline-block">
                     Modifier mes infos
                 </Button>
