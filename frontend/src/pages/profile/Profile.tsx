@@ -17,7 +17,7 @@ export default function Profile() {
 
     return (
         <PageWrapper>
-            <PageTitle title="Mon profile" />
+            <PageTitle title="Dashboard" />
             <PageContentWrapper>
                 <ProfileInfo user={data?.user} />
                 <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">

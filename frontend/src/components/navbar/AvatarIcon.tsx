@@ -20,7 +20,7 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
     }
 
     return (
-        <div ref={dropdownRef} className="relative">
+        <div ref={dropdownRef} className="relative ml-auto">
             <div
                 tabIndex={0}
                 role="button"
@@ -51,7 +51,7 @@ export default function AvatarIcon({ user }: { user: AuthUserInterface }) {
 
                 <li>
                     <Link
-                        to={ROUTES.PROFILE}
+                        to={ROUTES.PROFILE_EDIT}
                         onClick={() => setIsOpen(false)}
                         className="p-3 hover:bg-primary/8 rounded-lg font-semibold"
                     >

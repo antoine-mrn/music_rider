@@ -21,7 +21,7 @@ export default function EditProfile() {
 
     return (
         <PageWrapper className="max-w-4xl">
-            <PageTitle title="Préférences" />
+            <PageTitle title="Mon profil" />
             <PageContentWrapper>
                 <UpdateAvatarForm
                     currentAvatar={me?.avatarUrl ?? "/default-avatar.png"}

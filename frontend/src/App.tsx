@@ -8,8 +8,6 @@ import { ProtectedRoute } from "./components/routing/ProtectedRoute";
 import { useEffect } from "react";
 import { useAuthStore } from "./store/auth.store";
 import { AuthRoute } from "./components/routing/AuthRoute";
-import PrivateLayout from "./components/layout/PrivateLayout";
-import PublicLayout from "./components/layout/PublicLayout";
 import { useMe } from "./features/profile/hooks/useMe";
 import { Toaster } from "sonner";
 import EditProfile from "./pages/profile/EditProfile";
@@ -17,6 +15,7 @@ import MyBands from "./pages/band/MyBands";
 import BandDetails from "./pages/band/BandDetails";
 import Loading from "./components/layout/Loading";
 import { ROUTES } from "./routes";
+import Layout from "./components/layout/Layout";
 
 function App() {
     const { data: user, isLoading } = useMe();
@@ -33,29 +32,32 @@ function App() {
     return (
         <>
             <Routes>
-                <Route path={ROUTES.HOME} element={<PublicLayout />}>
+                <Route path={ROUTES.HOME} element={<Layout />}>
                     <Route index element={<Home />} />
                     <Route element={<AuthRoute />}>
                         <Route path={ROUTES.SIGNIN} element={<Signin />} />
                         <Route path={ROUTES.SIGNUP} element={<Signup />} />
                     </Route>
-                </Route>
-                <Route
-                    element={
-                        <ProtectedRoute user={user} isLoading={isLoading} />
-                    }
-                >
-                    <Route element={<PrivateLayout />}>
-                        <Route path={ROUTES.PROFILE} element={<Profile />} />
-                        <Route
-                            path={ROUTES.PROFILE_EDIT}
-                            element={<EditProfile />}
-                        />
-                        <Route path={ROUTES.BANDS} element={<MyBands />} />
-                        <Route
-                            path={ROUTES.BAND_DETAILS()}
-                            element={<BandDetails />}
-                        />
+                    <Route
+                        element={
+                            <ProtectedRoute user={user} isLoading={isLoading} />
+                        }
+                    >
+                        <Route>
+                            <Route
+                                path={ROUTES.PROFILE}
+                                element={<Profile />}
+                            />
+                            <Route
+                                path={ROUTES.PROFILE_EDIT}
+                                element={<EditProfile />}
+                            />
+                            <Route path={ROUTES.BANDS} element={<MyBands />} />
+                            <Route
+                                path={ROUTES.BAND_DETAILS()}
+                                element={<BandDetails />}
+                            />
+                        </Route>
                     </Route>
                 </Route>
             </Routes>
