@@ -58,7 +58,7 @@ export default function UpdateAvatarForm({
     return (
         <section className="card w-full card-border border-2 p-4">
             <form onSubmit={handleUpdateAvatar}>
-                <div className="card-body flex-row items-center gap-4">
+                <div className="card-body flex-row items-center gap-4 p-0 sm:p-6">
                     <label className="relative group w-24 h-24 cursor-pointer">
                         <input
                             type="file"

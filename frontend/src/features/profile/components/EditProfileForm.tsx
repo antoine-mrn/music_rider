@@ -94,11 +94,11 @@ export default function EditProfileForm({
                 </div>
             </section>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row">
                 <Button
                     disabled={isPending}
                     type="submit"
-                    className="flex-1 uppercase italic font-black"
+                    className="flex-1 uppercase italic font-black py-4 sm:py-0"
                 >
                     {isPending ? (
                         <span className="loading loading-spinner"></span>
@@ -107,7 +107,7 @@ export default function EditProfileForm({
                     )}
                 </Button>
                 <Button
-                    className="rounded-lg flex-1 uppercase italic font-black"
+                    className="rounded-lg flex-1 uppercase italic font-black py-4 sm:py-0"
                     variant="soft"
                 >
                     Annuler
