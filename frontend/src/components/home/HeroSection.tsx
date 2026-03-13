@@ -21,7 +21,7 @@ export default function HeroSection() {
     };
 
     return (
-        <section className="hero bg-primary/8 min-h-screen mt-22">
+        <section className="hero bg-primary/8 min-h-screen">
             <div className="hero-content text-center">
                 <motion.div
                     variants={containerVariants}

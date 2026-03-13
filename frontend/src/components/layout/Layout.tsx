@@ -18,7 +18,7 @@ export default function PublicLayout() {
                     type="checkbox"
                     className="drawer-toggle"
                 />
-                <div className="drawer-content flex flex-col">
+                <div className="drawer-content flex flex-col min-h-screen">
                     {/* Navbar */}
                     <Navbar navLinks={NAVLINKS} />
                     {/* Page content */}
