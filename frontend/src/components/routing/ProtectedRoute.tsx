@@ -1,18 +1,14 @@
 import { Navigate, Outlet } from "react-router";
-import type { AuthUserInterface } from "../../features/auth/types";
+import { useAuthStore } from "../../store/auth.store";
 
 interface ProtectedRouteProps {
-    user: AuthUserInterface | undefined | null;
-    isLoading: boolean;
     redirectPath?: string;
 }
 
 export const ProtectedRoute = ({
     redirectPath = "/signin",
-    user,
-    isLoading,
 }: ProtectedRouteProps) => {
-    console.log(user, isLoading);
+    const user = useAuthStore((state) => state.user);
 
     if (!user) {
         return <Navigate to={redirectPath} replace />;

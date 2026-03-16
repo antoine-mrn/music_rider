@@ -18,14 +18,14 @@ import { ROUTES } from "./routes";
 import Layout from "./components/layout/Layout";
 
 function App() {
-    const { data: user, isLoading } = useMe();
+    const { data: fetchUser, isLoading } = useMe();
     const setUser = useAuthStore((state) => state.setUser);
 
     useEffect(() => {
         if (!isLoading) {
-            setUser(user ?? null);
+            setUser(fetchUser ?? null);
         }
-    }, [user, isLoading, setUser]);
+    }, [fetchUser, isLoading, setUser]);
 
     if (isLoading) return <Loading />;
 
@@ -38,11 +38,7 @@ function App() {
                         <Route path={ROUTES.SIGNIN} element={<Signin />} />
                         <Route path={ROUTES.SIGNUP} element={<Signup />} />
                     </Route>
-                    <Route
-                        element={
-                            <ProtectedRoute user={user} isLoading={isLoading} />
-                        }
-                    >
+                    <Route element={<ProtectedRoute />}>
                         <Route>
                             <Route
                                 path={ROUTES.PROFILE}
