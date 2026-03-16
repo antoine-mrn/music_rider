@@ -8,7 +8,9 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({
     redirectPath = "/signin",
 }: ProtectedRouteProps) => {
-    const user = useAuthStore((state) => state.user);
+    const { user, isLoading } = useAuthStore();
+
+    if (isLoading) return null;
 
     if (!user) {
         return <Navigate to={redirectPath} replace />;

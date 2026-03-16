@@ -20,9 +20,10 @@ import RiderList from "./pages/technical-rider/RiderList";
 
 function App() {
     const { data: fetchUser, isLoading } = useMe();
-    const setUser = useAuthStore((state) => state.setUser);
+    const { setUser, setIsLoading } = useAuthStore();
 
     useEffect(() => {
+        setIsLoading(isLoading);
         if (!isLoading) {
             setUser(fetchUser ?? null);
         }
