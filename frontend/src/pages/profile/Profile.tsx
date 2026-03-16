@@ -3,6 +3,7 @@ import Loading from "../../components/layout/Loading";
 import PageContentWrapper from "../../components/layout/PageContentWrapper";
 import PageWrapper from "../../components/layout/PageWrapper";
 import PageTitle from "../../components/ui/typography/PageTitle";
+import SectionTitle from "../../components/ui/typography/SectionTitle";
 import MyBandsSummary from "../../features/band/components/MyBandsSummary";
 import ProfileInfo from "../../features/profile/components/ProfileInfo";
 import QuickOverview from "../../features/profile/components/QuickOverview";
@@ -29,10 +30,13 @@ export default function Profile() {
                         bandSummary={data.bands}
                         className="lg:col-span-2 lg:order-1"
                     />
-                    <TechnicalRiderTablePreview
-                        technicalRiders={data.technicalRiders}
-                        className="order-3 lg:col-span-3"
-                    />
+
+                    <section className="order-3 lg:col-span-3">
+                        <SectionTitle title="Riders récents" />
+                        <TechnicalRiderTablePreview
+                            technicalRiders={data.technicalRiders}
+                        />
+                    </section>
                 </div>
             </PageContentWrapper>
         </PageWrapper>
