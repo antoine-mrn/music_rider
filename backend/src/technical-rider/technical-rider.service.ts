@@ -11,6 +11,26 @@ import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
 export class TechnicalRiderService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  async findAllTechnicalRiderByUserID(
+    userId: number,
+  ): Promise<SummaryTechnicalRider[]> {
+    return this.prismaService.technicalRider.findMany({
+      where: {
+        band: {
+          memberships: {
+            some: {
+              userId,
+            },
+          },
+        },
+      },
+      select: summaryTechnicalRiderSelect,
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    });
+  }
+
   async findSummaryTechnicalRiderByUserId(
     id: number,
     limit: number = 10,

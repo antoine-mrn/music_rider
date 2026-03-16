@@ -16,6 +16,7 @@ import BandDetails from "./pages/band/BandDetails";
 import Loading from "./components/layout/Loading";
 import { ROUTES } from "./routes";
 import Layout from "./components/layout/Layout";
+import RiderList from "./pages/technical-rider/RiderList";
 
 function App() {
     const { data: fetchUser, isLoading } = useMe();
@@ -52,6 +53,10 @@ function App() {
                             <Route
                                 path={ROUTES.BAND_DETAILS()}
                                 element={<BandDetails />}
+                            />
+                            <Route
+                                path={ROUTES.RIDER}
+                                element={<RiderList />}
                             />
                         </Route>
                     </Route>

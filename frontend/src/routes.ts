@@ -11,4 +11,7 @@ export const ROUTES = {
     // Band
     BANDS: "/band",
     BAND_DETAILS: (bandId: string | number = ":bandId") => `/band/${bandId}`,
+
+    //Rider
+    RIDER: "/rider",
 } as const;

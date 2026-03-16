@@ -7,7 +7,7 @@ import { useAuthStore } from "../../store/auth.store";
 const NAVLINKS = [
     { path: ROUTES.PROFILE, label: "Dashboard", end: true },
     { path: ROUTES.BANDS, label: "Mes groupes", end: false },
-    { path: ROUTES.HOME, label: "Mes riders", end: false },
+    { path: ROUTES.RIDER, label: "Mes riders", end: false },
 ];
 
 export default function PublicLayout() {
