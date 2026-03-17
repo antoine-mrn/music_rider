@@ -111,40 +111,89 @@ model MusicStyle {
 }
 
 model TechnicalRider {
-  id                       Int      @id @default(autoincrement())
-  title                    String   @db.VarChar(150)
-  musicianNumber           Int?
-  setDuration              Int?
-  soundcheckDuration       Int?
-  changeoverDuration       Int?
-  setupDuration            Int?
-  teardownDuration         Int?
-  stageLength              Int?
-  stageWidth               Int?
-  stageDepth               Int?
-  stageAccess              String?
-  backlineProvided         String?
-  specificRisks            String?
-  loadInTime               String?
-  loadOutTime              String?
-  cateringInfo             String?
-  accommodationInfo        String?
-  micsDisSetup             Json?
-  stageMonitoringSetup     Json?
-  inputPatch               Json?
+  id Int @id @default(autoincrement())
+
+  title  String      @db.VarChar(150)
+  status RiderStatus @default(DRAFT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  technicalRiderGeneral  TechnicalRiderGeneral?
+  technicalRiderStage    TechnicalRiderStage?
+  technicalRiderAudio    TechnicalRiderAudio?
+  technicalRiderLogistic TechnicalRiderLogistic?
+
+  band             Band?             @relation(fields: [bandId], references: [id])
+  bandId           Int?
+  riderCategory    RiderCategory?    @relation(fields: [riderCategoryId], references: [id])
+  riderCategoryId  Int?
+  stageInstruments StageInstrument[]
+}
+
+model TechnicalRiderGeneral {
+  id Int @id @default(autoincrement())
+
+  musicianNumber     Int?
+  setDuration        Int?
+  soundcheckDuration Int?
+  changeoverDuration Int?
+  setupDuration      Int?
+  teardownDuration   Int?
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  technicalRiderId Int            @unique
+  technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
+}
+
+model TechnicalRiderStage {
+  id Int @id @default(autoincrement())
+
+  stageLength      Int?
+  stageWidth       Int?
+  stageDepth       Int?
+  stageAccess      String?
+  backlineProvided String?
+
+  technicalRiderId Int            @unique
+  technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TechnicalRiderAudio {
+  id Int @id @default(autoincrement())
+
+  consoleChannelCount      Int?
   soundLevelRequirements   String?
   specialAudioRequirements String?
-  consoleChannelCount      Int?
-  createdAt                DateTime @default(now())
-  updatedAt                DateTime @updatedAt
+  inputPatch               Json?
+  stageMonitoringSetup     Json?
+  micsDisSetup             Json?
 
-  band   Band @relation(fields: [bandId], references: [id])
-  bandId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  riderCategory   RiderCategory @relation(fields: [riderCategoryId], references: [id])
-  riderCategoryId Int
+  riderId Int            @unique
+  rider   TechnicalRider @relation(fields: [riderId], references: [id])
+}
 
-  stageInstruments StageInstrument[]
+model TechnicalRiderLogistic {
+  id Int @id @default(autoincrement())
+
+  specificRisks     String?
+  loadInTime        String?
+  loadOutTime       String?
+  cateringInfo      String?
+  accommodationInfo String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  riderId Int            @unique
+  rider   TechnicalRider @relation(fields: [riderId], references: [id], onDelete: Cascade)
 }
 
 model RiderCategory {
@@ -154,6 +203,12 @@ model RiderCategory {
   updatedAt DateTime @updatedAt
 
   technicalRiders TechnicalRider[]
+}
+
+enum RiderStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }
 
 model BandContact {
@@ -218,6 +273,9 @@ model StageInstrument {
   posY      Int
   scale     Int
   rotation  Int
+  zIndex    Int?
+  label     String?
+  color     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
