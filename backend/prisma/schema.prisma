@@ -124,10 +124,10 @@ model TechnicalRider {
   technicalRiderAudio    TechnicalRiderAudio?
   technicalRiderLogistic TechnicalRiderLogistic?
 
-  band             Band?             @relation(fields: [bandId], references: [id])
-  bandId           Int?
-  riderCategory    RiderCategory?    @relation(fields: [riderCategoryId], references: [id])
-  riderCategoryId  Int?
+  band             Band              @relation(fields: [bandId], references: [id])
+  bandId           Int
+  riderCategory    RiderCategory     @relation(fields: [riderCategoryId], references: [id])
+  riderCategoryId  Int
   stageInstruments StageInstrument[]
 }
 
@@ -176,8 +176,8 @@ model TechnicalRiderAudio {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  riderId Int            @unique
-  rider   TechnicalRider @relation(fields: [riderId], references: [id])
+  technicalRiderId Int            @unique
+  technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
 }
 
 model TechnicalRiderLogistic {
@@ -192,8 +192,8 @@ model TechnicalRiderLogistic {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  riderId Int            @unique
-  rider   TechnicalRider @relation(fields: [riderId], references: [id], onDelete: Cascade)
+  technicalRiderId Int            @unique
+  technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id], onDelete: Cascade)
 }
 
 model RiderCategory {
@@ -279,8 +279,8 @@ model StageInstrument {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  technicalRider   TechnicalRider? @relation(fields: [technicalRiderId], references: [id])
-  technicalRiderId Int?
-  instrument       Instrument?     @relation(fields: [instrumentId], references: [id])
+  technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
+  technicalRiderId Int
+  instrument       Instrument?    @relation(fields: [instrumentId], references: [id])
   instrumentId     Int?
 }
