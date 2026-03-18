@@ -9,6 +9,7 @@ import MemberSection from "../../features/band/components/MemberSection";
 import Button from "../../components/ui/button/Button";
 import PrimaryContactSection from "../../features/band/components/PrimaryContactSection";
 import TechnicalRiderTablePreview from "../../features/technical-rider/components/TechnicalRiderTablePreview";
+import SectionTitle from "../../components/ui/typography/SectionTitle";
 
 export default function BandDetails() {
     const { bandId } = useParams();
@@ -59,10 +60,12 @@ export default function BandDetails() {
                     className="lg:col-span-2"
                 />
 
-                <TechnicalRiderTablePreview
-                    technicalRiders={band?.technicalRiders ?? null}
-                    className="order-3 lg:col-span-3"
-                />
+                <section className="order-3 lg:col-span-3">
+                    <SectionTitle title="Riders récents" />
+                    <TechnicalRiderTablePreview
+                        technicalRiders={band?.technicalRiders ?? null}
+                    />
+                </section>
             </div>
         </PageWrapper>
     );
