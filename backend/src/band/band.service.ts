@@ -157,6 +157,7 @@ export class BandService {
       technicalRiders: band.technicalRiders.map((rider) => ({
         id: rider.id,
         title: rider.title,
+        status: rider.status,
         band: {
           id: rider.band.id,
           label: rider.band.label,

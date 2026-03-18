@@ -77,6 +77,7 @@ export const bandDetailSelect = {
     select: {
       id: true,
       title: true,
+      status: true,
       updatedAt: true,
       band: {
         select: {

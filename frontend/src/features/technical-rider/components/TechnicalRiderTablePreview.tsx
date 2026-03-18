@@ -1,3 +1,8 @@
+import { ChevronRight } from "lucide-react";
+import {
+    RIDER_STATUS_COLORS,
+    RIDER_STATUS_LABELS,
+} from "../../../shared/constantes/rider-status";
 import type { SummaryTechnicalRider } from "../types";
 
 interface TechnicalRiderTablePreviewProps {
@@ -14,28 +19,40 @@ export default function RecentTechnicalRider({
                     {/* head */}
                     <thead>
                         <tr className="uppercase">
+                            <th>Titre</th>
                             <th>Projet</th>
                             <th>Catégorie</th>
+                            <th>Statut</th>
                             <th>Dernière modif.</th>
-                            <th>Action</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {technicalRiders.map((rider: SummaryTechnicalRider) => (
                             <tr key={rider.id}>
-                                <th className="italic font-bold">
-                                    {rider.band.label}
+                                <th className="italic font-bold min-w-36 lg:w-auto">
+                                    {rider.title}
                                 </th>
                                 <td className="font-medium uppercase">
+                                    {rider.band.label}
+                                </td>
+                                <td className="font-medium uppercase">
                                     {rider.riderCategory.label}
+                                </td>
+                                <td className="font-medium">
+                                    <span
+                                        className={`badge ${RIDER_STATUS_COLORS[rider.status]}`}
+                                    >
+                                        {RIDER_STATUS_LABELS[rider.status]}
+                                    </span>
                                 </td>
                                 <td>
                                     {new Date(rider.updatedAt).toLocaleString(
                                         "fr",
                                     )}
                                 </td>
-                                <td className="link link-primary link-hover">
-                                    Ouvrir
+                                <td className="">
+                                    <ChevronRight className="rounded-full cursor-pointer p-2 w-10 h-10 hover:bg-neutral-content hover:text-primary" />
                                 </td>
                             </tr>
                         ))}

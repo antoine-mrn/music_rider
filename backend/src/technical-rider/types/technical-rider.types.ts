@@ -2,6 +2,8 @@ import { Prisma } from '@prisma/client';
 
 export const summaryTechnicalRiderSelect = {
   id: true,
+  title: true,
+  status: true,
   band: {
     select: {
       id: true,
@@ -15,7 +17,7 @@ export const summaryTechnicalRiderSelect = {
     },
   },
   updatedAt: true,
-} as const;
+} satisfies Prisma.TechnicalRiderSelect;
 
 export type SummaryTechnicalRider = Prisma.TechnicalRiderGetPayload<{
   select: typeof summaryTechnicalRiderSelect;
