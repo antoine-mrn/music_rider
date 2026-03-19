@@ -4,6 +4,8 @@ import {
     RIDER_STATUS_LABELS,
 } from "../../../shared/constantes/rider-status";
 import type { SummaryTechnicalRider } from "../types";
+import { Link } from "react-router";
+import { ROUTES } from "../../../routes";
 
 interface TechnicalRiderTablePreviewProps {
     technicalRiders: SummaryTechnicalRider[] | null;
@@ -51,8 +53,10 @@ export default function RecentTechnicalRider({
                                         "fr",
                                     )}
                                 </td>
-                                <td className="">
-                                    <ChevronRight className="rounded-full cursor-pointer p-2 w-10 h-10 hover:bg-neutral-content hover:text-primary" />
+                                <td>
+                                    <Link to={ROUTES.RIDER_GENERAL(rider.id)}>
+                                        <ChevronRight className="rounded-full cursor-pointer p-2 w-10 h-10 hover:bg-neutral-content hover:text-primary" />
+                                    </Link>
                                 </td>
                             </tr>
                         ))}
