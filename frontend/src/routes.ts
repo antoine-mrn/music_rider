@@ -14,4 +14,6 @@ export const ROUTES = {
 
     //Rider
     RIDER: "/rider",
+    RIDER_GENERAL: (riderId: string | number = ":riderId") =>
+        `/rider/${riderId}/general`,
 } as const;

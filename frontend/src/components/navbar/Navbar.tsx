@@ -2,15 +2,12 @@ import { Link, NavLink } from "react-router";
 import AvatarIcon from "./AvatarIcon";
 import AuthButtonsWrapper from "./AuthButtonsWrapper";
 import { ROUTES } from "../../routes";
-import type { AuthUserInterface } from "../../features/auth/types";
+import { useAuthStore } from "../../store/auth.store";
+import { APP_NAVLINKS } from "../../shared/constantes/navigation";
 
-export default function Navbar({
-    user,
-    navLinks,
-}: {
-    user: AuthUserInterface | null;
-    navLinks: { path: string; label: string; end: boolean }[];
-}) {
+export default function Navbar() {
+    const user = useAuthStore((state) => state.user);
+
     return (
         <header className="fixed w-full top-0 z-10 bg-base-200">
             <nav className="navbar block shadow-sm w-full px-4 py-6">
@@ -58,7 +55,7 @@ export default function Navbar({
 
                     {user && (
                         <ul className="hidden items-center gap-4 md:flex md:ml-16 md:gap-8">
-                            {navLinks.map((link, index) => (
+                            {APP_NAVLINKS.map((link, index) => (
                                 <li key={index}>
                                     <NavLink
                                         end={link.end}

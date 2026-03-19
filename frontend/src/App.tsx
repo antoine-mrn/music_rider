@@ -17,6 +17,8 @@ import Loading from "./components/layout/Loading";
 import { ROUTES } from "./routes";
 import Layout from "./components/layout/Layout";
 import RiderList from "./pages/technical-rider/RiderList";
+import RiderGeneral from "./pages/technical-rider/RiderGeneral";
+import RiderLayout from "./components/layout/RiderLayout";
 
 function App() {
     const { data: fetchUser, isLoading } = useMe();
@@ -41,25 +43,25 @@ function App() {
                         <Route path={ROUTES.SIGNUP} element={<Signup />} />
                     </Route>
                     <Route element={<ProtectedRoute />}>
-                        <Route>
-                            <Route
-                                path={ROUTES.PROFILE}
-                                element={<Profile />}
-                            />
-                            <Route
-                                path={ROUTES.PROFILE_EDIT}
-                                element={<EditProfile />}
-                            />
-                            <Route path={ROUTES.BANDS} element={<MyBands />} />
-                            <Route
-                                path={ROUTES.BAND_DETAILS()}
-                                element={<BandDetails />}
-                            />
-                            <Route
-                                path={ROUTES.RIDER}
-                                element={<RiderList />}
-                            />
-                        </Route>
+                        <Route path={ROUTES.PROFILE} element={<Profile />} />
+                        <Route
+                            path={ROUTES.PROFILE_EDIT}
+                            element={<EditProfile />}
+                        />
+                        <Route path={ROUTES.BANDS} element={<MyBands />} />
+                        <Route
+                            path={ROUTES.BAND_DETAILS()}
+                            element={<BandDetails />}
+                        />
+                        <Route path={ROUTES.RIDER} element={<RiderList />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute />}>
+                    <Route element={<RiderLayout />}>
+                        <Route
+                            path={ROUTES.RIDER_GENERAL()}
+                            element={<RiderGeneral />}
+                        ></Route>
                     </Route>
                 </Route>
             </Routes>

@@ -1,31 +1,16 @@
 import { NavLink } from "react-router";
-
-interface SideNavLinkProps {
-    path: string;
-    label: string;
-    exactMatch?: boolean;
-}
+import type { RiderAppNavLink } from "../../../shared/constantes/navigation";
 
 export default function SideNavLink({
-    path,
-    label,
-    exactMatch = true,
-}: SideNavLinkProps) {
+    RiderNavLink,
+}: {
+    RiderNavLink: RiderAppNavLink;
+}) {
     return (
         <NavLink
-            to={path}
-            end={exactMatch}
-            onClick={() => {
-                const sideDrawer = document.getElementById(
-                    "side-drawer",
-                ) as HTMLInputElement;
-                if (sideDrawer) sideDrawer.checked = false;
-            }}
-            className={({ isActive }) =>
-                `space-x-4 font-bold text-lg group italic hover:text-base-content hover:bg-transparent ${
-                    isActive ? "text-base-content" : "text-base-content/50"
-                }`
-            }
+            to={RiderNavLink.path}
+            end={RiderNavLink.end}
+            className="space-x-4 group hover:bg-transparent"
         >
             {({ isActive }) => (
                 <>
@@ -34,7 +19,23 @@ export default function SideNavLink({
                             isActive ? "bg-primary" : "bg-base-content/50"
                         }`}
                     ></div>
-                    {label}
+                    <div className="flex flex-col">
+                        <span
+                            className={`text-xs uppercase font-bold tracking-widest group-hover:text-primary ${isActive ? "text-primary" : "text-base-content/50"}`}
+                        >
+                            étape{" "}
+                            {RiderNavLink.step.toString().padStart(2, "0")}
+                        </span>
+                        <span
+                            className={`font-extrabold group-hover:text-base-content group-hover:bg-transparent ${
+                                isActive
+                                    ? "text-base-content"
+                                    : "text-base-content/50"
+                            }`}
+                        >
+                            {RiderNavLink.label}
+                        </span>
+                    </div>
                 </>
             )}
         </NavLink>
