@@ -2,14 +2,14 @@ import { NavLink } from "react-router";
 import type { RiderAppNavLink } from "../../../shared/constantes/navigation";
 
 export default function SideNavLink({
-    RiderNavLink,
+    riderNavLink,
 }: {
-    RiderNavLink: RiderAppNavLink;
+    riderNavLink: RiderAppNavLink;
 }) {
     return (
         <NavLink
-            to={RiderNavLink.path}
-            end={RiderNavLink.end}
+            to={riderNavLink.path}
+            end={riderNavLink.end}
             className="space-x-4 group hover:bg-transparent"
         >
             {({ isActive }) => (
@@ -24,7 +24,7 @@ export default function SideNavLink({
                             className={`text-xs uppercase font-bold tracking-widest group-hover:text-primary ${isActive ? "text-primary" : "text-base-content/50"}`}
                         >
                             étape{" "}
-                            {RiderNavLink.step.toString().padStart(2, "0")}
+                            {riderNavLink.step.toString().padStart(2, "0")}
                         </span>
                         <span
                             className={`font-extrabold group-hover:text-base-content group-hover:bg-transparent ${
@@ -33,7 +33,7 @@ export default function SideNavLink({
                                     : "text-base-content/50"
                             }`}
                         >
-                            {RiderNavLink.label}
+                            {riderNavLink.label}
                         </span>
                     </div>
                 </>
