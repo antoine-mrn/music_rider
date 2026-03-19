@@ -8,7 +8,7 @@ export default function BandCardSummary({ band }: { band: SummaryBand }) {
     return (
         <li
             onClick={() => navigate(ROUTES.BAND_DETAILS(band.id))}
-            className="card w-full bg-base-100 cursor-pointer card-border border-2 p-4 hover:border-primary/80 transition"
+            className="card w-full bg-base-100 cursor-pointer card-border border-2 p-4 hover:border-primary/30 transition"
         >
             <div className="card-body">
                 {/* Haut de card */}

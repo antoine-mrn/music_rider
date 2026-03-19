@@ -8,7 +8,7 @@ export default function Layout() {
         <div className="min-h-screen">
             <MobileAppDrawer>
                 <Navbar />
-                <main className="flex-1 relative bg-primary/3">
+                <main className="flex-1 relative">
                     <Outlet />
                 </main>
                 <Footer />

@@ -14,7 +14,7 @@ export default function RiderLayout() {
         <div className="min-h-screen">
             <MobileAppDrawer>
                 <Navbar />
-                <main className="flex-1 bg-primary/3 relative flex flex-col lg:flex-row">
+                <main className="flex-1 relative flex flex-col lg:flex-row">
                     {/* Nav Mobile */}
                     <RiderMobileNav riderNavLinks={riderNavLinks} />
                     {/* Nav Desktop */}
