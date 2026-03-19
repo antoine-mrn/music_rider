@@ -34,7 +34,7 @@ export default function RiderMobileNav({
             <ChevronDown className="text-base-content/50" />
 
             {isNavOpen && (
-                <ul className="absolute top-20 flex flex-col gap-2 bg-base-100 border border-base-300 w-full rounded-xl p-6">
+                <ul className="absolute top-20 flex flex-col gap-2 bg-base-100 border border-base-300 w-full rounded-xl p-6 z-10">
                     {riderNavLinks.map((link, index) => (
                         <li key={index}>
                             <NavLink
