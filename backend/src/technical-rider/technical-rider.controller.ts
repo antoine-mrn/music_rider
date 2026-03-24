@@ -1,7 +1,8 @@
-import { Controller, Get, Request } from '@nestjs/common';
+import { Controller, Get, Request, Post, Body } from '@nestjs/common';
 import { TechnicalRiderService } from './technical-rider.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
 import { SummaryTechnicalRider } from './types/technical-rider.types';
+import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
 
 @Controller('technical-rider')
 export class TechnicalRiderController {
@@ -13,6 +14,15 @@ export class TechnicalRiderController {
   ): Promise<SummaryTechnicalRider[]> {
     return this.technicalRiderService.findAllTechnicalRiderByUserID(
       req.user.sub,
+    );
+  }
+
+  @Post()
+  async createTechnicalRider(
+    @Body() createTechnicalRider: CreateTechnicalRiderDto,
+  ) {
+    return await this.technicalRiderService.createTechnicalRider(
+      createTechnicalRider,
     );
   }
 }

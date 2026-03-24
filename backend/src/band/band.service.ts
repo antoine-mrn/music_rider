@@ -94,6 +94,24 @@ export class BandService {
     return this.__mapBandDetails(band);
   }
 
+  async findAllMyBands(
+    userId: number,
+  ): Promise<{ id: number; label: string }[]> {
+    return await this.prismaService.band.findMany({
+      where: {
+        memberships: {
+          some: {
+            userId,
+          },
+        },
+      },
+      select: {
+        id: true,
+        label: true,
+      },
+    });
+  }
+
   __mapSummaryBand(bands: SummaryBandRaw[]): SummaryBand[] {
     return bands.map((band: SummaryBandRaw) => ({
       id: band.id,

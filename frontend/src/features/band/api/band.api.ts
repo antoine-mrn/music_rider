@@ -15,6 +15,10 @@ export const bandApi = {
         const { data } = await apiClient.get<BandDetails>(`band/${bandId}`);
         return data;
     },
+    bandsList: async (): Promise<{ id: number; label: string }[]> => {
+        const { data } = await apiClient.get("band/bands-list");
+        return data;
+    },
     createBand: async (
         bandData: CreateBandSchemaType,
     ): Promise<CreatedBand> => {

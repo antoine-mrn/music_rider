@@ -14,3 +14,11 @@ export interface SummaryTechnicalRider {
     };
     updatedAt: string;
 }
+
+export interface CreateTechnicalRider {
+    id: number;
+    title: string;
+    riderCategoryId: number;
+    createdAt: string;
+    updatedAt: string;
+}

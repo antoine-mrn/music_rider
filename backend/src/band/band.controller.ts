@@ -27,6 +27,13 @@ export class BandController {
     return await this.bandService.createBand(createBand, req.user.sub);
   }
 
+  @Get('bands-list')
+  async findAllMyBands(
+    @Request() req: AuthRequest,
+  ): Promise<{ id: number; label: string }[]> {
+    return await this.bandService.findAllMyBands(req.user.sub);
+  }
+
   @Get('bands-summary')
   async getBandsSummary(
     @Request() req: AuthRequest,

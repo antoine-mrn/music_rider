@@ -6,6 +6,7 @@ import {
   summaryTechnicalRiderSelect,
 } from './types/technical-rider.types';
 import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
+import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
 
 @Injectable()
 export class TechnicalRiderService {
@@ -66,5 +67,11 @@ export class TechnicalRiderService {
     ]);
 
     return { data: technicalRider, totalTechnicalRiders };
+  }
+
+  async createTechnicalRider(data: CreateTechnicalRiderDto) {
+    return await this.prismaService.technicalRider.create({
+      data,
+    });
   }
 }

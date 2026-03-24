@@ -1,3 +1,4 @@
+import { useState } from "react";
 import ErrorInfo from "../../components/layout/ErrorInfo";
 import Loading from "../../components/layout/Loading";
 import PageContentWrapper from "../../components/layout/PageContentWrapper";
@@ -7,8 +8,11 @@ import PageTitle from "../../components/ui/typography/PageTitle";
 import SectionTitle from "../../components/ui/typography/SectionTitle";
 import TechnicalRiderTablePreview from "../../features/technical-rider/components/TechnicalRiderTablePreview";
 import { useGetTechnicalRider } from "../../features/technical-rider/hooks/useGetTechnicalRider";
+import CreateTechnicalRiderDialog from "../../features/technical-rider/components/CreateTechnicalRiderDialog";
 
 export default function RiderList() {
+    const [isOpen, setIsOpen] = useState(false);
+
     const { data, isLoading, isError, refetch } = useGetTechnicalRider();
 
     if (isLoading) return <Loading />;
@@ -18,9 +22,16 @@ export default function RiderList() {
         <PageWrapper>
             <PageTitle title="Mes riders" />
             <PageContentWrapper>
-                <Button className="place-self-end">
+                <Button
+                    onClick={() => setIsOpen(true)}
+                    className="place-self-end"
+                >
                     Créer un nouveau rider
                 </Button>
+                <CreateTechnicalRiderDialog
+                    isOpen={isOpen}
+                    onClose={() => setIsOpen(false)}
+                />
 
                 <section>
                     <SectionTitle title="Tout mes riders" />
