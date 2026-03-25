@@ -1,11 +1,13 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { technicalRiderApi } from "../api/technical-rider.api";
 import { toast } from "sonner";
 import type { CreateTechnicalRider } from "../types";
 import type { CreateTechncialRiderSchemaType } from "../../../schemas/create-technical-rider.schema";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../../routes";
 
 export const useCreateTechnicalRider = () => {
-    const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     return useMutation<
         CreateTechnicalRider,
@@ -14,9 +16,9 @@ export const useCreateTechnicalRider = () => {
     >({
         mutationFn: (riderData) =>
             technicalRiderApi.createTechnicalRider(riderData),
-        onSuccess: async () => {
+        onSuccess: async (data) => {
+            navigate(ROUTES.RIDER_GENERAL(data.id));
             toast.success("Le rider a été créé avec succès 🔌");
-            await queryClient.invalidateQueries({ queryKey: ["rider-list"] });
         },
     });
 };
