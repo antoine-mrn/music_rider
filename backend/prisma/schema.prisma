@@ -132,11 +132,12 @@ model TechnicalRider {
   technicalRiderAudio    TechnicalRiderAudio?
   technicalRiderLogistic TechnicalRiderLogistic?
 
-  band             Band              @relation(fields: [bandId], references: [id])
-  bandId           Int
-  riderCategory    RiderCategory     @relation(fields: [riderCategoryId], references: [id])
-  riderCategoryId  Int
-  stageInstruments StageInstrument[]
+  band                  Band                   @relation(fields: [bandId], references: [id])
+  bandId                Int
+  riderCategory         RiderCategory          @relation(fields: [riderCategoryId], references: [id])
+  riderCategoryId       Int
+  stageInstruments      StageInstrument[]
+  technicalRiderContact TechnicalRiderContact?
 }
 
 model TechnicalRiderGeneral {
@@ -153,6 +154,28 @@ model TechnicalRiderGeneral {
   updatedAt        DateTime       @updatedAt
   technicalRiderId Int            @unique
   technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
+}
+
+model TechnicalRiderContact {
+  id Int @id @default(autoincrement())
+
+  firstname String?
+  lastname  String?
+  email     String?
+  phone     String?
+
+  role TechnicalContactRole
+
+  technicalRiderId Int            @unique
+  technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TechnicalContactRole {
+  SOUND_ENGINEER
+  LIGHT_ENGINEER
 }
 
 model TechnicalRiderStage {
