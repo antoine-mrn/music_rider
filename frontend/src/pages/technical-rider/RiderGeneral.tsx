@@ -26,7 +26,7 @@ export default function RiderGeneral() {
                                 <Input
                                     type="text"
                                     id="project"
-                                    placeholder="Ex: azdfrf"
+                                    placeholder="Projet"
                                 />
                             </Field>
                             <Field>
@@ -37,15 +37,24 @@ export default function RiderGeneral() {
                                 <Input
                                     type="text"
                                     id="contact-name"
-                                    placeholder="Ex: azdfrf"
+                                    placeholder="Contact principal du groupe"
                                 />
                             </Field>
                             <Field>
-                                <Label
-                                    label="Email / Téléphone"
-                                    htmlFor="contact-information"
+                                <Label label="Email" htmlFor="email" />
+                                <Input
+                                    id="email"
+                                    type="email"
+                                    placeholder="john.doe@mail.com"
                                 />
-                                <Input type="text" placeholder="Ex: azdfrf" />
+                            </Field>
+                            <Field>
+                                <Label label="Téléphone" htmlFor="phone" />
+                                <Input
+                                    id="phone"
+                                    type="phone"
+                                    placeholder="06 12 34 56 78 90"
+                                />
                             </Field>
                             <div className="card-actions justify-end pt-4">
                                 <Button type="submit">Modifier</Button>
