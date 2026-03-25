@@ -1,7 +1,7 @@
 import type { RIDER_STATUS_LABELS } from "../../shared/constantes/rider-status";
 
 export interface SummaryTechnicalRider {
-    id: number;
+    id: string;
     title: string;
     status: keyof typeof RIDER_STATUS_LABELS;
     band: {
@@ -16,7 +16,7 @@ export interface SummaryTechnicalRider {
 }
 
 export interface CreateTechnicalRider {
-    id: number;
+    id: string;
     title: string;
     riderCategoryId: number;
     createdAt: string;

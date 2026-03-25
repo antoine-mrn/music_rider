@@ -2,7 +2,7 @@ import type { UserBandRole } from "../../shared/types/user-band-role.type";
 import type { SummaryTechnicalRider } from "../technical-rider/types";
 
 export interface SummaryBand {
-    id: number;
+    id: string;
     label: string;
     musicStyle: {
         id: number;
@@ -12,7 +12,7 @@ export interface SummaryBand {
 }
 
 export interface BandMember {
-    id: number;
+    id: string;
     firstname: string;
     lastname: string;
     avatarUrl: string | null;
@@ -35,7 +35,7 @@ export interface BandContact {
 }
 
 export interface BandDetails {
-    id: number;
+    id: string;
     label: string;
     memberCount: number;
     musicStyle: {
@@ -51,7 +51,7 @@ export interface BandDetails {
 }
 
 export interface CreatedBand {
-    id: number;
+    id: string;
     label: string;
     musicStyleId: number;
     createdAt: string;
