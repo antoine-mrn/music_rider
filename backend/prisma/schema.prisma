@@ -72,17 +72,25 @@ model Media {
 }
 
 model UserBand {
-  userId    Int
-  bandId    Int
-  role      BandRole @default(MEMBER)
+  id Int @id @default(autoincrement())
+
+  userId Int?
+  bandId Int
+
+  firstname String?
+  lastname  String?
+
+  role BandRole @default(MEMBER)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user                User                 @relation(fields: [userId], references: [id])
-  band                Band                 @relation(fields: [bandId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
+  band Band  @relation(fields: [bandId], references: [id])
+
   userBandInstruments UserBandInstrument[]
 
-  @@id([userId, bandId])
+  @@unique([userId, bandId])
 }
 
 model UserBandInstrument {
