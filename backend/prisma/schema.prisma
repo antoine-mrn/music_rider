@@ -13,7 +13,7 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   email     String   @unique
   firstname String   @db.VarChar(110)
   lastname  String   @db.VarChar(110)
@@ -33,7 +33,7 @@ model User {
 
 model AuthSession {
   id               String    @id @default(uuid())
-  userId           Int
+  userId           String
   user             User      @relation(fields: [userId], references: [id])
   refreshTokenHash String
   userAgent        String?
@@ -51,7 +51,7 @@ enum Role {
 }
 
 model Band {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   label     String   @unique @db.VarChar(110)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -74,8 +74,8 @@ model Media {
 model UserBand {
   id Int @id @default(autoincrement())
 
-  userId Int?
-  bandId Int
+  userId String?
+  bandId String
 
   firstname String?
   lastname  String?
@@ -94,8 +94,8 @@ model UserBand {
 }
 
 model UserBandInstrument {
-  userId       Int
-  bandId       Int
+  userId       String
+  bandId       String
   instrumentId Int
 
   userBand   UserBand   @relation(fields: [userId, bandId], references: [userId, bandId])
@@ -119,7 +119,7 @@ model MusicStyle {
 }
 
 model TechnicalRider {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
 
   title  String      @db.VarChar(150)
   status RiderStatus @default(DRAFT)
@@ -133,7 +133,7 @@ model TechnicalRider {
   technicalRiderLogistic TechnicalRiderLogistic?
 
   band                  Band                   @relation(fields: [bandId], references: [id])
-  bandId                Int
+  bandId                String
   riderCategory         RiderCategory          @relation(fields: [riderCategoryId], references: [id])
   riderCategoryId       Int
   stageInstruments      StageInstrument[]
@@ -152,7 +152,7 @@ model TechnicalRiderGeneral {
 
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
-  technicalRiderId Int            @unique
+  technicalRiderId String         @unique
   technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
 }
 
@@ -166,7 +166,7 @@ model TechnicalRiderContact {
 
   role TechnicalContactRole
 
-  technicalRiderId Int            @unique
+  technicalRiderId String         @unique
   technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
 
   createdAt DateTime @default(now())
@@ -187,7 +187,7 @@ model TechnicalRiderStage {
   stageAccess      String?
   backlineProvided String?
 
-  technicalRiderId Int            @unique
+  technicalRiderId String         @unique
   technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
 
   createdAt DateTime @default(now())
@@ -207,7 +207,7 @@ model TechnicalRiderAudio {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  technicalRiderId Int            @unique
+  technicalRiderId String         @unique
   technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
 }
 
@@ -223,13 +223,13 @@ model TechnicalRiderLogistic {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  technicalRiderId Int            @unique
+  technicalRiderId String         @unique
   technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id], onDelete: Cascade)
 }
 
 model RiderCategory {
   id        Int      @id @default(autoincrement())
-  label     String   @db.VarChar(45)
+  label     String   @unique @db.VarChar(45)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -243,34 +243,32 @@ enum RiderStatus {
 }
 
 model BandContact {
-  id        Int      @id @default(autoincrement())
-  firstname String?
-  lastname  String?
-  email     String?
-  phone     String?
-  isPrimary Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int         @id @default(autoincrement())
+  firstname   String?
+  lastname    String?
+  email       String?
+  phone       String?
+  contactRole ContactRole @default(UNKNOWN)
+  isPrimary   Boolean     @default(false)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
-  bandId        Int
-  band          Band        @relation(fields: [bandId], references: [id])
-  userId        Int?
-  user          User?       @relation(fields: [userId], references: [id])
-  contactRole   ContactRole @relation(fields: [contactRoleId], references: [id])
-  contactRoleId Int
+  bandId String
+  band   Band    @relation(fields: [bandId], references: [id])
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
 
   @@index([bandId])
 }
 
-model ContactRole {
-  id        Int      @id @default(autoincrement())
-  code      String   @unique
-  label     String
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  contacts BandContact[]
+enum ContactRole {
+  MEMBER
+  MANAGER
+  BOOKING
+  TOUR_MANAGER
+  LABEL
+  OTHER
+  UNKNOWN
 }
 
 model InstrumentCategory {
@@ -311,7 +309,7 @@ model StageInstrument {
   updatedAt DateTime @updatedAt
 
   technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
-  technicalRiderId Int
+  technicalRiderId String
   instrument       Instrument?    @relation(fields: [instrumentId], references: [id])
   instrumentId     Int?
 }
