@@ -20,7 +20,7 @@ export class BandService {
     private readonly mediaService: MediaService,
   ) {}
 
-  async createBand(data: CreateBandDto, userId: number) {
+  async createBand(data: CreateBandDto, userId: string) {
     return await this.prismaService.band.create({
       data: {
         label: data.label,
@@ -31,7 +31,7 @@ export class BandService {
   }
 
   async findSummaryBandsByUserId(
-    id: number,
+    id: string,
     page: number = 1,
     limit: number = 6,
   ): Promise<PaginationResult<SummaryBand>> {
@@ -83,7 +83,7 @@ export class BandService {
     return { data: mapData, meta };
   }
 
-  async findBandDetailById(bandId: number): Promise<BandDetails> {
+  async findBandDetailById(bandId: string): Promise<BandDetails> {
     const band = await this.prismaService.band.findUnique({
       where: { id: bandId },
       select: bandDetailSelect,
@@ -95,8 +95,8 @@ export class BandService {
   }
 
   async findAllMyBands(
-    userId: number,
-  ): Promise<{ id: number; label: string }[]> {
+    userId: string,
+  ): Promise<{ id: string; label: string }[]> {
     return await this.prismaService.band.findMany({
       where: {
         memberships: {
@@ -137,11 +137,11 @@ export class BandService {
           }
         : null,
       members: band.memberships.map((member) => ({
-        id: member.user.id,
-        firstname: member.user.firstname,
-        lastname: member.user.lastname,
+        id: member.user?.id ?? null,
+        firstname: member.user?.firstname ?? member.firstname ?? '',
+        lastname: member.user?.lastname ?? member.lastname ?? '',
         role: BAND_ROLE[member.role],
-        avatarUrl: member.user.avatar
+        avatarUrl: member.user?.avatar
           ? this.mediaService.getPublicUrl(
               member.user.avatar.bucket,
               member.user.avatar.path,
@@ -159,7 +159,7 @@ export class BandService {
             lastname: this.__getContactField(primaryContact, 'lastname'),
             email: this.__getContactField(primaryContact, 'email'),
             phone: this.__getContactField(primaryContact, 'phone'),
-            contactRole: primaryContact.contactRole?.label ?? null,
+            contactRole: primaryContact.contactRole ?? null,
           }
         : null,
       bandContacts: band.bandContacts
@@ -170,7 +170,7 @@ export class BandService {
           lastname: this.__getContactField(contact, 'lastname'),
           email: this.__getContactField(contact, 'email'),
           phone: this.__getContactField(contact, 'phone'),
-          contactRole: contact.contactRole.label ?? null,
+          contactRole: contact.contactRole ?? null,
         })),
       technicalRiders: band.technicalRiders.map((rider) => ({
         id: rider.id,

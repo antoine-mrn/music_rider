@@ -30,7 +30,7 @@ export class BandController {
   @Get('bands-list')
   async findAllMyBands(
     @Request() req: AuthRequest,
-  ): Promise<{ id: number; label: string }[]> {
+  ): Promise<{ id: string; label: string }[]> {
     return await this.bandService.findAllMyBands(req.user.sub);
   }
 
@@ -49,7 +49,7 @@ export class BandController {
 
   @Get(':bandId')
   async findBandDetailById(
-    @Param('bandId', ParseIntPipe) bandId: number,
+    @Param('bandId') bandId: string,
   ): Promise<BandDetails> {
     return await this.bandService.findBandDetailById(bandId);
   }

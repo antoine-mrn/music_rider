@@ -13,7 +13,7 @@ export class TechnicalRiderService {
   constructor(private readonly prismaService: PrismaService) {}
 
   async findAllTechnicalRiderByUserID(
-    userId: number,
+    userId: string,
   ): Promise<SummaryTechnicalRider[]> {
     return this.prismaService.technicalRider.findMany({
       where: {
@@ -33,7 +33,7 @@ export class TechnicalRiderService {
   }
 
   async findSummaryTechnicalRiderByUserId(
-    id: number,
+    id: string,
     limit: number = 10,
   ): Promise<{ data: SummaryTechnicalRider[]; totalTechnicalRiders: number }> {
     const [technicalRider, totalTechnicalRiders] = await Promise.all([

@@ -111,7 +111,7 @@ export class AuthService {
 
   private async __getTokens(
     email: string,
-    sub: number,
+    sub: string,
     sessionId: string,
   ): Promise<TokensDto> {
     const accessToken = await this.__generateAccessToken(email, sub);
@@ -126,7 +126,7 @@ export class AuthService {
 
   private async __generateAccessToken(
     email: string,
-    sub: number,
+    sub: string,
   ): Promise<string> {
     return await this.jwtService.signAsync(
       { email, sub },
@@ -139,7 +139,7 @@ export class AuthService {
 
   private async __generateRefreshToken(
     email: string,
-    sub: number,
+    sub: string,
     sessionId: string,
   ): Promise<string> {
     return this.jwtService.signAsync(
@@ -153,7 +153,7 @@ export class AuthService {
 
   private async __createNewSession(
     sessionId: string,
-    userId: number,
+    userId: string,
     refreshToken: string,
   ): Promise<void> {
     const newAuthSession = await this.authSessionService.create(

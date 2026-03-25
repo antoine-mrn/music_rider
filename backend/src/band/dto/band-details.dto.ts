@@ -2,7 +2,7 @@ import { BAND_ROLE } from 'src/shared/types/band-role.enum';
 import { SummaryTechnicalRider } from 'src/technical-rider/types/technical-rider.types';
 
 export class BandDetails {
-  id: number;
+  id: string;
   label: string;
   memberCount: number;
   musicStyle: {
@@ -10,7 +10,7 @@ export class BandDetails {
     label: string;
   } | null;
   members: {
-    id: number;
+    id: string | null;
     firstname: string;
     lastname: string;
     role: BAND_ROLE;

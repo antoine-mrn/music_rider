@@ -44,7 +44,7 @@ export class UserService {
     });
   }
 
-  async me(id: number): Promise<CurrentUserDto> {
+  async me(id: string): Promise<CurrentUserDto> {
     const user = await this.prismaService.user.findUnique({
       where: { id },
       select: currentUserSelect,
@@ -55,7 +55,7 @@ export class UserService {
     return this.getMewithAvatar(user);
   }
 
-  async getDashboardUser(id: number): Promise<DashboardDto> {
+  async getDashboardUser(id: string): Promise<DashboardDto> {
     const [user, bands, technicalRidersResult] = await Promise.all([
       this.me(id),
       this.bandService.findSummaryBandsByUserId(id),
@@ -99,7 +99,7 @@ export class UserService {
   }
 
   async updateUserById(
-    id: number,
+    id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<CurrentUserDto> {
     const userUpdated = await this.prismaService.user.update({
@@ -112,7 +112,7 @@ export class UserService {
   }
 
   async updateAvatarByUserId(
-    userId: number,
+    userId: string,
     file: Express.Multer.File,
   ): Promise<UpdateAvatarDto> {
     const user = await this.prismaService.user.findUnique({

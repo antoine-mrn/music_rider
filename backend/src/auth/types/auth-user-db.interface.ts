@@ -1,5 +1,5 @@
 export interface AuthUserDb {
-  id: number;
+  id: string;
   email: string;
   firstname: string;
   lastname: string;

@@ -2,6 +2,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  IsUUID,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -17,7 +18,6 @@ export class CreateTechnicalRiderDto {
   @IsNumber()
   riderCategoryId: number;
 
-  @IsNotEmpty()
-  @IsNumber()
-  bandId: number;
+  @IsUUID()
+  bandId: string;
 }

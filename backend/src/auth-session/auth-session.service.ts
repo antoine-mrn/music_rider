@@ -14,7 +14,7 @@ export class AuthSessionService {
 
   async create(
     sessionId: string,
-    userId: number,
+    userId: string,
     refreshToken: string,
   ): Promise<{ id: string } | null> {
     const refreshTokenHash = await hash(refreshToken);

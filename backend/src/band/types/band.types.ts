@@ -2,7 +2,7 @@ import { Prisma } from '@prisma/client';
 import { BAND_ROLE } from 'src/shared/types/band-role.enum';
 
 export interface SummaryBandRaw {
-  id: number;
+  id: string;
   label: string;
   musicStyle: {
     id: number;
@@ -14,7 +14,7 @@ export interface SummaryBandRaw {
 }
 
 export interface SummaryBand {
-  id: number;
+  id: string;
   label: string;
   musicStyle: {
     id: number;
@@ -39,7 +39,7 @@ export const bandDetailSelect = {
       lastname: true,
       email: true,
       phone: true,
-      contactRole: { select: { id: true, label: true } },
+      contactRole: true,
       user: {
         select: {
           firstname: true,
@@ -53,6 +53,8 @@ export const bandDetailSelect = {
   memberships: {
     select: {
       role: true,
+      firstname: true,
+      lastname: true,
       user: {
         select: {
           id: true,
