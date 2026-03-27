@@ -3,7 +3,7 @@ import { riderCategoryApi } from "../api/rider-category.api";
 
 export const useGetAllRiderCategories = () => {
     return useQuery<any, Error>({
-        queryKey: ["styles"],
+        queryKey: ["rider-categories"],
         queryFn: () => riderCategoryApi.getAllRiderCategories(),
         staleTime: Infinity,
         gcTime: Infinity,

@@ -22,6 +22,10 @@ export default function CreateTechnicalRiderDialog({
     onClose: () => void;
 }) {
     const { data: riderCategories } = useGetAllRiderCategories();
+    console.log(
+        "🚀 ~ CreateTechnicalRiderDialog ~ riderCategories:",
+        riderCategories,
+    );
     const { data: bands } = useBandsList();
 
     const {

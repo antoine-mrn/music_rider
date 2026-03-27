@@ -21,6 +21,7 @@ export default function CreateBandDialog({
     onClose: () => void;
 }) {
     const { data: musicStyles } = useGetAllMusicStyles();
+    console.log("🚀 ~ CreateBandDialog ~ musicStyles:", musicStyles);
     const {
         mutateAsync: createBand,
         isPending,
