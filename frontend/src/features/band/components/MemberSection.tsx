@@ -4,6 +4,7 @@ import type { BandMember } from "../types";
 import MemberCard from "./MemberCard";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Button from "../../../components/ui/button/Button";
+import AddMemberToBandDialog from "./AddMemberToBandDialog";
 
 const DEFAULT_VISIBLE = 4;
 
@@ -22,6 +23,8 @@ export default function MemberSection({
         ? bandMembers
         : bandMembers.slice(0, DEFAULT_VISIBLE);
 
+    const [isOpen, setIsOpen] = useState(false);
+
     return (
         <section className={`card card-border border-2 ${className}`}>
             <div className="card-body">
@@ -31,9 +34,17 @@ export default function MemberSection({
                         {memberCount}
                     </span>
                     {/* TODO: Ajouter la fonctionnalité d'ajout de membres */}
-                    <Button className="ml-auto" typeStyle="outline">
+                    <Button
+                        onClick={() => setIsOpen(true)}
+                        className="ml-auto"
+                        typeStyle="outline"
+                    >
                         + Ajouter
                     </Button>
+                    <AddMemberToBandDialog
+                        isOpen={isOpen}
+                        onClose={() => setIsOpen(false)}
+                    />
                 </div>
 
                 <ul className="flex gap-4">
