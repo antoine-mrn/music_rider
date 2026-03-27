@@ -94,14 +94,13 @@ model UserBand {
 }
 
 model UserBandInstrument {
-  userId       String
-  bandId       String
+  userBandId   Int
   instrumentId Int
 
-  userBand   UserBand   @relation(fields: [userId, bandId], references: [userId, bandId])
+  userBand   UserBand   @relation(fields: [userBandId], references: [id])
   instrument Instrument @relation(fields: [instrumentId], references: [id])
 
-  @@id([userId, bandId, instrumentId])
+  @@id([userBandId, instrumentId])
 }
 
 enum BandRole {
