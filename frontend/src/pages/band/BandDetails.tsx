@@ -20,7 +20,7 @@ export default function BandDetails() {
         isLoading,
         isError,
         refetch,
-    } = useBandDetails(parseInt(bandId ?? "0"));
+    } = useBandDetails(bandId ?? "0");
 
     if (isLoading) return <Loading />;
     if (isError) return <ErrorInfo onRetry={refetch} />;

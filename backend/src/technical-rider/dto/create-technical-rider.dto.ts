@@ -6,8 +6,10 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { Trim } from 'src/shared/decorators/trim.decorators';
 
 export class CreateTechnicalRiderDto {
+  @Trim()
   @IsNotEmpty()
   @IsString()
   @MinLength(1)

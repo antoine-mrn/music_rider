@@ -11,11 +11,11 @@ export const bandApi = {
         );
         return data;
     },
-    bandDetails: async (bandId: number): Promise<BandDetails> => {
+    bandDetails: async (bandId: string): Promise<BandDetails> => {
         const { data } = await apiClient.get<BandDetails>(`band/${bandId}`);
         return data;
     },
-    bandsList: async (): Promise<{ id: number; label: string }[]> => {
+    bandsList: async (): Promise<{ id: string; label: string }[]> => {
         const { data } = await apiClient.get("band/bands-list");
         return data;
     },
