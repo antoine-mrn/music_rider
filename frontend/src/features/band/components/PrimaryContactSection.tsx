@@ -1,3 +1,4 @@
+import { CONTACT_ROLES } from "../../../shared/constantes/contact-role";
 import type { BandContact } from "../types";
 
 export default function PrimaryContactSection({
@@ -21,7 +22,7 @@ export default function PrimaryContactSection({
                             {primaryContact.firstname} {primaryContact.lastname}
                         </h3>
                         <span className="text-primary-content italic">
-                            {primaryContact.contactRole}
+                            {CONTACT_ROLES[primaryContact.contactRole]}
                         </span>
                         <div className="flex flex-col mt-4 font-medium">
                             <a href={`mailto:${primaryContact.email}`}>

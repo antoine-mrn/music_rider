@@ -23,7 +23,7 @@ export class BandController {
   async createBand(
     @Body() createBand: CreateBandDto,
     @Request() req: AuthRequest,
-  ) {
+  ): Promise<{ id: string }> {
     return await this.bandService.createBand(createBand, req.user.sub);
   }
 

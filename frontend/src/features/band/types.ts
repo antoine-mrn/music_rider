@@ -1,3 +1,4 @@
+import type { CONTACT_ROLES } from "../../shared/constantes/contact-role";
 import type { UserBandRole } from "../../shared/types/user-band-role.type";
 import type { SummaryTechnicalRider } from "../technical-rider/types";
 
@@ -31,7 +32,7 @@ export interface BandContact {
     lastname: string;
     email: string | null;
     phone: string | null;
-    contactRole: string;
+    contactRole: keyof typeof CONTACT_ROLES;
 }
 
 export interface BandDetails {
