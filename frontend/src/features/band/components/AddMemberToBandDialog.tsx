@@ -7,8 +7,17 @@ import Field from "../../../components/ui/form/Field";
 import Label from "../../../components/ui/form/Label";
 import Input from "../../../components/ui/form/Input";
 import Button from "../../../components/ui/button/Button";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, type FieldErrors } from "react-hook-form";
+import {
+    type AddMemberToBandType,
+    AddMemberToBandSchema,
+} from "../../../schemas/add-member-to-band.schema";
 
-const TABS = ["Via un compte", "Personnalisé"];
+const TABS = [
+    { label: "Via un compte", mode: "account" },
+    { label: "Personnalisé", mode: "custom" },
+];
 
 export default function AddMemberToBandDialog({
     isOpen,
@@ -18,6 +27,21 @@ export default function AddMemberToBandDialog({
     onClose: () => void;
 }) {
     const [selectedTab, setSelectedTab] = useState(0);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<AddMemberToBandType>({
+        resolver: zodResolver(AddMemberToBandSchema),
+    });
+
+    const errorsAccount = errors as FieldErrors<
+        Extract<AddMemberToBandType, { mode: "account" }>
+    >;
+    const errorsCustom = errors as FieldErrors<
+        Extract<AddMemberToBandType, { mode: "custom" }>
+    >;
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -31,9 +55,15 @@ export default function AddMemberToBandDialog({
                     onChange={setSelectedTab}
                 >
                     {selectedTab === 0 ? (
-                        <AccountTabContent />
+                        <AccountTabContent
+                            register={register}
+                            errors={errorsAccount.email?.message}
+                        />
                     ) : (
-                        <CustomTabContent />
+                        <CustomTabContent
+                            register={register}
+                            errors={errorsCustom}
+                        />
                     )}
                 </Tabs>
 

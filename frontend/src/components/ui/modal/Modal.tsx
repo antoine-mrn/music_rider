@@ -16,7 +16,7 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
 
     return (
         <dialog ref={dialogRef} className="modal" onClose={onClose}>
-            <div className="modal-box">
+            <div className="modal-box" onClick={(e) => e.stopPropagation()}>
                 <form method="dialog">
                     <Button
                         className="absolute right-2 top-2"

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 interface TabsProps {
-    items: string[];
+    items: { label: string; mode: string }[];
     children: ReactNode;
     activeIndex: number;
     onChange: (index: number) => void;
@@ -19,15 +19,16 @@ export default function Tabs({
                 role="tablist"
                 className="bg-base-300 rounded-xl flex gap-1 p-1 mb-4"
             >
-                {items.map((label, index) => (
+                {items.map((item, index) => (
                     <button
-                        key={label}
+                        type="button"
+                        key={item.mode}
                         role="tab"
                         aria-selected={activeIndex === index}
                         onClick={() => onChange(index)}
                         className={`py-2 text-base-content/50 text-sm rounded-lg flex-1 text-center cursor-pointer uppercase ${activeIndex === index && "shadow bg-base-100 text-primary"}`}
                     >
-                        {label}
+                        {item.label}
                     </button>
                 ))}
             </div>
