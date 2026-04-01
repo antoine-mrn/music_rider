@@ -26,7 +26,7 @@ export default function Tabs({
                         role="tab"
                         aria-selected={activeIndex === index}
                         onClick={() => onChange(index)}
-                        className={`py-2 text-base-content/50 text-sm rounded-lg flex-1 text-center cursor-pointer uppercase ${activeIndex === index && "shadow bg-base-100 text-primary"}`}
+                        className={`py-2 text-base-content/50 text-sm font-black rounded-lg flex-1 text-center cursor-pointer uppercase ${activeIndex === index && "shadow bg-base-100 text-primary"}`}
                     >
                         {item.label}
                     </button>

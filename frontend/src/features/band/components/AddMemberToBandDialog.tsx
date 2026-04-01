@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Modal from "../../../components/ui/modal/Modal";
 import Tabs from "../../../components/ui/tabs/Tabs";
 import AccountTabContent from "./AccountTabContent";
@@ -28,8 +28,21 @@ export default function AddMemberToBandDialog({
     onClose: () => void;
 }) {
     const [selectedTab, setSelectedTab] = useState(0);
-    const { data } = useFindAllInstrument();
-    console.log("🚀 ~ AddMemberToBandDialog ~ data:", data);
+
+    const { data: instrumentsList } = useFindAllInstrument();
+    const [instrumentInputValue, setInstrumentInputValue] = useState("");
+    const [instrumentsSelected, setInstrumentsSelected] = useState<string[]>(
+        [],
+    );
+
+    function handleAddInstrument(instrument: { id: number; label: string }) {
+        const isAlreadyInList = instrumentsSelected.includes(instrument.label);
+
+        if (isAlreadyInList) return;
+
+        setInstrumentsSelected([...instrumentsSelected, instrument.label]);
+        setInstrumentInputValue("");
+    }
 
     const {
         register,
@@ -51,7 +64,7 @@ export default function AddMemberToBandDialog({
             <h2 className="font-bold text-lg mb-8">
                 Ajouter un membre au groupe
             </h2>
-            <form className="space-y-6">
+            <form className="space-y-8">
                 <Tabs
                     items={TABS}
                     activeIndex={selectedTab}
@@ -70,11 +83,53 @@ export default function AddMemberToBandDialog({
                     )}
                 </Tabs>
 
-                <Field>
-                    <Label label="Instruments joués" htmlFor="instrument" />
-                    <Input placeholder="Guitare" id="instrument" />
-                </Field>
+                {/* Field instrument */}
+                <div className="relative">
+                    <Field>
+                        <Label label="Instrument joué" htmlFor="instrument" />
+                        <Input
+                            value={instrumentInputValue}
+                            onChange={(e) =>
+                                setInstrumentInputValue(e.target.value)
+                            }
+                            placeholder="Guitare"
+                            id="instrument"
+                        />
 
+                        {instrumentInputValue.length > 0 && (
+                            <div className="absolute bg-base-100 rounded-xl shadow top-20 w-full overflow-x-auto p-2 grid grid-flow-col gap-2 grid-rows-2">
+                                {instrumentsList
+                                    ?.filter((i) =>
+                                        i.label
+                                            .toLowerCase()
+                                            .includes(instrumentInputValue),
+                                    )
+                                    .map((instrument) => (
+                                        <span
+                                            onClick={() =>
+                                                handleAddInstrument(instrument)
+                                            }
+                                            className="text-sm font-semibold italic p-2 cursor-pointer rounded-lg transition-colors whitespace-nowrap hover:bg-primary/8"
+                                        >
+                                            {instrument.label}
+                                        </span>
+                                    ))}
+                            </div>
+                        )}
+                        <div>
+                            {instrumentsSelected.map((instrument) => (
+                                <span className="badge badge-soft badge-primary">
+                                    {instrument}
+                                </span>
+                            ))}
+                        </div>
+                    </Field>
+                    <span className="text-xs text-base-content/50 italic">
+                        Vous pouvez sélectionner un ou plusieurs instruments
+                    </span>
+                </div>
+
+                {/* form submit */}
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <Button
                         className="flex-1 uppercase italic font-black py-4 sm:py-0"

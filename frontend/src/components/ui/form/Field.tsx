@@ -1,3 +1,13 @@
-export default function Field({ children }: { children: React.ReactNode }) {
-    return <div className="flex flex-1 flex-col gap-1">{children}</div>;
+export default function Field({
+    children,
+    className,
+}: {
+    children: React.ReactNode;
+    className?: string;
+}) {
+    return (
+        <div className={`flex flex-1 flex-col gap-2 ${className}`}>
+            {children}
+        </div>
+    );
 }
