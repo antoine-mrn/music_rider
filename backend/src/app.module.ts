@@ -12,6 +12,7 @@ import { SupabaseModule } from 'supabase/supabase.module';
 import { MediaModule } from './media/media.module';
 import { StyleModule } from './style/style.module';
 import { RiderCategoryModule } from './rider-category/rider-category.module';
+import { InstrumentModule } from './instruments/instruments.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { RiderCategoryModule } from './rider-category/rider-category.module';
     MediaModule,
     StyleModule,
     RiderCategoryModule,
+    InstrumentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

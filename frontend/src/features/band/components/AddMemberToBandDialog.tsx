@@ -13,6 +13,7 @@ import {
     type AddMemberToBandType,
     AddMemberToBandSchema,
 } from "../../../schemas/add-member-to-band.schema";
+import { useFindAllInstrument } from "../../instrument/hooks/useFindAllInstrument";
 
 const TABS = [
     { label: "Via un compte", mode: "account" },
@@ -27,6 +28,8 @@ export default function AddMemberToBandDialog({
     onClose: () => void;
 }) {
     const [selectedTab, setSelectedTab] = useState(0);
+    const { data } = useFindAllInstrument();
+    console.log("🚀 ~ AddMemberToBandDialog ~ data:", data);
 
     const {
         register,
@@ -48,7 +51,7 @@ export default function AddMemberToBandDialog({
             <h2 className="font-bold text-lg mb-8">
                 Ajouter un membre au groupe
             </h2>
-            <form className="space-y-4">
+            <form className="space-y-6">
                 <Tabs
                     items={TABS}
                     activeIndex={selectedTab}
