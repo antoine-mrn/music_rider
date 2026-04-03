@@ -90,6 +90,7 @@ export default function AddMemberToBandDialog({
         setValue,
         handleSubmit,
         watch,
+        reset,
         formState: { errors },
     } = useForm<AddMemberToBandType>({
         resolver: zodResolver(AddMemberToBandSchema),
@@ -101,6 +102,8 @@ export default function AddMemberToBandDialog({
     const onSubmit = handleSubmit(async (data) => {
         if (!bandId) return;
         AddMembership({ bandId, memberData: data });
+        reset();
+        onClose();
     });
 
     const errorsAccount = errors as FieldErrors<
