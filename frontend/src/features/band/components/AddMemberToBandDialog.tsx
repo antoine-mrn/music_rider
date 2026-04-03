@@ -104,6 +104,8 @@ export default function AddMemberToBandDialog({
         AddMembership({ bandId, memberData: data });
         reset();
         onClose();
+        setSelectedTab(TABS[0]);
+        setInstrumentsSelected([]);
     });
 
     const errorsAccount = errors as FieldErrors<
