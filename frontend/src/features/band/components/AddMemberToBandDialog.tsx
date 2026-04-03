@@ -83,8 +83,6 @@ export default function AddMemberToBandDialog({
         defaultValues: { instrumentId: [] },
     });
 
-    console.log(watch());
-
     const onSubmit = handleSubmit(async (data) => {
         console.log("🚀 ~ AddMemberToBandDialog ~ data:", data);
     });

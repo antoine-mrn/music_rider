@@ -3,7 +3,7 @@ import type { SelectHTMLAttributes } from "react";
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
     className?: string;
     defaultOption: string;
-    values: { id: number; label: string }[];
+    values: { id: number | string; label: string }[];
     error?: string;
 }
 
