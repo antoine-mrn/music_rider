@@ -2,8 +2,9 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
+  HttpCode,
   Param,
-  ParseIntPipe,
   Post,
   Query,
   Request,
@@ -14,10 +15,15 @@ import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
 import { SummaryBand } from './types/band.types';
 import { BandDetails } from './dto/band-details.dto';
 import { CreateBandDto } from './dto/create-band.dto';
+import { CreateMembershipDto } from 'src/memberships/dto/create-membership.dto';
+import { MembershipsService } from 'src/memberships/memberships.service';
 
 @Controller('band')
 export class BandController {
-  constructor(private readonly bandService: BandService) {}
+  constructor(
+    private readonly bandService: BandService,
+    private readonly membershipsService: MembershipsService,
+  ) {}
 
   @Post()
   async createBand(
@@ -52,5 +58,13 @@ export class BandController {
     @Param('bandId') bandId: string,
   ): Promise<BandDetails> {
     return await this.bandService.findBandDetailById(bandId);
+  }
+
+  @Post(':bandId/membership')
+  addMember(
+    @Param('bandId') bandId: string,
+    @Body() body: CreateMembershipDto,
+  ): Promise<{ bandId: string }> {
+    return this.membershipsService.createMembership(bandId, body);
   }
 }

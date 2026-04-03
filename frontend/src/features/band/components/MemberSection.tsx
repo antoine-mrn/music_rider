@@ -46,9 +46,9 @@ export default function MemberSection({
                     />
                 </div>
 
-                <ul className="flex gap-4">
-                    {membersDisplayed.map((member) => (
-                        <MemberCard key={member.id} member={member} />
+                <ul className="flex gap-4 flex-wrap">
+                    {membersDisplayed.map((member, index) => (
+                        <MemberCard key={index} member={member} />
                     ))}
                 </ul>
 
@@ -56,7 +56,7 @@ export default function MemberSection({
                     <Button
                         onClick={() => setIsAllVisible(!isAllVisible)}
                         className="w-fit mx-auto mt-4"
-                        variant="secondary"
+                        variant="ghost"
                         typeStyle="outline"
                         size="sm"
                     >

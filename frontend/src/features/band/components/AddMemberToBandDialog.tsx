@@ -15,6 +15,8 @@ import {
 } from "../../../schemas/add-member-to-band.schema";
 import { useFindAllInstrument } from "../../instrument/hooks/useFindAllInstrument";
 import { useClickOutside } from "../../../hooks/useClickOutside";
+import { useAddMembership } from "../hooks/useAddMembership";
+import { useParams } from "react-router";
 
 type Tab = {
     label: string;
@@ -33,6 +35,7 @@ export default function AddMemberToBandDialog({
     isOpen: boolean;
     onClose: () => void;
 }) {
+    const { bandId } = useParams();
     const [selectedTab, setSelectedTab] = useState(TABS[0]);
 
     const instrumentSuggestionRef = useRef<HTMLDivElement>(null);
@@ -93,8 +96,11 @@ export default function AddMemberToBandDialog({
         defaultValues: { mode: "account", instrumentId: [] },
     });
 
+    const { mutateAsync: AddMembership, isPending } = useAddMembership();
+
     const onSubmit = handleSubmit(async (data) => {
-        console.log("🚀 ~ AddMemberToBandDialog ~ data:", data);
+        if (!bandId) return;
+        AddMembership({ bandId, memberData: data });
     });
 
     const errorsAccount = errors as FieldErrors<
@@ -205,6 +211,7 @@ export default function AddMemberToBandDialog({
                 {/* form submit */}
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <Button
+                        disabled={isPending}
                         className="flex-1 uppercase italic font-black py-4 sm:py-0"
                         variant="soft"
                     >
@@ -215,7 +222,11 @@ export default function AddMemberToBandDialog({
                         type="submit"
                         className="flex-1 uppercase italic font-black py-4 sm:py-0"
                     >
-                        Confirmer
+                        {isPending ? (
+                            <span className="loading loading-spinner"></span>
+                        ) : (
+                            <span>Confirmer</span>
+                        )}
                     </Button>
                 </div>
             </form>

@@ -1,4 +1,5 @@
 import { apiClient } from "../../../lib/axios";
+import type { AddMemberToBandType } from "../../../schemas/add-member-to-band.schema";
 import type { CreateBandSchemaType } from "../../../schemas/create-band.schema";
 import type { Pagination } from "../../../shared/types/pagination.interface";
 import type { BandDetails, CreatedBand, SummaryBand } from "../types";
@@ -23,6 +24,17 @@ export const bandApi = {
         bandData: CreateBandSchemaType,
     ): Promise<CreatedBand> => {
         const { data } = await apiClient.post<CreatedBand>("band", bandData);
+        return data;
+    },
+    addMembership: async (
+        bandId: string,
+        memberData: AddMemberToBandType,
+    ): Promise<{ bandId: string }> => {
+        const { data } = await apiClient.post(
+            `band/${bandId}/membership`,
+            memberData,
+        );
+
         return data;
     },
 };

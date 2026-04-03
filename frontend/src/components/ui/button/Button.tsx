@@ -1,7 +1,14 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: "primary" | "secondary" | "neutral" | "ghost" | "soft";
+    variant?:
+        | "primary"
+        | "secondary"
+        | "info"
+        | "accent"
+        | "neutral"
+        | "ghost"
+        | "soft";
     typeStyle?: "soft" | "outline" | "disabled";
     size?: "xs" | "sm" | "md" | "lg" | "xl";
     shape?: "circle" | "square" | "default";
@@ -11,6 +18,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const variantClass: Record<string, string> = {
     primary: "btn-primary",
     secondary: "btn-secondary",
+    info: "btn-info",
+    accent: "btn-accent",
     neutral: "btn-neutral",
     ghost: "btn-ghost",
     soft: "btn-soft",
