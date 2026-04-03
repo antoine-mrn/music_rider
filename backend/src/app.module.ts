@@ -13,6 +13,7 @@ import { MediaModule } from './media/media.module';
 import { StyleModule } from './style/style.module';
 import { RiderCategoryModule } from './rider-category/rider-category.module';
 import { InstrumentModule } from './instruments/instruments.module';
+import { MembershipsModule } from './memberships/memberships.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { InstrumentModule } from './instruments/instruments.module';
     StyleModule,
     RiderCategoryModule,
     InstrumentModule,
+    MembershipsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -33,7 +33,6 @@ export default function MemberSection({
                     <span className="font-bold text-primary">
                         {memberCount}
                     </span>
-                    {/* TODO: Ajouter la fonctionnalité d'ajout de membres */}
                     <Button
                         onClick={() => setIsOpen(true)}
                         className="ml-auto"

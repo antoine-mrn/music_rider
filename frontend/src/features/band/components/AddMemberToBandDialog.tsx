@@ -16,7 +16,12 @@ import {
 import { useFindAllInstrument } from "../../instrument/hooks/useFindAllInstrument";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 
-const TABS = [
+type Tab = {
+    label: string;
+    mode: "account" | "custom";
+};
+
+const TABS: Tab[] = [
     { label: "Via un compte", mode: "account" },
     { label: "Personnalisé", mode: "custom" },
 ];
@@ -28,7 +33,7 @@ export default function AddMemberToBandDialog({
     isOpen: boolean;
     onClose: () => void;
 }) {
-    const [selectedTab, setSelectedTab] = useState(0);
+    const [selectedTab, setSelectedTab] = useState(TABS[0]);
 
     const instrumentSuggestionRef = useRef<HTMLDivElement>(null);
     const [isSuggestionOpen, setIsSuggestionOpen] = useState<boolean>(false);
@@ -42,6 +47,11 @@ export default function AddMemberToBandDialog({
             label: string;
         }[]
     >([]);
+
+    function handleSelectedTab(tabSelected: Tab) {
+        setSelectedTab(tabSelected);
+        setValue("mode", tabSelected.mode);
+    }
 
     const suggestedInstruments = instrumentsList?.filter((i) =>
         i.label.toLowerCase().includes(instrumentInputValue),
@@ -80,7 +90,7 @@ export default function AddMemberToBandDialog({
         formState: { errors },
     } = useForm<AddMemberToBandType>({
         resolver: zodResolver(AddMemberToBandSchema),
-        defaultValues: { instrumentId: [] },
+        defaultValues: { mode: "account", instrumentId: [] },
     });
 
     const onSubmit = handleSubmit(async (data) => {
@@ -102,10 +112,10 @@ export default function AddMemberToBandDialog({
             <form className="space-y-8">
                 <Tabs
                     items={TABS}
-                    activeIndex={selectedTab}
-                    onChange={setSelectedTab}
+                    activeMode={selectedTab.mode}
+                    onChange={handleSelectedTab}
                 >
-                    {selectedTab === 0 ? (
+                    {selectedTab.mode === "account" ? (
                         <AccountTabContent
                             register={register}
                             errors={errorsAccount.email?.message}

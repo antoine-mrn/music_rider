@@ -1,32 +1,32 @@
 import type { ReactNode } from "react";
 
-interface TabsProps {
-    items: { label: string; mode: string }[];
+interface TabsProps<T extends string> {
+    items: { label: string; mode: T }[];
     children: ReactNode;
-    activeIndex: number;
-    onChange: (index: number) => void;
+    activeMode: T;
+    onChange: (tab: { label: string; mode: T }) => void;
 }
 
-export default function Tabs({
+export default function Tabs<T extends string>({
     items,
     children,
-    activeIndex,
+    activeMode,
     onChange,
-}: TabsProps) {
+}: TabsProps<T>) {
     return (
         <div>
             <div
                 role="tablist"
                 className="bg-base-300 rounded-xl flex gap-1 p-1 mb-4"
             >
-                {items.map((item, index) => (
+                {items.map((item) => (
                     <button
                         type="button"
                         key={item.mode}
                         role="tab"
-                        aria-selected={activeIndex === index}
-                        onClick={() => onChange(index)}
-                        className={`py-2 text-base-content/50 text-sm font-black rounded-lg flex-1 text-center cursor-pointer uppercase ${activeIndex === index && "shadow bg-base-100 text-primary"}`}
+                        aria-selected={activeMode === item.mode}
+                        onClick={() => onChange(item)}
+                        className={`py-2 text-base-content/50 text-sm font-black rounded-lg flex-1 text-center cursor-pointer uppercase ${activeMode === item.mode && "shadow bg-base-100 text-primary"}`}
                     >
                         {item.label}
                     </button>
