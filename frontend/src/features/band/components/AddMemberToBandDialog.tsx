@@ -97,16 +97,23 @@ export default function AddMemberToBandDialog({
         defaultValues: { mode: "account", instrumentId: [] },
     });
 
-    const { mutateAsync: AddMembership, isPending } = useAddMembership();
+    const { mutateAsync: AddMembership, isPending, error } = useAddMembership();
 
     const onSubmit = handleSubmit(async (data) => {
         if (!bandId) return;
-        AddMembership({ bandId, memberData: data });
-        reset();
-        onClose();
+
+        try {
+            await AddMembership({ bandId, memberData: data });
+            handleClose();
+        } catch (error) {}
+    });
+
+    function handleClose() {
+        reset({ mode: "account", instrumentId: [] });
         setSelectedTab(TABS[0]);
         setInstrumentsSelected([]);
-    });
+        onClose();
+    }
 
     const errorsAccount = errors as FieldErrors<
         Extract<AddMemberToBandType, { mode: "account" }>
@@ -214,25 +221,33 @@ export default function AddMemberToBandDialog({
                 </div>
 
                 {/* form submit */}
-                <div className="flex flex-col gap-4 sm:flex-row">
-                    <Button
-                        disabled={isPending}
-                        className="flex-1 uppercase italic font-black py-4 sm:py-0"
-                        variant="soft"
-                    >
-                        Annuler
-                    </Button>
-                    <Button
-                        onClick={onSubmit}
-                        type="submit"
-                        className="flex-1 uppercase italic font-black py-4 sm:py-0"
-                    >
-                        {isPending ? (
-                            <span className="loading loading-spinner"></span>
-                        ) : (
-                            <span>Confirmer</span>
-                        )}
-                    </Button>
+                <div>
+                    {error && (
+                        <span className="block text-center mb-1 text-sm font-bold text-error">
+                            {error.message}
+                        </span>
+                    )}
+                    <div className="flex flex-col gap-4 sm:flex-row">
+                        <Button
+                            onClick={handleClose}
+                            disabled={isPending}
+                            className="flex-1 uppercase italic font-black py-4 sm:py-0"
+                            variant="soft"
+                        >
+                            Annuler
+                        </Button>
+                        <Button
+                            onClick={onSubmit}
+                            type="submit"
+                            className="flex-1 uppercase italic font-black py-4 sm:py-0"
+                        >
+                            {isPending ? (
+                                <span className="loading loading-spinner"></span>
+                            ) : (
+                                <span>Confirmer</span>
+                            )}
+                        </Button>
+                    </div>
                 </div>
             </form>
         </Modal>

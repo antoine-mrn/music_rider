@@ -16,21 +16,28 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
 
     return (
         <dialog ref={dialogRef} className="modal" onClose={onClose}>
-            <div className="modal-box" onClick={(e) => e.stopPropagation()}>
-                <form method="dialog">
-                    <Button
-                        className="absolute right-2 top-2"
-                        size="sm"
-                        variant="secondary"
+            {isOpen && (
+                <>
+                    <div
+                        className="modal-box"
+                        onClick={(e) => e.stopPropagation()}
                     >
-                        x
-                    </Button>
-                </form>
-                {children}
-            </div>
-            <form method="dialog" className="modal-backdrop">
-                <button>close</button>
-            </form>
+                        <form method="dialog">
+                            <Button
+                                className="absolute right-2 top-2"
+                                size="sm"
+                                variant="secondary"
+                            >
+                                x
+                            </Button>
+                        </form>
+                        {children}
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                        <button>close</button>
+                    </form>
+                </>
+            )}
         </dialog>
     );
 }

@@ -18,8 +18,5 @@ export const useAddMembership = () => {
             queryClient.invalidateQueries({ queryKey: ["band", data.bandId] });
             toast.success("Membre ajouté avec succès 🤘");
         },
-        onError: () => {
-            toast.error("Erreur lors de l'ajout du nouveau membre");
-        },
     });
 };
