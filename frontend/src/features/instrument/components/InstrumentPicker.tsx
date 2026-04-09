@@ -5,10 +5,6 @@ import Label from "../../../components/ui/form/Label";
 import { useClickOutside } from "../../../hooks/useClickOutside";
 import { useFindAllInstrument } from "../hooks/useFindAllInstrument";
 
-// export interface InstrumentPickerHandle {
-//     resetInstrumentInputValue: () => void;
-//     resetInstrumentsSelected: () => void;
-// }
 export interface InstrumentPickerHandle {
     resetInstrumentPickerState: () => void;
 }

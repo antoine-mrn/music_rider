@@ -1,4 +1,4 @@
-import { Pencil } from "lucide-react";
+import { EllipsisVertical, Pencil } from "lucide-react";
 import Avatar from "../../../components/ui/avatar/Avatar";
 import type { BandMember } from "../types";
 import { useState } from "react";
@@ -19,13 +19,28 @@ export default function MemberCard({ member }: { member: BandMember }) {
                         {member.instruments.map((i) => i.label).join(" / ")}
                     </span>
                 </div>
-                <button
-                    role="button"
-                    onClick={() => setIsOpen(true)}
-                    className="p-2 cursor-pointer rounded-full text-black transition opacity-0 group-hover:opacity-100 hover:bg-primary"
-                >
-                    <Pencil size={16} />
-                </button>
+                <div className="dropdown dropdown-end rounded-full transition-colors hover:bg-primary">
+                    <button
+                        tabIndex={0}
+                        role="button"
+                        className="p-1 cursor-pointer"
+                    >
+                        <EllipsisVertical size={16} />
+                    </button>
+                    <ul
+                        tabIndex={0}
+                        className="dropdown-content menu bg-base-100 rounded-box shadow z-10"
+                    >
+                        <li>
+                            <button onClick={() => setIsOpen(true)}>
+                                Modifier
+                            </button>
+                        </li>
+                        <li>
+                            <button onClick={() => {}}>Supprimer</button>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <EditMemberModal
                 isOpen={isOpen}
