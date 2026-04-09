@@ -119,7 +119,7 @@ export default function InstrumentPicker({
                     {instrumentsSelected.map((instrument) => (
                         <span
                             key={instrument.id}
-                            className="badge badge-soft badge-primary relative"
+                            className="badge badge-soft badge-primary relative font-bold"
                         >
                             {instrument.label}
                             <button

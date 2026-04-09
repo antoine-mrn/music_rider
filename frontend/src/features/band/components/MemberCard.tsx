@@ -1,4 +1,4 @@
-import { EllipsisVertical, Pencil } from "lucide-react";
+import { EllipsisVertical } from "lucide-react";
 import Avatar from "../../../components/ui/avatar/Avatar";
 import type { BandMember } from "../types";
 import { useState } from "react";

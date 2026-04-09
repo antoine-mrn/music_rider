@@ -19,7 +19,7 @@ export const AddMemberToBandSchema = z.discriminatedUnion("mode", [
         firstname: z
             .string()
             .trim()
-            .min(1, { message: "Veuillez renseigner votre prénom" })
+            .min(1, { message: "Veuillez renseigner un prénom" })
             .max(50, {
                 message: "Le prénom ne doit pas dépasser 50 caractères",
             }),

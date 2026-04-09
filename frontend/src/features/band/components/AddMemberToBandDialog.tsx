@@ -107,6 +107,7 @@ export default function AddMemberToBandDialog({
                 <InstrumentPicker
                     ref={instrumentPickerRef}
                     value={watch("instrumentId")}
+                    error={errors.instrumentId?.message}
                     onChange={(ids) => setValue("instrumentId", ids)}
                 />
 
