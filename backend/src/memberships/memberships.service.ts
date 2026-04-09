@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateMembershipDto } from './dto/create-membership.dto';
+import { UpdateMembershipDto } from './dto/update-membership.dto';
 
 @Injectable()
 export class MembershipsService {
@@ -51,6 +52,19 @@ export class MembershipsService {
       });
 
       return { bandId };
+    });
+  }
+
+  async updateMembership(body: UpdateMembershipDto): Promise<void> {
+    const { membershipId, memberId, firstname, lastname, instrumentId } = body;
+
+    const updatedData = memberId
+      ? { instrumentId }
+      : { firstname, lastname, instrumentId };
+
+    await this.prismaService.userBand.update({
+      where: { id: membershipId },
+      data: updatedData,
     });
   }
 }

@@ -37,6 +37,7 @@ export interface BandContact {
 
 export interface BandDetails {
     id: string;
+    membershipId: number;
     label: string;
     memberCount: number;
     musicStyle: {

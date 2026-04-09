@@ -144,6 +144,7 @@ export class BandService {
           }
         : null,
       members: band.memberships.map((member) => ({
+        membershipId: member.id,
         id: member.user?.id ?? null,
         firstname: member.user?.firstname ?? member.firstname ?? '',
         lastname: member.user?.lastname ?? member.lastname ?? '',

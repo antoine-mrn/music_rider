@@ -52,6 +52,7 @@ export const bandDetailSelect = {
   },
   memberships: {
     select: {
+      id: true,
       role: true,
       firstname: true,
       lastname: true,

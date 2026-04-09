@@ -10,6 +10,7 @@ export class BandDetails {
     label: string;
   } | null;
   members: {
+    membershipId: number;
     id: string | null;
     firstname: string;
     lastname: string;

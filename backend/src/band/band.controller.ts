@@ -2,12 +2,13 @@ import {
   Body,
   Controller,
   Get,
-  HttpStatus,
-  HttpCode,
   Param,
   Post,
   Query,
   Request,
+  Patch,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { BandService } from './band.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
@@ -17,6 +18,7 @@ import { BandDetails } from './dto/band-details.dto';
 import { CreateBandDto } from './dto/create-band.dto';
 import { CreateMembershipDto } from 'src/memberships/dto/create-membership.dto';
 import { MembershipsService } from 'src/memberships/memberships.service';
+import { UpdateMembershipDto } from 'src/memberships/dto/update-membership.dto';
 
 @Controller('band')
 export class BandController {
@@ -61,10 +63,16 @@ export class BandController {
   }
 
   @Post(':bandId/membership')
-  addMember(
+  async addMember(
     @Param('bandId') bandId: string,
     @Body() body: CreateMembershipDto,
   ): Promise<{ bandId: string }> {
-    return this.membershipsService.createMembership(bandId, body);
+    return await this.membershipsService.createMembership(bandId, body);
+  }
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch(':bandId/membership')
+  async updateMember(@Body() body: UpdateMembershipDto) {
+    return await this.membershipsService.updateMembership(body);
   }
 }
