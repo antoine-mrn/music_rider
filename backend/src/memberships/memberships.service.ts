@@ -11,60 +11,64 @@ export class MembershipsService {
     bandId: string,
     body: CreateMembershipDto,
   ): Promise<{ bandId: string }> {
-    return this.prismaService.$transaction(async (tx) => {
-      let userId: string | undefined;
+    let userId: string | undefined;
 
-      if (body.mode === 'account') {
-        const user = await tx.user.findUnique({
-          where: { email: body.email },
-        });
+    if (body.mode === 'account') {
+      const user = await this.prismaService.user.findUnique({
+        where: { email: body.email },
+      });
 
-        if (!user) {
-          throw new NotFoundException(
-            `Aucun compte trouvé pour l'adresse ${body.email}`,
-          );
-        }
-
-        userId = user.id;
+      if (!user) {
+        throw new NotFoundException(
+          `Aucun compte trouvé pour l'adresse ${body.email}`,
+        );
       }
 
-      const membership = await tx.userBand.create({
-        data: {
-          bandId,
-          userId,
-          firstname: body.mode === 'custom' ? body.firstname : null,
-          lastname: body.mode === 'custom' ? body.lastname : null,
-          userBandInstruments: {
-            create: body.instrumentId.map((id) => ({ instrumentId: id })),
+      userId = user.id;
+    }
+
+    const isCustom = body.mode === 'custom';
+
+    await this.prismaService.userBand.create({
+      data: {
+        bandId,
+        userId,
+        firstname: isCustom ? body.firstname : null,
+        lastname: isCustom ? body.lastname : null,
+        userBandInstruments: {
+          create: body.instrumentId.map((id) => ({ instrumentId: id })),
+        },
+        bandContact: {
+          create: {
+            bandId,
+            userId,
+            firstname: isCustom ? body.firstname : null,
+            lastname: isCustom ? body.lastname : null,
+            contactRole: 'MEMBER',
+            isPrimary: false,
           },
         },
-      });
-
-      await tx.bandContact.create({
-        data: {
-          bandId,
-          userId,
-          firstname: body.mode === 'custom' ? body.firstname : null,
-          lastname: body.mode === 'custom' ? body.lastname : null,
-          contactRole: 'MEMBER',
-          isPrimary: false,
-        },
-      });
-
-      return { bandId };
+      },
     });
+
+    return { bandId };
   }
 
   async updateMembership(body: UpdateMembershipDto): Promise<void> {
     const { membershipId, memberId, firstname, lastname, instrumentId } = body;
 
-    const updatedData = memberId
-      ? { instrumentId }
-      : { firstname, lastname, instrumentId };
-
     await this.prismaService.userBand.update({
       where: { id: membershipId },
-      data: updatedData,
+      data: {
+        instrumentId,
+        ...(!memberId && {
+          firstname,
+          lastname,
+          bandContact: {
+            update: { firstname, lastname },
+          },
+        }),
+      },
     });
   }
 }
