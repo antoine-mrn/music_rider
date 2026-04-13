@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateMembershipDto } from './dto/create-membership.dto';
 import { UpdateMembershipDto } from './dto/update-membership.dto';
+import { ContactRole } from '@prisma/client';
 
 @Injectable()
 export class MembershipsService {
@@ -32,7 +33,7 @@ export class MembershipsService {
     await this.prismaService.userBand.create({
       data: {
         bandId,
-        userId,
+        userId: userId ?? null,
         firstname: isCustom ? body.firstname : null,
         lastname: isCustom ? body.lastname : null,
         userBandInstruments: {
@@ -41,10 +42,10 @@ export class MembershipsService {
         bandContact: {
           create: {
             bandId,
-            userId,
+            userId: userId ?? null,
             firstname: isCustom ? body.firstname : null,
             lastname: isCustom ? body.lastname : null,
-            contactRole: 'MEMBER',
+            contactRole: ContactRole.MEMBER,
             isPrimary: false,
           },
         },
