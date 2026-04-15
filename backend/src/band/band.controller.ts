@@ -9,6 +9,7 @@ import {
   Patch,
   HttpCode,
   HttpStatus,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { BandService } from './band.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
@@ -26,6 +27,24 @@ export class BandController {
     private readonly bandService: BandService,
     private readonly membershipsService: MembershipsService,
   ) {}
+
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Patch(':bandId/membership/:membershipId')
+  async updateMember(
+    @Param('bandId') bandId: string,
+    @Param('membershipId', ParseIntPipe) membershipId: number,
+    @Body() body: UpdateMembershipDto,
+  ) {
+    return await this.membershipsService.updateMembership(membershipId, body);
+  }
+
+  @Post(':bandId/membership')
+  async addMember(
+    @Param('bandId') bandId: string,
+    @Body() body: CreateMembershipDto,
+  ): Promise<{ bandId: string }> {
+    return await this.membershipsService.createMembership(bandId, body);
+  }
 
   @Post()
   async createBand(
@@ -60,19 +79,5 @@ export class BandController {
     @Param('bandId') bandId: string,
   ): Promise<BandDetails> {
     return await this.bandService.findBandDetailById(bandId);
-  }
-
-  @Post(':bandId/membership')
-  async addMember(
-    @Param('bandId') bandId: string,
-    @Body() body: CreateMembershipDto,
-  ): Promise<{ bandId: string }> {
-    return await this.membershipsService.createMembership(bandId, body);
-  }
-
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @Patch(':bandId/membership')
-  async updateMember(@Body() body: UpdateMembershipDto) {
-    return await this.membershipsService.updateMembership(body);
   }
 }

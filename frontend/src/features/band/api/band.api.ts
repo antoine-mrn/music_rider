@@ -1,6 +1,7 @@
 import { apiClient } from "../../../lib/axios";
 import type { AddMemberToBandType } from "../../../schemas/add-member-to-band.schema";
 import type { CreateBandSchemaType } from "../../../schemas/create-band.schema";
+import type { EditMemberToBandType } from "../../../schemas/edit-member.schema";
 import type { Pagination } from "../../../shared/types/pagination.interface";
 import type { BandDetails, CreatedBand, SummaryBand } from "../types";
 
@@ -34,6 +35,19 @@ export const bandApi = {
             `band/${bandId}/membership`,
             memberData,
         );
+
+        return data;
+    },
+    updateMembership: async (
+        bandId: string,
+        membershipId: number,
+        formData: EditMemberToBandType,
+    ) => {
+        const { data } = await apiClient.patch(
+            `band/${bandId}/membership/${membershipId}`,
+            formData,
+        );
+        console.log("🚀 ~ data:", data);
 
         return data;
     },

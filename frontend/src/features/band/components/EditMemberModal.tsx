@@ -14,6 +14,8 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../../../components/ui/button/Button";
+import { useUpdateMembership } from "../hooks/useEditMembership";
+import { useParams } from "react-router";
 
 interface EditMemberModal {
     isOpen: boolean;
@@ -26,6 +28,7 @@ export default function EditMemberModal({
     onClose,
     member,
 }: EditMemberModal) {
+    const { bandId } = useParams();
     const instrumentPickerRef = useRef<InstrumentPickerHandle>(null);
     const isAccountMember = member.id !== null;
 
@@ -34,7 +37,6 @@ export default function EditMemberModal({
         setValue,
         handleSubmit,
         watch,
-        reset,
         formState: { errors },
     } = useForm<EditMemberToBandType>({
         resolver: zodResolver(EditMemberToBandSchema),
@@ -45,8 +47,24 @@ export default function EditMemberModal({
         },
     });
 
+    const {
+        mutateAsync: editMembership,
+        isError,
+        isPending,
+    } = useUpdateMembership();
+
     const onSubmit = handleSubmit(async (data) => {
-        console.log(data);
+        if (!bandId) return;
+
+        const payload = isAccountMember
+            ? { instrumentId: data.instrumentId }
+            : data;
+
+        await editMembership({
+            bandId,
+            membershipId: member.membershipId,
+            formData: payload,
+        });
     });
 
     function handleClose() {

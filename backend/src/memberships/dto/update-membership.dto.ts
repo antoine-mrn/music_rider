@@ -1,14 +1,31 @@
-import { PickType } from '@nestjs/mapped-types';
-import { CreateMembershipDto } from './create-membership.dto';
-import { IsNumber, IsOptional, IsUUID } from 'class-validator';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
-export class UpdateMembershipDto extends PickType(CreateMembershipDto, [
-  'firstname',
-  'lastname',
-  'instrumentId',
-] as const) {
-  @IsNumber()
-  membershipId: number;
+export class UpdateMembershipDto {
+  @IsOptional()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(50)
+  firstname?: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(1)
+  @MaxLength(50)
+  lastname?: string;
+
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsNumber({}, { each: true })
+  instrumentId: number[];
 
   @IsOptional()
   @IsUUID()

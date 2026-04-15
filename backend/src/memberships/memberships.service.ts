@@ -55,13 +55,24 @@ export class MembershipsService {
     return { bandId };
   }
 
-  async updateMembership(body: UpdateMembershipDto): Promise<void> {
-    const { membershipId, memberId, firstname, lastname, instrumentId } = body;
+  async updateMembership(
+    membershipId: number,
+    body: UpdateMembershipDto,
+  ): Promise<void> {
+    console.log(
+      '🚀 ~ MembershipsService ~ updateMembership ~ membershipId:',
+      membershipId,
+      body,
+    );
+    const { memberId, firstname, lastname, instrumentId } = body;
 
     await this.prismaService.userBand.update({
       where: { id: membershipId },
       data: {
-        instrumentId,
+        userBandInstruments: {
+          deleteMany: {},
+          create: instrumentId.map((id) => ({ instrumentId: id })),
+        },
         ...(!memberId && {
           firstname,
           lastname,

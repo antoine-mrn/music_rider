@@ -14,6 +14,7 @@ export interface SummaryBand {
 
 export interface BandMember {
     id: string;
+    membershipId: number;
     firstname: string;
     lastname: string;
     avatarUrl: string | null;
