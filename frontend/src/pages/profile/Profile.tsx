@@ -21,7 +21,7 @@ export default function Profile() {
             <PageTitle title="Dashboard" />
             <PageContentWrapper>
                 <ProfileInfo user={data?.user} />
-                <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
                     <QuickOverview
                         overview={data.quickOverview}
                         className="lg:order-2"

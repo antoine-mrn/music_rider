@@ -48,7 +48,7 @@ export default function BandDetails() {
                     <PageTitle title={band?.label ?? ""} />
                 </div>
             </div>
-            <div className="grid grid-cols-1 gap-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
                 <PrimaryContactSection
                     primaryContact={band?.primaryContact ?? null}
                     className="lg:order-2"

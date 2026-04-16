@@ -20,8 +20,8 @@ export default function PrimaryContactSection({
                         title="Contact principal"
                         className="text-white"
                     />
-                    <span className="cursor-pointer bg-white rounded-full text-black transition-colors hover:bg-primary p-1">
-                        <Pencil />
+                    <span className="cursor-pointer bg-white flex items-center justify-center rounded-full text-black transition-colors hover:bg-primary p-2">
+                        <Pencil size={14} />
                     </span>
                 </div>
                 {primaryContact ? (
