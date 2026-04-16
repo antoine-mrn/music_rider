@@ -258,7 +258,7 @@ model BandContact {
   userId     String?
   user       User?     @relation(fields: [userId], references: [id])
   userBandId Int?      @unique
-  userBand   UserBand? @relation(fields: [userBandId], references: [id])
+  userBand   UserBand? @relation(fields: [userBandId], references: [id], onDelete: Cascade)
 }
 
 enum ContactRole {
