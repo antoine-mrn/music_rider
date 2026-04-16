@@ -19,6 +19,7 @@ import { CreateBandDto } from './dto/create-band.dto';
 import { CreateMembershipDto } from 'src/memberships/dto/create-membership.dto';
 import { MembershipsService } from 'src/memberships/memberships.service';
 import { UpdateMembershipDto } from 'src/memberships/dto/update-membership.dto';
+import { BandMember } from './decorators/band-member.decorator';
 
 @Controller('band')
 export class BandController {
@@ -80,6 +81,7 @@ export class BandController {
     );
   }
 
+  @BandMember()
   @Get(':bandId')
   async findBandDetailById(
     @Param('bandId') bandId: string,
