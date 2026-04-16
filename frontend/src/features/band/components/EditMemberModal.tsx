@@ -57,19 +57,20 @@ export default function EditMemberModal({
         if (!bandId) return;
 
         const payload = isAccountMember
-            ? { instrumentId: data.instrumentId }
+            ? { instrumentId: data.instrumentId, memberId: member.id }
             : data;
 
-        await editMembership({
-            bandId,
-            membershipId: member.membershipId,
-            formData: payload,
-        });
+        try {
+            await editMembership({
+                bandId,
+                membershipId: member.membershipId,
+                formData: payload,
+            });
+            onClose();
+        } catch (e) {
+            console.error(e);
+        }
     });
-
-    function handleClose() {
-        return;
-    }
 
     return (
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -106,8 +107,8 @@ export default function EditMemberModal({
                 />
                 <div className="flex flex-col gap-4 sm:flex-row">
                     <Button
-                        onClick={handleClose}
-                        // disabled={isPending}
+                        onClick={onClose}
+                        disabled={isPending}
                         className="flex-1 uppercase italic font-black py-4 sm:py-0"
                         variant="soft"
                     >
@@ -118,14 +119,18 @@ export default function EditMemberModal({
                         type="submit"
                         className="flex-1 uppercase italic font-black py-4 sm:py-0"
                     >
-                        {/* {isPending ? (
+                        {isPending ? (
                             <span className="loading loading-spinner"></span>
                         ) : (
                             <span>Confirmer</span>
-                        )} */}
-                        Confirmer
+                        )}
                     </Button>
                 </div>
+                {isError && (
+                    <span className="block text-center mb-1 text-sm font-bold text-error">
+                        Erreur pendant la mise à jour du membre
+                    </span>
+                )}
             </form>
         </Modal>
     );

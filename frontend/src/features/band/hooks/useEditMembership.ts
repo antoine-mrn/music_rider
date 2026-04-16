@@ -17,7 +17,7 @@ export const useUpdateMembership = () => {
             formData: EditMemberToBandType;
         }) => bandApi.updateMembership(bandId, membershipId, formData),
         onSuccess: (data) => {
-            // queryClient.invalidateQueries({ queryKey: ["band", data.bandId] });
+            queryClient.invalidateQueries({ queryKey: ["band", data.bandId] });
             toast.success("Membre mis à jour avec succès ✅");
         },
     });

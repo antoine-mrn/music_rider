@@ -7,8 +7,6 @@ import {
   Query,
   Request,
   Patch,
-  HttpCode,
-  HttpStatus,
   ParseIntPipe,
 } from '@nestjs/common';
 import { BandService } from './band.service';
@@ -28,13 +26,12 @@ export class BandController {
     private readonly membershipsService: MembershipsService,
   ) {}
 
-  @HttpCode(HttpStatus.NO_CONTENT)
   @Patch(':bandId/membership/:membershipId')
   async updateMember(
     @Param('bandId') bandId: string,
     @Param('membershipId', ParseIntPipe) membershipId: number,
     @Body() body: UpdateMembershipDto,
-  ) {
+  ): Promise<{ bandId: string }> {
     return await this.membershipsService.updateMembership(membershipId, body);
   }
 

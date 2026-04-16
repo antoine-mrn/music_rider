@@ -42,12 +42,11 @@ export const bandApi = {
         bandId: string,
         membershipId: number,
         formData: EditMemberToBandType,
-    ) => {
+    ): Promise<{ bandId: string }> => {
         const { data } = await apiClient.patch(
             `band/${bandId}/membership/${membershipId}`,
             formData,
         );
-        console.log("🚀 ~ data:", data);
 
         return data;
     },
