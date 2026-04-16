@@ -17,7 +17,7 @@ import Button from "../../../components/ui/button/Button";
 import { useUpdateMembership } from "../hooks/useEditMembership";
 import { useParams } from "react-router";
 
-interface EditMemberModal {
+interface EditMemberModalProps {
     isOpen: boolean;
     onClose: () => void;
     member: BandMember;
@@ -27,7 +27,7 @@ export default function EditMemberModal({
     isOpen,
     onClose,
     member,
-}: EditMemberModal) {
+}: EditMemberModalProps) {
     const { bandId } = useParams();
     const instrumentPickerRef = useRef<InstrumentPickerHandle>(null);
     const isAccountMember = member.id !== null;

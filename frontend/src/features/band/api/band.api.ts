@@ -50,4 +50,11 @@ export const bandApi = {
 
         return data;
     },
+    deleteMembership: async (bandId: string, membershipId: number) => {
+        const { data } = await apiClient.delete(
+            `band/${bandId}/membership/${membershipId}`,
+        );
+
+        return data;
+    },
 };

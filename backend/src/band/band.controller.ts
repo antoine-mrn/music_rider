@@ -8,6 +8,7 @@ import {
   Request,
   Patch,
   ParseIntPipe,
+  Delete,
 } from '@nestjs/common';
 import { BandService } from './band.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
@@ -41,6 +42,14 @@ export class BandController {
     @Body() body: CreateMembershipDto,
   ): Promise<{ bandId: string }> {
     return await this.membershipsService.createMembership(bandId, body);
+  }
+
+  @Delete(':bandId/membership/:membershipId')
+  async deleteMember(
+    @Param('bandId') bandId: string,
+    @Param('membershipId', ParseIntPipe) membershipId: number,
+  ): Promise<{ bandId: string }> {
+    return await this.membershipsService.deleteMembership(membershipId);
   }
 
   @Post()

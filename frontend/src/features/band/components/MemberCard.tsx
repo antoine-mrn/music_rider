@@ -3,9 +3,11 @@ import Avatar from "../../../components/ui/avatar/Avatar";
 import type { BandMember } from "../types";
 import { useState } from "react";
 import EditMemberModal from "./EditMemberModal";
+import DeleteMemberModal from "./DeleteMemberModal";
 
 export default function MemberCard({ member }: { member: BandMember }) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isEditOpen, setIsEditOpen] = useState(false);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
     return (
         <>
@@ -32,20 +34,27 @@ export default function MemberCard({ member }: { member: BandMember }) {
                         className="dropdown-content menu bg-base-100 rounded-box shadow z-10"
                     >
                         <li>
-                            <button onClick={() => setIsOpen(true)}>
+                            <button onClick={() => setIsEditOpen(true)}>
                                 Modifier
                             </button>
                         </li>
                         <li>
-                            <button onClick={() => {}}>Supprimer</button>
+                            <button onClick={() => setIsDeleteOpen(true)}>
+                                Supprimer
+                            </button>
                         </li>
                     </ul>
                 </div>
             </li>
             <EditMemberModal
-                isOpen={isOpen}
-                onClose={() => setIsOpen(false)}
+                isOpen={isEditOpen}
+                onClose={() => setIsEditOpen(false)}
                 member={member}
+            />
+            <DeleteMemberModal
+                isOpen={isDeleteOpen}
+                onClose={() => setIsDeleteOpen(false)}
+                membershipId={member.membershipId}
             />
         </>
     );

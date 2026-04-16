@@ -98,7 +98,7 @@ model UserBandInstrument {
   userBandId   Int
   instrumentId Int
 
-  userBand   UserBand   @relation(fields: [userBandId], references: [id])
+  userBand   UserBand   @relation(fields: [userBandId], references: [id], onDelete: Cascade)
   instrument Instrument @relation(fields: [instrumentId], references: [id])
 
   @@id([userBandId, instrumentId])

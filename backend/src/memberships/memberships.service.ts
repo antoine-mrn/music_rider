@@ -80,4 +80,13 @@ export class MembershipsService {
     });
     return { bandId };
   }
+
+  async deleteMembership(membershipId: number): Promise<{ bandId: string }> {
+    const { bandId } = await this.prismaService.userBand.delete({
+      where: { id: membershipId },
+      select: { bandId: true },
+    });
+
+    return { bandId };
+  }
 }
