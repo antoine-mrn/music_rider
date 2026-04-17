@@ -22,10 +22,12 @@ export class BandMemberGuard implements CanActivate {
       throw new ForbiddenException();
     }
 
-    const userBand = await this.prismaService.userBand.findFirst({
+    const userBand = await this.prismaService.userBand.findUnique({
       where: {
-        userId: userId,
-        bandId: bandId,
+        userId_bandId: {
+          userId,
+          bandId,
+        },
       },
     });
 

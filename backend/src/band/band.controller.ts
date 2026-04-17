@@ -20,6 +20,7 @@ import { CreateMembershipDto } from 'src/memberships/dto/create-membership.dto';
 import { MembershipsService } from 'src/memberships/memberships.service';
 import { UpdateMembershipDto } from 'src/memberships/dto/update-membership.dto';
 import { BandMember } from './decorators/band-member.decorator';
+import { CanUpdateBandMemberGuard } from './decorators/can-update-band-member.decorator';
 
 @Controller('band')
 export class BandController {
@@ -28,6 +29,7 @@ export class BandController {
     private readonly membershipsService: MembershipsService,
   ) {}
 
+  @CanUpdateBandMemberGuard()
   @Patch(':bandId/membership/:membershipId')
   async updateMember(
     @Param('bandId') bandId: string,
@@ -45,6 +47,7 @@ export class BandController {
     return await this.membershipsService.createMembership(bandId, body);
   }
 
+  @CanUpdateBandMemberGuard()
   @Delete(':bandId/membership/:membershipId')
   async deleteMember(
     @Param('bandId') bandId: string,
