@@ -9,7 +9,7 @@ export const CreateTechncialRiderSchema = z.object({
     riderCategoryId: z.coerce
         .number<number>()
         .min(1, "Veuillez choisir une catégorie"),
-    bandId: z.coerce.number<number>().min(1, "Veuillez choisir un groupe"),
+    bandId: z.uuid({ message: "Veuillez choisir un groupe" }),
 });
 
 export type CreateTechncialRiderSchemaType = z.infer<

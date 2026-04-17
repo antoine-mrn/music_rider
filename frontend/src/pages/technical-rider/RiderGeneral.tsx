@@ -1,10 +1,11 @@
+import { Pencil } from "lucide-react";
 import PageContentWrapper from "../../components/layout/PageContentWrapper";
 import PageWrapper from "../../components/layout/PageWrapper";
-import Button from "../../components/ui/button/Button";
 import Field from "../../components/ui/form/Field";
 import Input from "../../components/ui/form/Input";
 import Label from "../../components/ui/form/Label";
 import PageTitle from "../../components/ui/typography/PageTitle";
+import SectionTitle from "../../components/ui/typography/SectionTitle";
 
 export default function RiderGeneral() {
     return (
@@ -14,52 +15,55 @@ export default function RiderGeneral() {
                 Présentez votre projet et vos contacts clés pour l'organisation.
             </p>
             <PageContentWrapper>
-                <section className="card border border-base-300 shadow-sm bg-base-100 w-96">
+                <section className="card bg-info-content text-neutral-content">
                     <div className="card-body">
-                        <h2 className="card-title">Identité du projet</h2>
-                        <form className="space-y-2">
-                            <Field>
-                                <Label
-                                    label="Nom du groupe / projet"
-                                    htmlFor="project"
-                                />
-                                <Input
-                                    type="text"
-                                    id="project"
-                                    placeholder="Projet"
-                                />
-                            </Field>
-                            <Field>
-                                <Label
-                                    label="Contact principal"
-                                    htmlFor="contact-name"
-                                />
-                                <Input
-                                    type="text"
-                                    id="contact-name"
-                                    placeholder="Contact principal du groupe"
-                                />
-                            </Field>
-                            <Field>
-                                <Label label="Email" htmlFor="email" />
-                                <Input
-                                    id="email"
-                                    type="email"
-                                    placeholder="john.doe@mail.com"
-                                />
-                            </Field>
-                            <Field>
-                                <Label label="Téléphone" htmlFor="phone" />
-                                <Input
-                                    id="phone"
-                                    type="phone"
-                                    placeholder="06 12 34 56 78 90"
-                                />
-                            </Field>
-                            <div className="card-actions justify-end pt-4">
-                                <Button type="submit">Modifier</Button>
+                        <div className="flex justify-between">
+                            <SectionTitle
+                                title="Identité du projet"
+                                className="text-white"
+                            />
+                            <span className="cursor-pointer bg-white flex items-center justify-center rounded-full text-black transition-colors hover:bg-primary p-2">
+                                <Pencil size={14} />
+                            </span>
+                        </div>
+                        <div className="mt-4">
+                            <h3 className="text-primary-content uppercase text-xs">
+                                Nom du groupe
+                            </h3>
+                            <span className="uppercase font-black text-4xl text-white italic">
+                                SMBU
+                            </span>
+                            <div className="divider divider-primary"></div>
+                            <div className="flex gap-16 mt-4 font-medium">
+                                <div>
+                                    <span className="text-primary-content uppercase text-xs block">
+                                        Contact principal
+                                    </span>
+                                    <span className="uppercase font-black text-white italic">
+                                        John Doe
+                                    </span>
+                                </div>
+                                <div>
+                                    <span className="text-primary-content text-xs uppercase block">
+                                        Email:{" "}
+                                    </span>
+                                    <a
+                                        className="text-white block"
+                                        href={`mailto:antoine@gmail.com`}
+                                    >
+                                        antoine@gmail.com
+                                    </a>
+                                </div>
+                                <div>
+                                    <span className="text-primary-content text-xs uppercase block">
+                                        Phone:{" "}
+                                    </span>
+                                    <span className="text-white">
+                                        +33 7 12 34 56 67
+                                    </span>
+                                </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </section>
                 <section className="card border border-base-300 shadow-sm bg-base-100 w-96">
