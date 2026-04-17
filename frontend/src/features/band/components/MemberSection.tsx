@@ -5,6 +5,7 @@ import MemberCard from "./MemberCard";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Button from "../../../components/ui/button/Button";
 import AddMemberToBandDialog from "./AddMemberToBandDialog";
+import { useAuthStore } from "../../../store/auth.store";
 
 const DEFAULT_VISIBLE = 4;
 
@@ -17,6 +18,12 @@ export default function MemberSection({
     bandMembers: BandMember[];
     className?: string;
 }) {
+    const userConnected = useAuthStore((state) => state.user);
+
+    const isLeader = bandMembers.some(
+        (m) => m.id === userConnected?.id && m.role === "Leader",
+    );
+
     const [isAllVisible, setIsAllVisible] = useState(false);
 
     const membersDisplayed = isAllVisible
@@ -47,9 +54,18 @@ export default function MemberSection({
                 </div>
 
                 <ul className="flex gap-4 flex-wrap">
-                    {membersDisplayed.map((member, index) => (
-                        <MemberCard key={index} member={member} />
-                    ))}
+                    {membersDisplayed.map((member, index) => {
+                        const canEdit =
+                            isLeader || member.id === userConnected?.id;
+
+                        return (
+                            <MemberCard
+                                key={index}
+                                member={member}
+                                canEdit={canEdit}
+                            />
+                        );
+                    })}
                 </ul>
 
                 {bandMembers.length > DEFAULT_VISIBLE && (

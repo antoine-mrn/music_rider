@@ -5,7 +5,13 @@ import { useState } from "react";
 import EditMemberModal from "./EditMemberModal";
 import DeleteMemberModal from "./DeleteMemberModal";
 
-export default function MemberCard({ member }: { member: BandMember }) {
+export default function MemberCard({
+    member,
+    canEdit,
+}: {
+    member: BandMember;
+    canEdit: boolean;
+}) {
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
@@ -21,30 +27,32 @@ export default function MemberCard({ member }: { member: BandMember }) {
                         {member.instruments.map((i) => i.label).join(" / ")}
                     </span>
                 </div>
-                <div className="dropdown dropdown-end rounded-full transition-colors hover:bg-primary">
-                    <button
-                        tabIndex={0}
-                        role="button"
-                        className="p-1 cursor-pointer"
-                    >
-                        <EllipsisVertical size={16} />
-                    </button>
-                    <ul
-                        tabIndex={0}
-                        className="dropdown-content menu bg-base-100 rounded-box shadow z-10"
-                    >
-                        <li>
-                            <button onClick={() => setIsEditOpen(true)}>
-                                Modifier
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={() => setIsDeleteOpen(true)}>
-                                Supprimer
-                            </button>
-                        </li>
-                    </ul>
-                </div>
+                {canEdit && (
+                    <div className="dropdown dropdown-end rounded-full transition-colors hover:bg-primary">
+                        <button
+                            tabIndex={0}
+                            role="button"
+                            className="p-1 cursor-pointer"
+                        >
+                            <EllipsisVertical size={16} />
+                        </button>
+                        <ul
+                            tabIndex={0}
+                            className="dropdown-content menu bg-base-100 rounded-box shadow z-10"
+                        >
+                            <li>
+                                <button onClick={() => setIsEditOpen(true)}>
+                                    Modifier
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={() => setIsDeleteOpen(true)}>
+                                    Supprimer
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                )}
             </li>
             <EditMemberModal
                 isOpen={isEditOpen}
