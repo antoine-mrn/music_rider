@@ -56,6 +56,7 @@ export class BandController {
     return await this.membershipsService.deleteMembership(membershipId);
   }
 
+  @BandMember()
   @Post()
   async createBand(
     @Body() createBand: CreateBandDto,
