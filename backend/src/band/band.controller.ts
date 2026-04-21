@@ -39,6 +39,7 @@ export class BandController {
     return await this.membershipsService.updateMembership(membershipId, body);
   }
 
+  @BandMember()
   @Post(':bandId/membership')
   async addMember(
     @Param('bandId') bandId: string,
@@ -56,7 +57,6 @@ export class BandController {
     return await this.membershipsService.deleteMembership(membershipId);
   }
 
-  @BandMember()
   @Post()
   async createBand(
     @Body() createBand: CreateBandDto,

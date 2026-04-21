@@ -74,4 +74,36 @@ export class TechnicalRiderService {
       data,
     });
   }
+
+  async findTechnicalRiderGeneral(id: string) {
+    return await this.prismaService.technicalRider.findUnique({
+      where: { id },
+      select: {
+        technicalRiderGeneral: {
+          select: {
+            musicianNumber: true,
+            soundcheckDuration: true,
+            setupDuration: true,
+            teardownDuration: true,
+          },
+        },
+        bandContact: true,
+        TechnicalRiderStaff: true,
+        band: {
+          select: {
+            id: true,
+            label: true,
+            bandContacts: true,
+          },
+        },
+      },
+    });
+  }
+
+  // __mapTechnicalRiderGeneral(riderGeneral: any) {
+  //   return {
+  //     ...riderGeneral,
+  //     bandContact: {},
+  //   };
+  // }
 }

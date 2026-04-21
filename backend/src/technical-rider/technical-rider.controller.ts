@@ -1,4 +1,4 @@
-import { Controller, Get, Request, Post, Body } from '@nestjs/common';
+import { Controller, Get, Request, Post, Body, Param } from '@nestjs/common';
 import { TechnicalRiderService } from './technical-rider.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
 import { SummaryTechnicalRider } from './types/technical-rider.types';
@@ -24,5 +24,11 @@ export class TechnicalRiderController {
     return await this.technicalRiderService.createTechnicalRider(
       createTechnicalRider,
     );
+  }
+
+  // General
+  @Get(':riderId/general')
+  async findTechnicalRiderGeneral(@Param('riderId') riderId: string) {
+    return await this.technicalRiderService.findTechnicalRiderGeneral(riderId);
   }
 }
