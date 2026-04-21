@@ -132,12 +132,14 @@ model TechnicalRider {
   technicalRiderAudio    TechnicalRiderAudio?
   technicalRiderLogistic TechnicalRiderLogistic?
 
-  band                  Band                   @relation(fields: [bandId], references: [id])
-  bandId                String
-  riderCategory         RiderCategory          @relation(fields: [riderCategoryId], references: [id])
-  riderCategoryId       Int
-  stageInstruments      StageInstrument[]
-  technicalRiderContact TechnicalRiderContact?
+  band                Band                  @relation(fields: [bandId], references: [id])
+  bandId              String
+  riderCategory       RiderCategory         @relation(fields: [riderCategoryId], references: [id])
+  riderCategoryId     Int
+  stageInstruments    StageInstrument[]
+  TechnicalRiderStaff TechnicalRiderStaff[]
+  bandContact         BandContact?          @relation(fields: [bandContactId], references: [id])
+  bandContactId       Int?
 }
 
 model TechnicalRiderGeneral {
@@ -156,7 +158,7 @@ model TechnicalRiderGeneral {
   technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
 }
 
-model TechnicalRiderContact {
+model TechnicalRiderStaff {
   id Int @id @default(autoincrement())
 
   firstname String?
@@ -164,16 +166,16 @@ model TechnicalRiderContact {
   email     String?
   phone     String?
 
-  role TechnicalContactRole
+  role TechnicalStaffRole
 
-  technicalRiderId String         @unique
-  technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id])
+  technicalRiderId String
+  technicalRider   TechnicalRider @relation(fields: [technicalRiderId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-enum TechnicalContactRole {
+enum TechnicalStaffRole {
   SOUND_ENGINEER
   LIGHT_ENGINEER
 }
@@ -253,12 +255,13 @@ model BandContact {
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
-  bandId     String
-  band       Band      @relation(fields: [bandId], references: [id])
-  userId     String?
-  user       User?     @relation(fields: [userId], references: [id])
-  userBandId Int?      @unique
-  userBand   UserBand? @relation(fields: [userBandId], references: [id], onDelete: Cascade)
+  bandId          String
+  band            Band             @relation(fields: [bandId], references: [id])
+  userId          String?
+  user            User?            @relation(fields: [userId], references: [id])
+  userBandId      Int?             @unique
+  userBand        UserBand?        @relation(fields: [userBandId], references: [id], onDelete: Cascade)
+  technicalRiders TechnicalRider[]
 }
 
 enum ContactRole {
