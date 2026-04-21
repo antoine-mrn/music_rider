@@ -23,6 +23,7 @@ const variantClass: Record<string, string> = {
     neutral: "btn-neutral",
     ghost: "btn-ghost",
     soft: "btn-soft",
+    error: "btn-error",
 };
 
 const typeStyleClass: Record<string, string> = {

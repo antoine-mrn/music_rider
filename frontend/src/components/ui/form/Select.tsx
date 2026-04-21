@@ -15,7 +15,7 @@ export default function Select({
     ...props
 }: SelectProps) {
     return (
-        <div>
+        <div className={className ?? ""}>
             <select
                 defaultValue=""
                 className="select appearance-none w-full"

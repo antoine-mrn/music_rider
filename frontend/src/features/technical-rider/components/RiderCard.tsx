@@ -14,7 +14,7 @@ export default function RiderCard({
             className={`card border border-base-300 shadow-sm bg-base-100 flex-1 ${className ?? ""}`}
         >
             <div className="card-body">
-                <h2 className="card-title">{title}</h2>
+                <h2 className="card-title italic">{title}</h2>
                 {children}
             </div>
         </section>
