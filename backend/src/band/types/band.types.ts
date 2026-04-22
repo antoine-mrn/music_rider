@@ -40,12 +40,16 @@ export const bandDetailSelect = {
       email: true,
       phone: true,
       contactRole: true,
-      user: {
+      userBand: {
         select: {
-          firstname: true,
-          lastname: true,
-          email: true,
-          phone: true,
+          user: {
+            select: {
+              firstname: true,
+              lastname: true,
+              email: true,
+              phone: true,
+            },
+          },
         },
       },
     },

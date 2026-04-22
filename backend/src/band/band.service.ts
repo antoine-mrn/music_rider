@@ -24,16 +24,33 @@ export class BandService {
     data: CreateBandDto,
     userId: string,
   ): Promise<{ id: string }> {
-    return await this.prismaService.band.create({
-      data: {
-        label: data.label,
-        musicStyleId: data.styleId,
-        memberships: { create: { userId, role: 'LEADER' } },
-        bandContacts: {
-          create: { contactRole: 'MEMBER', isPrimary: true, userId },
+    return await this.prismaService.$transaction(async (tx) => {
+      const band = await tx.band.create({
+        data: {
+          label: data.label,
+          musicStyleId: data.styleId,
         },
-      },
-      select: { id: true },
+        select: { id: true },
+      });
+
+      const userBand = await tx.userBand.create({
+        data: {
+          userId,
+          bandId: band.id,
+          role: 'LEADER',
+        },
+      });
+
+      await tx.bandContact.create({
+        data: {
+          bandId: band.id,
+          userBandId: userBand.id,
+          contactRole: 'MEMBER',
+          isPrimary: true,
+        },
+      });
+
+      return band;
     });
   }
 
@@ -95,6 +112,7 @@ export class BandService {
       where: { id: bandId },
       select: bandDetailSelect,
     });
+    console.log('🚀 ~ BandService ~ findBandDetailById ~ band:', band);
 
     if (!band) throw new NotFoundException();
 
@@ -201,8 +219,8 @@ export class BandService {
 
   __getContactField(
     contact: BandDetailRaw['bandContacts'][number],
-    field: keyof BandDetailRaw['bandContacts'][number],
+    field: 'firstname' | 'lastname' | 'email' | 'phone',
   ): string {
-    return contact.user?.[field] ?? contact[field] ?? '';
+    return contact.userBand?.user?.[field] ?? contact[field] ?? '';
   }
 }

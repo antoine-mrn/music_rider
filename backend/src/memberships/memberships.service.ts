@@ -42,7 +42,6 @@ export class MembershipsService {
         bandContact: {
           create: {
             bandId,
-            userId: userId ?? null,
             firstname: isCustom ? body.firstname : null,
             lastname: isCustom ? body.lastname : null,
             contactRole: ContactRole.MEMBER,
