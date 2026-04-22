@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import { getPaginationMeta } from 'src/utils/pagination';
 import {
@@ -70,8 +70,29 @@ export class TechnicalRiderService {
   }
 
   async createTechnicalRider(data: CreateTechnicalRiderDto) {
+    const band = await this.prismaService.band.findUnique({
+      where: { id: data.bandId },
+      select: {
+        id: true,
+        _count: { select: { memberships: true } },
+      },
+    });
+
+    if (!band) {
+      throw new NotFoundException(`Band ${data.bandId} not found`);
+    }
+
     return await this.prismaService.technicalRider.create({
-      data,
+      data: {
+        title: data.title,
+        riderCategoryId: data.riderCategoryId,
+        bandId: data.bandId,
+        technicalRiderGeneral: {
+          create: {
+            musicianNumber: band._count.memberships,
+          },
+        },
+      },
     });
   }
 
