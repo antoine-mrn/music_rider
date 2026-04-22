@@ -1,7 +1,10 @@
 import { Controller, Get, Request, Post, Body, Param } from '@nestjs/common';
 import { TechnicalRiderService } from './technical-rider.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
-import { SummaryTechnicalRider } from './types/technical-rider.types';
+import {
+  MappedTechnicalRiderGeneral,
+  SummaryTechnicalRider,
+} from './types/technical-rider.types';
 import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
 
 @Controller('technical-rider')
@@ -28,7 +31,9 @@ export class TechnicalRiderController {
 
   // General
   @Get(':riderId/general')
-  async findTechnicalRiderGeneral(@Param('riderId') riderId: string) {
+  async findTechnicalRiderGeneral(
+    @Param('riderId') riderId: string,
+  ): Promise<MappedTechnicalRiderGeneral> {
     return await this.technicalRiderService.findTechnicalRiderGeneral(riderId);
   }
 }

@@ -12,6 +12,7 @@ import {
 import { BandDetails } from './dto/band-details.dto';
 import { MediaService } from 'src/media/media.service';
 import { CreateBandDto } from './dto/create-band.dto';
+import { getContactField } from 'src/utils/getContactField';
 
 @Injectable()
 export class BandService {
@@ -181,10 +182,10 @@ export class BandService {
       primaryContact: primaryContact
         ? {
             isPrimary: primaryContact.isPrimary,
-            firstname: this.__getContactField(primaryContact, 'firstname'),
-            lastname: this.__getContactField(primaryContact, 'lastname'),
-            email: this.__getContactField(primaryContact, 'email'),
-            phone: this.__getContactField(primaryContact, 'phone'),
+            firstname: getContactField(primaryContact, 'firstname'),
+            lastname: getContactField(primaryContact, 'lastname'),
+            email: getContactField(primaryContact, 'email'),
+            phone: getContactField(primaryContact, 'phone'),
             contactRole: primaryContact.contactRole ?? null,
           }
         : null,
@@ -192,10 +193,10 @@ export class BandService {
         .filter((c) => c.isPrimary !== true)
         .map((contact) => ({
           isPrimary: contact.isPrimary,
-          firstname: this.__getContactField(contact, 'firstname'),
-          lastname: this.__getContactField(contact, 'lastname'),
-          email: this.__getContactField(contact, 'email'),
-          phone: this.__getContactField(contact, 'phone'),
+          firstname: getContactField(contact, 'firstname'),
+          lastname: getContactField(contact, 'lastname'),
+          email: getContactField(contact, 'email'),
+          phone: getContactField(contact, 'phone'),
           contactRole: contact.contactRole ?? null,
         })),
       technicalRiders: band.technicalRiders.map((rider) => ({
@@ -215,12 +216,5 @@ export class BandService {
       createdAt: band.createdAt,
       updatedAt: band.updatedAt,
     };
-  }
-
-  __getContactField(
-    contact: BandDetailRaw['bandContacts'][number],
-    field: 'firstname' | 'lastname' | 'email' | 'phone',
-  ): string {
-    return contact.userBand?.user?.[field] ?? contact[field] ?? '';
   }
 }

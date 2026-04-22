@@ -1,12 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
-import { getPaginationMeta } from 'src/utils/pagination';
 import {
+  MappedTechnicalRiderGeneral,
   SummaryTechnicalRider,
   summaryTechnicalRiderSelect,
+  TechnicalRiderGeneral,
+  technicalRiderGeneralSelect,
 } from './types/technical-rider.types';
-import { PaginationResult } from 'src/shared/dto/pagination-result.dto';
 import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
+import { getContactField } from 'src/utils/getContactField';
 
 @Injectable()
 export class TechnicalRiderService {
@@ -75,6 +77,10 @@ export class TechnicalRiderService {
       select: {
         id: true,
         _count: { select: { memberships: true } },
+        bandContacts: {
+          where: { isPrimary: true },
+          select: { id: true },
+        },
       },
     });
 
@@ -82,11 +88,14 @@ export class TechnicalRiderService {
       throw new NotFoundException(`Band ${data.bandId} not found`);
     }
 
+    const primaryContactId = band.bandContacts[0]?.id ?? null;
+
     return await this.prismaService.technicalRider.create({
       data: {
         title: data.title,
         riderCategoryId: data.riderCategoryId,
         bandId: data.bandId,
+        bandContactId: primaryContactId,
         technicalRiderGeneral: {
           create: {
             musicianNumber: band._count.memberships,
@@ -96,35 +105,34 @@ export class TechnicalRiderService {
     });
   }
 
-  async findTechnicalRiderGeneral(id: string) {
-    return await this.prismaService.technicalRider.findUnique({
-      where: { id },
-      select: {
-        technicalRiderGeneral: {
-          select: {
-            musicianNumber: true,
-            soundcheckDuration: true,
-            setupDuration: true,
-            teardownDuration: true,
-          },
-        },
-        bandContact: true,
-        TechnicalRiderStaff: true,
-        band: {
-          select: {
-            id: true,
-            label: true,
-            bandContacts: true,
-          },
-        },
-      },
-    });
+  async findTechnicalRiderGeneral(
+    id: string,
+  ): Promise<MappedTechnicalRiderGeneral> {
+    const technicalRiderGeneral =
+      await this.prismaService.technicalRider.findUnique({
+        where: { id },
+        select: technicalRiderGeneralSelect,
+      });
+
+    if (!technicalRiderGeneral) throw new NotFoundException();
+
+    return this.__mapTechnicalRiderGeneral(technicalRiderGeneral);
   }
 
-  // __mapTechnicalRiderGeneral(riderGeneral: any) {
-  //   return {
-  //     ...riderGeneral,
-  //     bandContact: {},
-  //   };
-  // }
+  __mapTechnicalRiderGeneral(
+    riderGeneral: TechnicalRiderGeneral,
+  ): MappedTechnicalRiderGeneral {
+    return {
+      ...riderGeneral,
+      bandContact: riderGeneral.bandContact
+        ? {
+            firstname: getContactField(riderGeneral.bandContact, 'firstname'),
+            lastname: getContactField(riderGeneral.bandContact, 'lastname'),
+            email: getContactField(riderGeneral.bandContact, 'email'),
+            phone: getContactField(riderGeneral.bandContact, 'phone'),
+            contactRole: riderGeneral.bandContact.contactRole ?? null,
+          }
+        : null,
+    };
+  }
 }
