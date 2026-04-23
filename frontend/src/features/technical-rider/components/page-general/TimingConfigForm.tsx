@@ -1,10 +1,17 @@
 import Field from "../../../../components/ui/form/Field";
 import Input from "../../../../components/ui/form/Input";
 import Label from "../../../../components/ui/form/Label";
+import type { TechnicalRiderGeneralInfo } from "../../types";
 import FormFooter from "../FormFooter";
 import RiderCard from "../RiderCard";
 
-export default function TimingConfigForm() {
+interface TimingConfigFormProps {
+    generalData: TechnicalRiderGeneralInfo;
+}
+
+export default function TimingConfigForm({
+    generalData,
+}: TimingConfigFormProps) {
     return (
         <RiderCard title="Timing et configuration">
             <form className="flex flex-col gap-2">
