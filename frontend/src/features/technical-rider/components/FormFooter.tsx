@@ -1,18 +1,22 @@
 import Button from "../../../components/ui/button/Button";
 
 interface FormFooterProps {
+    isDirty: boolean;
     className?: string;
 }
 
-export default function FormFooter({ className }: FormFooterProps) {
+export default function FormFooter({ isDirty, className }: FormFooterProps) {
+    console.log("🚀 ~ FormFooter ~ isDirty:", isDirty);
     return (
-        <div className={`mt-8 place-self-end flex gap-8 ${className ?? ""}`}>
+        <div className={`mt-8 place-self-end flex gap-2 ${className ?? ""}`}>
             <div className="flex items-center gap-2">
                 <div
-                    aria-label="success"
-                    className="status status-success"
+                    aria-label={isDirty ? "warning" : "success"}
+                    className={`status ${isDirty ? "status-warning" : "status-success"}`}
                 ></div>
-                <span className="text-xs text-base-content/50">Sauvegardé</span>
+                <span className="text-xs text-base-content/50">
+                    {isDirty ? "Modification non sauvegardée" : "Sauvegardé"}
+                </span>
             </div>
             <Button type="submit" className="">
                 Enregistrer

@@ -5,14 +5,14 @@ import Input from "../../../components/ui/form/Input";
 import Label from "../../../components/ui/form/Label";
 import Select from "../../../components/ui/form/Select";
 import Modal from "../../../components/ui/modal/Modal";
-import {
-    CreateTechncialRiderSchema,
-    type CreateTechncialRiderSchemaType,
-} from "../../../schemas/create-technical-rider.schema";
 import { useGetAllRiderCategories } from "../../rider-category/hooks/useGetAllRiderCategories";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCreateTechnicalRider } from "../hooks/useCreateTechnicalRider";
 import { useBandsList } from "../../band/hooks/useBandsList";
+import {
+    CreateTechncialRiderSchema,
+    type CreateTechncialRiderSchemaType,
+} from "../schemas/create-technical-rider.schema";
 
 export default function CreateTechnicalRiderDialog({
     isOpen,
