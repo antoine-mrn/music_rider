@@ -6,9 +6,11 @@ import {
   summaryTechnicalRiderSelect,
   TechnicalRiderGeneral,
   technicalRiderGeneralSelect,
+  UpdatedGeneralInfo,
 } from './types/technical-rider.types';
 import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
 import { getContactField } from 'src/utils/getContactField';
+import { UpdateGenetalDto } from './dto/update-general.dto';
 
 @Injectable()
 export class TechnicalRiderService {
@@ -117,6 +119,23 @@ export class TechnicalRiderService {
     if (!technicalRiderGeneral) throw new NotFoundException();
 
     return this.__mapTechnicalRiderGeneral(technicalRiderGeneral);
+  }
+
+  async updateGeneralInfo(
+    technicalRiderId: string,
+    dto: UpdateGenetalDto,
+  ): Promise<UpdatedGeneralInfo> {
+    return await this.prismaService.technicalRiderGeneral.update({
+      where: { technicalRiderId },
+      data: dto,
+      select: {
+        musicianNumber: true,
+        setDuration: true,
+        soundcheckDuration: true,
+        setupDuration: true,
+        teardownDuration: true,
+      },
+    });
   }
 
   __mapTechnicalRiderGeneral(

@@ -10,30 +10,38 @@ import {
 import type { TechnicalRiderGeneralInfo } from "../../types";
 import FormFooter from "../FormFooter";
 import RiderCard from "../RiderCard";
+import { useUpdateGeneralInfo } from "../../hooks/useUpdateGeneralInfo";
 
 interface TimingConfigFormProps {
+    riderId: string;
     generalData: TechnicalRiderGeneralInfo;
 }
 
 export default function TimingConfigForm({
+    riderId,
     generalData,
 }: TimingConfigFormProps) {
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors, isDirty },
     } = useForm<EditGeneralInfoType>({
         resolver: zodResolver(EditGeneralInfoSchema),
         defaultValues: {
             musicianNumber: generalData?.musicianNumber ?? 0,
+            setDuration: generalData?.setDuration ?? 0,
             soundcheckDuration: generalData?.soundcheckDuration ?? 0,
             setupDuration: generalData?.setupDuration ?? 0,
             teardownDuration: generalData?.teardownDuration ?? 0,
         },
     });
 
+    const { mutateAsync, isPending, error } = useUpdateGeneralInfo();
+
     const onSubmit = handleSubmit(async (data) => {
-        return;
+        await mutateAsync({ riderId, body: data });
+        reset(data, { keepValues: true });
     });
 
     return (
@@ -49,8 +57,22 @@ export default function TimingConfigForm({
                         min={0}
                         id="musician-number"
                         placeholder="0"
-                        {...register("musicianNumber")}
+                        {...register("musicianNumber", { valueAsNumber: true })}
                         error={errors.musicianNumber?.message}
+                    />
+                </Field>
+                <Field>
+                    <Label
+                        label="Durée du set (en min)"
+                        htmlFor="set-duration"
+                    />
+                    <Input
+                        type="number"
+                        min={0}
+                        id="set-duration"
+                        placeholder="0"
+                        {...register("setDuration", { valueAsNumber: true })}
+                        error={errors.setDuration?.message}
                     />
                 </Field>
                 <Field>
@@ -62,7 +84,10 @@ export default function TimingConfigForm({
                         type="number"
                         id="soundcheck-duration"
                         placeholder="0"
-                        {...register("soundcheckDuration")}
+                        min={0}
+                        {...register("soundcheckDuration", {
+                            valueAsNumber: true,
+                        })}
                         error={errors.soundcheckDuration?.message}
                     />
                 </Field>
@@ -76,7 +101,8 @@ export default function TimingConfigForm({
                         type="number"
                         id="setup-duration"
                         placeholder="0"
-                        {...register("setupDuration")}
+                        min={0}
+                        {...register("setupDuration", { valueAsNumber: true })}
                         error={errors.setupDuration?.message}
                     />
                 </Field>
@@ -90,12 +116,19 @@ export default function TimingConfigForm({
                         type="number"
                         id="teardown-duration"
                         placeholder="0"
-                        {...register("teardownDuration")}
+                        {...register("teardownDuration", {
+                            valueAsNumber: true,
+                        })}
+                        min={0}
                         error={errors.teardownDuration?.message}
                     />
                 </Field>
 
-                <FormFooter isDirty={isDirty} />
+                <FormFooter
+                    isDirty={isDirty}
+                    isPending={isPending}
+                    error={error}
+                />
             </form>
         </RiderCard>
     );

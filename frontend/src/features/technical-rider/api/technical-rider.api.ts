@@ -1,9 +1,10 @@
 import { apiClient } from "../../../lib/axios";
-import type { CreateTechncialRiderSchemaType } from "../../../schemas/create-technical-rider.schema";
+import type { CreateTechncialRiderSchemaType } from "../schemas/create-technical-rider.schema";
 import type {
     CreateTechnicalRider,
     SummaryTechnicalRider,
     TechnicalRiderGeneral,
+    TechnicalRiderGeneralInfo,
 } from "../types";
 
 export const technicalRiderApi = {
@@ -24,6 +25,17 @@ export const technicalRiderApi = {
         const { data } = await apiClient.get(
             `/technical-rider/${riderId}/general`,
         );
+        return data;
+    },
+    updateTechnicalRiderGeneral: async (
+        riderId: string,
+        body: TechnicalRiderGeneralInfo,
+    ): Promise<TechnicalRiderGeneralInfo> => {
+        const { data } = await apiClient.patch(
+            `/technical-rider/${riderId}/general`,
+            body,
+        );
+
         return data;
     },
 };

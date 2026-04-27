@@ -15,7 +15,7 @@ export default function RiderGeneral() {
     const { data, isLoading, isError } = useGetTechnicalRiderGeneral(
         riderId ?? "",
     );
-    console.log("🚀 ~ RiderGeneral ~ data:", data);
+    // console.log("🚀 ~ RiderGeneral ~ data:", data);
 
     if (isLoading) return <Loading />;
     if (isError) return <ErrorInfo />;
@@ -34,6 +34,7 @@ export default function RiderGeneral() {
                 />
                 <div className="flex flex-col gap-8 lg:flex-row">
                     <TimingConfigForm
+                        riderId={riderId ?? ""}
                         generalData={data.technicalRiderGeneral}
                     />
                     <TechnicalStaffForm />

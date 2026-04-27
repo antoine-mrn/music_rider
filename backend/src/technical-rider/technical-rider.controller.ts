@@ -1,4 +1,12 @@
-import { Controller, Get, Request, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Request,
+  Post,
+  Body,
+  Param,
+  Patch,
+} from '@nestjs/common';
 import { TechnicalRiderService } from './technical-rider.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
 import {
@@ -6,6 +14,7 @@ import {
   SummaryTechnicalRider,
 } from './types/technical-rider.types';
 import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
+import { UpdateGenetalDto } from './dto/update-general.dto';
 
 @Controller('technical-rider')
 export class TechnicalRiderController {
@@ -35,5 +44,13 @@ export class TechnicalRiderController {
     @Param('riderId') riderId: string,
   ): Promise<MappedTechnicalRiderGeneral> {
     return await this.technicalRiderService.findTechnicalRiderGeneral(riderId);
+  }
+
+  @Patch(':riderId/general')
+  async updateGeneralInfo(
+    @Param('riderId') riderId: string,
+    @Body() dto: UpdateGenetalDto,
+  ) {
+    return await this.technicalRiderService.updateGeneralInfo(riderId, dto);
   }
 }

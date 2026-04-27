@@ -27,6 +27,7 @@ export const technicalRiderGeneralSelect = {
   technicalRiderGeneral: {
     select: {
       musicianNumber: true,
+      setDuration: true,
       soundcheckDuration: true,
       setupDuration: true,
       teardownDuration: true,
@@ -66,6 +67,10 @@ export const technicalRiderGeneralSelect = {
 
 export type TechnicalRiderGeneral = Prisma.TechnicalRiderGetPayload<{
   select: typeof technicalRiderGeneralSelect;
+}>;
+
+export type UpdatedGeneralInfo = Prisma.TechnicalRiderGeneralGetPayload<{
+  select: typeof technicalRiderGeneralSelect.technicalRiderGeneral.select;
 }>;
 
 export type MappedTechnicalRiderGeneral = Omit<

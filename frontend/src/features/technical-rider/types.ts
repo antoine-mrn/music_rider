@@ -27,6 +27,7 @@ export interface CreateTechnicalRider {
 export interface TechnicalRiderGeneral {
     technicalRiderGeneral: {
         musicianNumber: number | null;
+        setDuration: number | null;
         soundcheckDuration: number | null;
         setupDuration: number | null;
         teardownDuration: number | null;
