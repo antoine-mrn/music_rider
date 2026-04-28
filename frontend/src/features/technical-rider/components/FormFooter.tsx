@@ -1,4 +1,4 @@
-import Button from "../../../components/ui/button/Button";
+import SubmitForm from "../../../components/ui/form/SubmitForm";
 
 interface FormFooterProps {
     isDirty: boolean;
@@ -24,15 +24,11 @@ export default function FormFooter({
                     {isDirty ? "Modification non sauvegardée" : "Sauvegardé"}
                 </span>
             </div>
-            <Button type="submit" disabled={isPending}>
-                Enregistrer
-            </Button>
-
-            {error && (
-                <p className="mt-1 text-sm font-bold text-error text-center">
-                    {error.message}
-                </p>
-            )}
+            <SubmitForm
+                isPending={isPending}
+                error={error}
+                label="Enregistrer"
+            />
         </div>
     );
 }
