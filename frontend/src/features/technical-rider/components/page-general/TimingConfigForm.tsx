@@ -127,7 +127,7 @@ export default function TimingConfigForm({
                 <FormFooter
                     isDirty={isDirty}
                     isPending={isPending}
-                    error={error}
+                    error={error?.message ?? null}
                 />
             </form>
         </RiderCard>

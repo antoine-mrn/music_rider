@@ -3,7 +3,7 @@ import Button from "../button/Button";
 interface SubmitFormProps {
     label: string;
     isPending: boolean;
-    error: Error | null;
+    error: string | null;
     className?: string;
 }
 
@@ -20,7 +20,7 @@ export default function SubmitForm({
             </Button>
             {error && (
                 <p className="mt-1 text-sm font-bold text-error text-center">
-                    {error.message}
+                    {error}
                 </p>
             )}
         </div>

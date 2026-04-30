@@ -3,7 +3,7 @@ import SubmitForm from "../../../components/ui/form/SubmitForm";
 interface FormFooterProps {
     isDirty: boolean;
     isPending: boolean;
-    error: Error | null;
+    error: string | null;
     className?: string;
 }
 
