@@ -16,7 +16,8 @@ type StaffTypes = "sound" | "light";
 
 interface StaffMember {
     id: string;
-    name: string;
+    firstname: string;
+    lastname: string;
     email: string;
     phone: string;
 }
@@ -43,24 +44,26 @@ export default function TechnicalStaffForm() {
         resolver: zodResolver(EditStaffMemberSchema),
     });
 
-    //     function handleNewStaffMember(formData: FormData) {
-    //         const name = formData.get("name") as string;
-    //         const email = formData.get("email") as string;
-    //         const phone = formData.get("phone") as string;
-    //         const type = formData.get("type") as StaffTypes;
-    //
-    //         const newMember = { id: crypto.randomUUID(), name, email, phone };
-    //
-    //         setMembers((prev) => ({ ...prev, [type]: [...prev[type], newMember] }));
-    //     }
-
     const onSubmit = handleSubmit(async (data) => {
-        if (!data.email || !data.phone) {
+        if (!data.email && !data.phone) {
             setError("root", {
                 message: "Email ou numéro de téléphone requis",
             });
         }
-        console.log(data);
+        setMembers((prev) => ({
+            ...prev,
+            [data.type]: [
+                ...prev[data.type],
+                {
+                    id: crypto.randomUUID(),
+                    firstname: data.firstname,
+                    lastname: data.lastname,
+                    email: data.email,
+                    phone: data.phone,
+                },
+            ],
+        }));
+        reset();
     });
 
     function handleRemoveMember(type: StaffTypes, id: string) {
@@ -79,10 +82,17 @@ export default function TechnicalStaffForm() {
                 <div className="grid grid-cols-2 gap-2">
                     <Input
                         type="text"
-                        placeholder="Prénom Nom"
+                        placeholder="Prénom"
                         className="col-span-2"
-                        {...register("name")}
-                        error={errors.name?.message}
+                        {...register("firstname")}
+                        error={errors.firstname?.message}
+                    />
+                    <Input
+                        type="text"
+                        placeholder="Nom"
+                        className="col-span-2"
+                        {...register("lastname")}
+                        error={errors.lastname?.message}
                     />
                     <Input
                         type="mail"
@@ -118,82 +128,20 @@ export default function TechnicalStaffForm() {
             </form>
 
             <div className="mt-4 space-y-6">
-                <div>
-                    <h3 className="text-primary uppercase italic font-semibold">
-                        Audio
-                    </h3>
-                    <ul className="mt-2 space-y-2">
-                        {members.sound.map((member, index) => (
-                            <li key={index} className="space-y-2">
-                                <div className="flex justify-between items-center bg-base-100 border border-base-200 p-3 rounded-xl shadow-sm">
-                                    <div className="flex flex-col">
-                                        <span className="font-bold text-sm uppercase italic">
-                                            {member.name}
-                                        </span>
-                                        <span className="text-xs text-base-content/50">
-                                            {member.email}
-                                        </span>
-                                        <span className="text-xs text-base-content/50">
-                                            {member.phone}
-                                        </span>
-                                    </div>
-                                    <Button
-                                        onClick={() =>
-                                            handleRemoveMember(
-                                                "light",
-                                                member.id,
-                                            )
-                                        }
-                                        variant="ghost"
-                                        size="sm"
-                                        shape="circle"
-                                        className="text-error p-1"
-                                    >
-                                        <Trash />
-                                    </Button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="text-secondary uppercase italic font-semibold">
-                        Lumière
-                    </h3>
-                    <ul className="mt-2 space-y-2">
-                        {members.light.map((member, index) => (
-                            <li key={index} className="space-y-2">
-                                <div className="flex justify-between items-center bg-base-100 border border-base-200 p-3 rounded-xl shadow-sm">
-                                    <div className="flex flex-col">
-                                        <span className="font-bold text-sm uppercase italic">
-                                            {member.name}
-                                        </span>
-                                        <span className="text-xs text-base-content/50">
-                                            {member.email}
-                                        </span>
-                                        <span className="text-xs text-base-content/50">
-                                            {member.phone}
-                                        </span>
-                                    </div>
-                                    <Button
-                                        onClick={() =>
-                                            handleRemoveMember(
-                                                "light",
-                                                member.id,
-                                            )
-                                        }
-                                        variant="ghost"
-                                        size="sm"
-                                        shape="circle"
-                                        className="text-error p-1"
-                                    >
-                                        <Trash />
-                                    </Button>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <StaffList
+                    titleColor="primary"
+                    title="Son"
+                    members={members.sound}
+                    type="sound"
+                    onRemove={handleRemoveMember}
+                />
+                <StaffList
+                    titleColor="secondary"
+                    title="Lumière"
+                    members={members.light}
+                    type="light"
+                    onRemove={handleRemoveMember}
+                />
             </div>
             <FormFooter isDirty={false} isPending={false} error={null} />
         </RiderCard>
@@ -204,46 +152,55 @@ function StaffList({
     titleColor,
     title,
     members,
+    type,
     onRemove,
 }: {
     titleColor: string;
     title: string;
     members: StaffMember[];
+    type: StaffTypes;
     onRemove: (type: StaffTypes, id: string) => void;
 }) {
     return (
         <div>
-            <h3 className={`${titleColor} uppercase italic font-semibold`}>
+            <h3 className={`text-${titleColor} uppercase italic font-semibold`}>
                 {title}
             </h3>
-            <ul className="mt-2 space-y-2">
-                {members.map((member, index) => (
-                    <li key={index} className="space-y-2">
-                        <div className="flex justify-between items-center bg-base-100 border border-base-200 p-3 rounded-xl shadow-sm">
-                            <div className="flex flex-col">
-                                <span className="font-bold text-sm uppercase italic">
-                                    {member.name}
-                                </span>
-                                <span className="text-xs text-base-content/50">
-                                    {member.email}
-                                </span>
-                                <span className="text-xs text-base-content/50">
-                                    {member.phone}
-                                </span>
+
+            {members.length > 0 ? (
+                <ul className="mt-2 space-y-2">
+                    {members.map((member, index) => (
+                        <li key={index} className="space-y-2">
+                            <div className="flex justify-between items-center bg-base-100 border border-base-200 p-3 rounded-xl shadow-sm">
+                                <div className="flex flex-col">
+                                    <span className="font-bold text-sm uppercase italic">
+                                        {member.firstname} {member.lastname}
+                                    </span>
+                                    <span className="text-xs text-base-content/50">
+                                        {member.email}
+                                    </span>
+                                    <span className="text-xs text-base-content/50">
+                                        {member.phone}
+                                    </span>
+                                </div>
+                                <Button
+                                    onClick={() => onRemove(type, member.id)}
+                                    variant="ghost"
+                                    size="sm"
+                                    shape="circle"
+                                    className="text-error p-1"
+                                >
+                                    <Trash />
+                                </Button>
                             </div>
-                            <Button
-                                onClick={() => onRemove("light", member.id)}
-                                variant="ghost"
-                                size="sm"
-                                shape="circle"
-                                className="text-error p-1"
-                            >
-                                <Trash />
-                            </Button>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <span className="italic font-bold text-xs">
+                    Pas encore de staff
+                </span>
+            )}
         </div>
     );
 }

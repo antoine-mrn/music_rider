@@ -53,4 +53,13 @@ export class TechnicalRiderController {
   ) {
     return await this.technicalRiderService.updateGeneralInfo(riderId, dto);
   }
+
+  // Staff
+  // @Patch(':riderId/staff')
+  // async updateStaff(
+  //   @Param('riderId') riderId: string,
+  //   @Body() dto: UpdateStaffDto,
+  // ) {
+  //   return;
+  // }
 }

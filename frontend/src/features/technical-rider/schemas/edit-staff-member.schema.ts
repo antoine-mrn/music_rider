@@ -5,7 +5,12 @@ const phoneRegex = new RegExp(
 );
 
 export const EditStaffMemberSchema = z.object({
-    name: z
+    firstname: z
+        .string()
+        .trim()
+        .min(1, { message: "Le nom doit être renseigné" })
+        .max(100, { message: "Le nom est trop long" }),
+    lastname: z
         .string()
         .trim()
         .min(1, { message: "Le nom doit être renseigné" })
