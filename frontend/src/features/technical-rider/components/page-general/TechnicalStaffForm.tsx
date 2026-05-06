@@ -12,7 +12,7 @@ import {
 } from "../../schemas/edit-staff-member.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-type StaffTypes = "sound" | "light";
+type StaffTypes = "sound_engineer" | "light_engineer";
 
 interface StaffMember {
     id: string;
@@ -24,14 +24,22 @@ interface StaffMember {
 
 const STAFF_TYPES: { type: StaffTypes; selectId: StaffTypes; label: string }[] =
     [
-        { type: "sound", selectId: "sound", label: "Ingénieur son" },
-        { type: "light", selectId: "light", label: "Ingénieur lumière" },
+        {
+            type: "sound_engineer",
+            selectId: "sound_engineer",
+            label: "Ingénieur son",
+        },
+        {
+            type: "light_engineer",
+            selectId: "light_engineer",
+            label: "Ingénieur lumière",
+        },
     ];
 
 export default function TechnicalStaffForm() {
     const [members, setMembers] = useState<Record<StaffTypes, StaffMember[]>>({
-        sound: [],
-        light: [],
+        sound_engineer: [],
+        light_engineer: [],
     });
 
     const {
@@ -131,15 +139,15 @@ export default function TechnicalStaffForm() {
                 <StaffList
                     titleColor="primary"
                     title="Son"
-                    members={members.sound}
-                    type="sound"
+                    members={members.sound_engineer}
+                    type="sound_engineer"
                     onRemove={handleRemoveMember}
                 />
                 <StaffList
                     titleColor="secondary"
                     title="Lumière"
-                    members={members.light}
-                    type="light"
+                    members={members.light_engineer}
+                    type="light_engineer"
                     onRemove={handleRemoveMember}
                 />
             </div>

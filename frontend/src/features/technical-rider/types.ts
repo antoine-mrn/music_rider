@@ -56,3 +56,16 @@ export type TechnicalRiderBand = TechnicalRiderGeneral["band"];
 export type TechnicalRiderStaff =
     TechnicalRiderGeneral["TechnicalRiderStaff"][number];
 export type TechnicalRiderBandContact = TechnicalRiderGeneral["bandContact"];
+
+interface StaffMemberPayload {
+    id?: number;
+    firstname: string;
+    lastname: string;
+    email?: string;
+    phone?: string;
+}
+
+export interface SyncTechnicalRiderStaffType {
+    sound_engineer: StaffMemberPayload[];
+    light_engineer: StaffMemberPayload[];
+}

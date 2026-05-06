@@ -3,6 +3,7 @@ import type { CreateTechncialRiderSchemaType } from "../schemas/create-technical
 import type {
     CreateTechnicalRider,
     SummaryTechnicalRider,
+    SyncTechnicalRiderStaffType,
     TechnicalRiderGeneral,
     TechnicalRiderGeneralInfo,
 } from "../types";
@@ -36,6 +37,16 @@ export const technicalRiderApi = {
             body,
         );
 
+        return data;
+    },
+    syncTechnicalRiderStaff: async (
+        riderId: string,
+        body: SyncTechnicalRiderStaffType,
+    ): Promise<any> => {
+        const { data } = await apiClient.put(
+            `/technical-rider/${riderId}/staff`,
+            body,
+        );
         return data;
     },
 };

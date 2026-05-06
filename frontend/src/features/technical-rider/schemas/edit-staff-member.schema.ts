@@ -21,7 +21,7 @@ export const EditStaffMemberSchema = z.object({
         .regex(phoneRegex, "Numéro invalide")
         .or(z.literal(""))
         .optional(),
-    type: z.enum(["sound", "light"], {
+    type: z.enum(["sound_engineer", "light_engineer"], {
         error: "Veuillez sélectionner une mission",
     }),
 });

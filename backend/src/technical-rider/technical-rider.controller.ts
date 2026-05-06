@@ -6,6 +6,7 @@ import {
   Body,
   Param,
   Patch,
+  Put,
 } from '@nestjs/common';
 import { TechnicalRiderService } from './technical-rider.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
@@ -15,6 +16,7 @@ import {
 } from './types/technical-rider.types';
 import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
 import { UpdateGenetalDto } from './dto/update-general.dto';
+import { UpdateStaffDto } from './dto/update-staff.dto';
 
 @Controller('technical-rider')
 export class TechnicalRiderController {
@@ -55,11 +57,11 @@ export class TechnicalRiderController {
   }
 
   // Staff
-  // @Patch(':riderId/staff')
-  // async updateStaff(
-  //   @Param('riderId') riderId: string,
-  //   @Body() dto: UpdateStaffDto,
-  // ) {
-  //   return;
-  // }
+  @Put(':riderId/staff')
+  async updateStaff(
+    @Param('riderId') riderId: string,
+    @Body() dto: UpdateStaffDto,
+  ) {
+    return;
+  }
 }
