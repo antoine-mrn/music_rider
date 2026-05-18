@@ -17,7 +17,6 @@ export const useUpdateGeneralInfo = () => {
         onSuccess: (_, variables) => {
             queryClient.invalidateQueries({
                 queryKey: ["rider", variables.riderId],
-                refetchType: "all",
             });
             toast.success("Informations sauvegardées ✅");
         },

@@ -4,7 +4,6 @@ import Input from "../../../../components/ui/form/Input";
 import Select from "../../../../components/ui/form/Select";
 import FormFooter from "../FormFooter";
 import RiderCard from "../RiderCard";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
     EditStaffMemberSchema,
@@ -13,7 +12,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSyncTechnicalRiderStaff } from "../../hooks/useSyncTechnicalRiderStaff";
 import type { GroupedStaffRaw, StaffMemberRaw } from "../../types";
-import { isDirty } from "zod/v3";
+import { useState } from "react";
 
 interface TechnicalStaffFormProps {
     riderId: string;
@@ -50,7 +49,7 @@ export default function TechnicalStaffForm({
     riderId,
     staffData,
 }: TechnicalStaffFormProps) {
-    const [members, setMembers] = useState<GroupedStaff>({
+    const initialMembers = {
         sound_engineers: staffData.sound_engineers.map((s) => ({
             ...s,
             id: crypto.randomUUID(),
@@ -61,7 +60,11 @@ export default function TechnicalStaffForm({
             id: crypto.randomUUID(),
             dbId: s.id,
         })),
-    });
+    };
+
+    const [members, setMembers] = useState<GroupedStaff>(initialMembers);
+
+    const isDirty = JSON.stringify(initialMembers) !== JSON.stringify(members);
 
     const { mutateAsync: syncTechnicalRiderStaff, isPending } =
         useSyncTechnicalRiderStaff();
@@ -70,7 +73,7 @@ export default function TechnicalStaffForm({
         register,
         handleSubmit,
         reset,
-        formState: { errors, isDirty },
+        formState: { errors },
         setError,
     } = useForm<EditStaffMemberType>({
         resolver: zodResolver(EditStaffMemberSchema),
