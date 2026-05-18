@@ -12,6 +12,7 @@ import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
 import { getContactField } from 'src/utils/getContactField';
 import { UpdateGenetalDto } from './dto/update-general.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
+import { TechnicalStaffRole } from '@prisma/client';
 
 @Injectable()
 export class TechnicalRiderService {
@@ -140,40 +141,58 @@ export class TechnicalRiderService {
   }
 
   async updateStaff(riderId: string, dto: UpdateStaffDto) {
-    return this.prismaService.$transaction(async (tx) => {
+    return await this.prismaService.$transaction(async (tx) => {
       const existing = await tx.technicalRiderStaff.findMany({
         where: { technicalRiderId: riderId },
         select: { id: true },
       });
-      console.log(
-        '🚀 ~ TechnicalRiderService ~ updateStaff ~ existing:',
-        existing,
-      );
 
-      //       const existingIds = existing.map((s) => s.id);
-      //       const incomingIds = dto.filter((s) => s.id).map((s) => s.id);
-      //
-      //       // 2. Supprime ceux qui ne sont plus dans la liste
-      //       const toDelete = existingIds.filter((id) => !incomingIds.includes(id));
-      //       if (toDelete.length > 0) {
-      //         await tx.technicalRiderStaff.deleteMany({
-      //           where: { id: { in: toDelete } },
-      //         });
-      //       }
-      //
-      //       // 3. Upsert chaque membre entrant
-      //       await Promise.all(
-      //         dto.map((member) =>
-      //           tx.technicalRiderStaff.upsert({
-      //             where: { id: member.id ?? 0 },
-      //             update: { firstname: member.firstname /* ... */ },
-      //             create: {
-      //               technicalRiderId: riderId,
-      //               firstname: member.firstname /* ... */,
-      //             },
-      //           }),
-      //         ),
-      //       );
+      const existingIds = existing.map((s) => s.id);
+
+      const incoming = [
+        ...dto.sound_engineers.map((s) => ({
+          ...s,
+          role: TechnicalStaffRole.SOUND_ENGINEER,
+        })),
+        ...dto.light_engineers.map((s) => ({
+          ...s,
+          role: TechnicalStaffRole.LIGHT_ENGINEER,
+        })),
+      ];
+
+      const incomingIds = incoming.filter((s) => s.dbId).map((s) => s.dbId);
+
+      const toDelete = existingIds.filter(
+        (dbId) => !incomingIds.includes(dbId),
+      );
+      if (toDelete.length > 0) {
+        await tx.technicalRiderStaff.deleteMany({
+          where: { id: { in: toDelete } },
+        });
+      }
+
+      await Promise.all(
+        incoming.map((member) =>
+          tx.technicalRiderStaff.upsert({
+            where: { id: member.dbId ?? 0 },
+            update: {
+              firstname: member.firstname,
+              lastname: member.lastname,
+              email: member.email,
+              phone: member.phone,
+              role: member.role,
+            },
+            create: {
+              technicalRiderId: riderId,
+              firstname: member.firstname,
+              lastname: member.lastname,
+              email: member.email,
+              phone: member.phone,
+              role: member.role,
+            },
+          }),
+        ),
+      );
     });
   }
 

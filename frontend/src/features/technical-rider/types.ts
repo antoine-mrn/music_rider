@@ -1,5 +1,4 @@
 import type { RIDER_STATUS_LABELS } from "../../shared/constantes/rider-status";
-import type { STAFF_ROLES } from "../../shared/constantes/staff-role";
 import type { BandContact } from "../band/types";
 export interface SummaryTechnicalRider {
     id: string;
@@ -60,10 +59,10 @@ export interface GroupedStaffRaw {
 
 export interface StaffMemberPayload {
     dbId: number | null;
-    firstname: string | null;
-    lastname: string | null;
-    email: string | null;
-    phone: string | null;
+    firstname: string;
+    lastname: string;
+    email?: string;
+    phone?: string;
 }
 
 export interface SyncTechnicalRiderStaffType {

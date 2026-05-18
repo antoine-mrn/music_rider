@@ -13,6 +13,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSyncTechnicalRiderStaff } from "../../hooks/useSyncTechnicalRiderStaff";
 import type { GroupedStaffRaw, StaffMemberRaw } from "../../types";
+import { isDirty } from "zod/v3";
 
 interface TechnicalStaffFormProps {
     riderId: string;
@@ -69,7 +70,7 @@ export default function TechnicalStaffForm({
         register,
         handleSubmit,
         reset,
-        formState: { errors },
+        formState: { errors, isDirty },
         setError,
     } = useForm<EditStaffMemberType>({
         resolver: zodResolver(EditStaffMemberSchema),
@@ -107,13 +108,22 @@ export default function TechnicalStaffForm({
 
     async function handleSave() {
         const body = {
-            sound_engineers: members.sound_engineers.map(
-                ({ id, ...rest }) => rest,
-            ),
-            light_engineers: members.light_engineers.map(
-                ({ id, ...rest }) => rest,
-            ),
+            sound_engineers: members.sound_engineers.map(({ id, ...rest }) => ({
+                ...rest,
+                firstname: rest.firstname ?? "",
+                lastname: rest.lastname ?? "",
+                email: rest.email ?? undefined,
+                phone: rest.phone ?? undefined,
+            })),
+            light_engineers: members.light_engineers.map(({ id, ...rest }) => ({
+                ...rest,
+                firstname: rest.firstname ?? "",
+                lastname: rest.lastname ?? "",
+                email: rest.email ?? undefined,
+                phone: rest.phone ?? undefined,
+            })),
         };
+
         await syncTechnicalRiderStaff({ riderId, body });
     }
 
@@ -189,8 +199,8 @@ export default function TechnicalStaffForm({
             </div>
             <FormFooter
                 onSave={handleSave}
-                isDirty={false}
-                isPending={false}
+                isDirty={isDirty}
+                isPending={isPending}
                 error={null}
             />
         </RiderCard>

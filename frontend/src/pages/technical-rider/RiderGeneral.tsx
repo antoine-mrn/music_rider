@@ -15,7 +15,7 @@ export default function RiderGeneral() {
     const { data, isLoading, isError } = useGetTechnicalRiderGeneral(
         riderId ?? "",
     );
-    console.log("🚀 ~ RiderGeneral ~ data:", data);
+    // console.log("🚀 ~ RiderGeneral ~ data:", data);
 
     if (isLoading) return <Loading />;
     if (isError) return <ErrorInfo />;

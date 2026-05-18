@@ -16,8 +16,7 @@ export const useSyncTechnicalRiderStaff = () => {
         }) => technicalRiderApi.syncTechnicalRiderStaff(riderId, body),
         onSuccess: (_, variables) => {
             queryClient.invalidateQueries({
-                queryKey: ["rider-staff", variables.riderId],
-                refetchType: "all",
+                queryKey: ["rider", variables.riderId],
             });
             toast.success("Équipe sauvegardée ✅");
         },

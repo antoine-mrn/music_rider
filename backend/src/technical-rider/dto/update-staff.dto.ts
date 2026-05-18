@@ -18,12 +18,12 @@ export class UpdateStaffDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => StaffMember)
-  sound_engineer: StaffMember[];
+  sound_engineers: StaffMember[];
 
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => StaffMember)
-  light_engineer: StaffMember[];
+  light_engineers: StaffMember[];
 }
 
 class StaffMember {
