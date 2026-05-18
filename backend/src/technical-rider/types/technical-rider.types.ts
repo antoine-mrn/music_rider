@@ -56,7 +56,16 @@ export const technicalRiderGeneralSelect = {
       },
     },
   },
-  TechnicalRiderStaff: true,
+  TechnicalRiderStaff: {
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+      phone: true,
+      role: true,
+    },
+  },
   band: {
     select: {
       id: true,
@@ -73,10 +82,19 @@ export type UpdatedGeneralInfo = Prisma.TechnicalRiderGeneralGetPayload<{
   select: typeof technicalRiderGeneralSelect.technicalRiderGeneral.select;
 }>;
 
+type StaffMember = Omit<
+  TechnicalRiderGeneral['TechnicalRiderStaff'][number],
+  'role'
+>;
+
 export type MappedTechnicalRiderGeneral = Omit<
   TechnicalRiderGeneral,
-  'bandContact'
+  'bandContact' | 'TechnicalRiderStaff'
 > & {
+  TechnicalRiderStaff: {
+    sound_engineers: StaffMember[];
+    light_engineers: StaffMember[];
+  };
   bandContact: {
     firstname: string;
     lastname: string;

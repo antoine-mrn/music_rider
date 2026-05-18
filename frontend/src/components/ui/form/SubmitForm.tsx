@@ -5,6 +5,7 @@ interface SubmitFormProps {
     isPending: boolean;
     error: string | null;
     className?: string;
+    onClick?: () => void;
 }
 
 export default function SubmitForm({
@@ -12,10 +13,15 @@ export default function SubmitForm({
     isPending,
     error,
     className,
+    onClick,
 }: SubmitFormProps) {
     return (
         <div className={`${className}`}>
-            <Button type="submit" disabled={isPending}>
+            <Button
+                type={onClick ? "button" : "submit"}
+                onClick={onClick}
+                disabled={isPending}
+            >
                 {label}
             </Button>
             {error && (

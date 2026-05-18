@@ -24,48 +24,49 @@ export interface CreateTechnicalRider {
     updatedAt: string;
 }
 
-export interface TechnicalRiderGeneral {
-    technicalRiderGeneral: {
-        musicianNumber: number | null;
-        setDuration: number | null;
-        soundcheckDuration: number | null;
-        setupDuration: number | null;
-        teardownDuration: number | null;
-    } | null;
+export interface TechnicalRiderGeneralInfo {
+    musicianNumber: number | null;
+    setDuration: number | null;
+    soundcheckDuration: number | null;
+    setupDuration: number | null;
+    teardownDuration: number | null;
+}
+
+export interface StaffMemberRaw {
+    id: number;
+    firstname: string | null;
+    lastname: string | null;
+    email: string | null;
+    phone: string | null;
+}
+
+export interface TechnicalRiderGeneralRaw {
+    technicalRiderGeneral: TechnicalRiderGeneralInfo | null;
     band: {
         id: string;
         label: string;
     };
-    TechnicalRiderStaff: {
-        id: number;
-        createdAt: Date;
-        updatedAt: Date;
-        firstname: string | null;
-        lastname: string | null;
-        email: string | null;
-        phone: string | null;
-        technicalRiderId: string;
-        role: typeof STAFF_ROLES;
-    }[];
+    TechnicalRiderStaff: GroupedStaffRaw;
     bandContact: Omit<BandContact, "isPrimary"> | null;
 }
 
-export type TechnicalRiderGeneralInfo =
-    TechnicalRiderGeneral["technicalRiderGeneral"];
-export type TechnicalRiderBand = TechnicalRiderGeneral["band"];
-export type TechnicalRiderStaff =
-    TechnicalRiderGeneral["TechnicalRiderStaff"][number];
-export type TechnicalRiderBandContact = TechnicalRiderGeneral["bandContact"];
+export type TechnicalRiderBand = TechnicalRiderGeneralRaw["band"];
+export type TechnicalRiderBandContact = TechnicalRiderGeneralRaw["bandContact"];
 
-interface StaffMemberPayload {
-    id?: number;
-    firstname: string;
-    lastname: string;
-    email?: string;
-    phone?: string;
+export interface GroupedStaffRaw {
+    sound_engineers: StaffMemberRaw[];
+    light_engineers: StaffMemberRaw[];
+}
+
+export interface StaffMemberPayload {
+    dbId: number | null;
+    firstname: string | null;
+    lastname: string | null;
+    email: string | null;
+    phone: string | null;
 }
 
 export interface SyncTechnicalRiderStaffType {
-    sound_engineer: StaffMemberPayload[];
-    light_engineer: StaffMemberPayload[];
+    sound_engineers: StaffMemberPayload[];
+    light_engineers: StaffMemberPayload[];
 }

@@ -62,6 +62,7 @@ export class TechnicalRiderController {
     @Param('riderId') riderId: string,
     @Body() dto: UpdateStaffDto,
   ) {
-    return;
+    console.log(dto);
+    // return await this.technicalRiderService.updateStaff(riderId, dto);
   }
 }

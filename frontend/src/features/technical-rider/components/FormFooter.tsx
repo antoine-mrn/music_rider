@@ -5,6 +5,7 @@ interface FormFooterProps {
     isPending: boolean;
     error: string | null;
     className?: string;
+    onSave?: () => void;
 }
 
 export default function FormFooter({
@@ -12,6 +13,7 @@ export default function FormFooter({
     isPending,
     error,
     className,
+    onSave,
 }: FormFooterProps) {
     return (
         <div className={`mt-8 place-self-end flex gap-2 ${className ?? ""}`}>
@@ -25,6 +27,7 @@ export default function FormFooter({
                 </span>
             </div>
             <SubmitForm
+                onClick={onSave}
                 isPending={isPending}
                 error={error}
                 label="Enregistrer"

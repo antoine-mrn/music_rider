@@ -11,6 +11,7 @@ import {
 import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
 import { getContactField } from 'src/utils/getContactField';
 import { UpdateGenetalDto } from './dto/update-general.dto';
+import { UpdateStaffDto } from './dto/update-staff.dto';
 
 @Injectable()
 export class TechnicalRiderService {
@@ -138,11 +139,57 @@ export class TechnicalRiderService {
     });
   }
 
+  async updateStaff(riderId: string, dto: UpdateStaffDto) {
+    return this.prismaService.$transaction(async (tx) => {
+      const existing = await tx.technicalRiderStaff.findMany({
+        where: { technicalRiderId: riderId },
+        select: { id: true },
+      });
+      console.log(
+        '🚀 ~ TechnicalRiderService ~ updateStaff ~ existing:',
+        existing,
+      );
+
+      //       const existingIds = existing.map((s) => s.id);
+      //       const incomingIds = dto.filter((s) => s.id).map((s) => s.id);
+      //
+      //       // 2. Supprime ceux qui ne sont plus dans la liste
+      //       const toDelete = existingIds.filter((id) => !incomingIds.includes(id));
+      //       if (toDelete.length > 0) {
+      //         await tx.technicalRiderStaff.deleteMany({
+      //           where: { id: { in: toDelete } },
+      //         });
+      //       }
+      //
+      //       // 3. Upsert chaque membre entrant
+      //       await Promise.all(
+      //         dto.map((member) =>
+      //           tx.technicalRiderStaff.upsert({
+      //             where: { id: member.id ?? 0 },
+      //             update: { firstname: member.firstname /* ... */ },
+      //             create: {
+      //               technicalRiderId: riderId,
+      //               firstname: member.firstname /* ... */,
+      //             },
+      //           }),
+      //         ),
+      //       );
+    });
+  }
+
   __mapTechnicalRiderGeneral(
     riderGeneral: TechnicalRiderGeneral,
   ): MappedTechnicalRiderGeneral {
     return {
       ...riderGeneral,
+      TechnicalRiderStaff: {
+        sound_engineers: riderGeneral.TechnicalRiderStaff.filter(
+          (s) => s.role === 'SOUND_ENGINEER',
+        ).map(({ role, ...rest }) => rest),
+        light_engineers: riderGeneral.TechnicalRiderStaff.filter(
+          (s) => s.role === 'LIGHT_ENGINEER',
+        ).map(({ role, ...rest }) => rest),
+      },
       bandContact: riderGeneral.bandContact
         ? {
             firstname: getContactField(riderGeneral.bandContact, 'firstname'),

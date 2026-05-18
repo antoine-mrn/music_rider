@@ -29,7 +29,7 @@ export class UpdateStaffDto {
 class StaffMember {
   @IsOptional()
   @IsInt()
-  id?: number;
+  dbId?: number;
 
   @Trim()
   @IsNotEmpty()

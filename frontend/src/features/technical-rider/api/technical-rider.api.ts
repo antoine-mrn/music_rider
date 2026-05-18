@@ -4,8 +4,8 @@ import type {
     CreateTechnicalRider,
     SummaryTechnicalRider,
     SyncTechnicalRiderStaffType,
-    TechnicalRiderGeneral,
     TechnicalRiderGeneralInfo,
+    TechnicalRiderGeneralRaw,
 } from "../types";
 
 export const technicalRiderApi = {
@@ -22,7 +22,7 @@ export const technicalRiderApi = {
     },
     getTechnicalRiderGeneral: async (
         riderId: string,
-    ): Promise<TechnicalRiderGeneral> => {
+    ): Promise<TechnicalRiderGeneralRaw> => {
         const { data } = await apiClient.get(
             `/technical-rider/${riderId}/general`,
         );

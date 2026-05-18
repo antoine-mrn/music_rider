@@ -14,7 +14,7 @@ import { useUpdateGeneralInfo } from "../../hooks/useUpdateGeneralInfo";
 
 interface TimingConfigFormProps {
     riderId: string;
-    generalData: TechnicalRiderGeneralInfo;
+    generalData: TechnicalRiderGeneralInfo | null;
 }
 
 export default function TimingConfigForm({

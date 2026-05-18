@@ -11,36 +11,59 @@ import {
     type EditStaffMemberType,
 } from "../../schemas/edit-staff-member.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSyncTechnicalRiderStaff } from "../../hooks/useSyncTechnicalRiderStaff";
+import type { GroupedStaffRaw, StaffMemberRaw } from "../../types";
 
-type StaffTypes = "sound_engineer" | "light_engineer";
+interface TechnicalStaffFormProps {
+    riderId: string;
+    staffData: GroupedStaffRaw;
+}
 
-interface StaffMember {
+type StaffTypes = "sound_engineers" | "light_engineers";
+
+interface StaffMember extends Omit<StaffMemberRaw, "id"> {
     id: string;
-    firstname: string;
-    lastname: string;
-    email: string;
-    phone: string;
+    dbId: number | null;
+}
+
+interface GroupedStaff {
+    sound_engineers: StaffMember[];
+    light_engineers: StaffMember[];
 }
 
 const STAFF_TYPES: { type: StaffTypes; selectId: StaffTypes; label: string }[] =
     [
         {
-            type: "sound_engineer",
-            selectId: "sound_engineer",
+            type: "sound_engineers",
+            selectId: "sound_engineers",
             label: "Ingénieur son",
         },
         {
-            type: "light_engineer",
-            selectId: "light_engineer",
+            type: "light_engineers",
+            selectId: "light_engineers",
             label: "Ingénieur lumière",
         },
     ];
 
-export default function TechnicalStaffForm() {
-    const [members, setMembers] = useState<Record<StaffTypes, StaffMember[]>>({
-        sound_engineer: [],
-        light_engineer: [],
+export default function TechnicalStaffForm({
+    riderId,
+    staffData,
+}: TechnicalStaffFormProps) {
+    const [members, setMembers] = useState<GroupedStaff>({
+        sound_engineers: staffData.sound_engineers.map((s) => ({
+            ...s,
+            id: crypto.randomUUID(),
+            dbId: s.id,
+        })),
+        light_engineers: staffData.light_engineers.map((s) => ({
+            ...s,
+            id: crypto.randomUUID(),
+            dbId: s.id,
+        })),
     });
+
+    const { mutateAsync: syncTechnicalRiderStaff, isPending } =
+        useSyncTechnicalRiderStaff();
 
     const {
         register,
@@ -57,6 +80,7 @@ export default function TechnicalStaffForm() {
             setError("root", {
                 message: "Email ou numéro de téléphone requis",
             });
+            return;
         }
         setMembers((prev) => ({
             ...prev,
@@ -79,6 +103,18 @@ export default function TechnicalStaffForm() {
             ...prev,
             [type]: prev[type].filter((p) => p.id !== id),
         }));
+    }
+
+    async function handleSave() {
+        const body = {
+            sound_engineers: members.sound_engineers.map(
+                ({ id, ...rest }) => rest,
+            ),
+            light_engineers: members.light_engineers.map(
+                ({ id, ...rest }) => rest,
+            ),
+        };
+        await syncTechnicalRiderStaff({ riderId, body });
     }
 
     return (
@@ -139,19 +175,24 @@ export default function TechnicalStaffForm() {
                 <StaffList
                     titleColor="primary"
                     title="Son"
-                    members={members.sound_engineer}
-                    type="sound_engineer"
+                    members={members.sound_engineers}
+                    type="sound_engineers"
                     onRemove={handleRemoveMember}
                 />
                 <StaffList
                     titleColor="secondary"
                     title="Lumière"
-                    members={members.light_engineer}
-                    type="light_engineer"
+                    members={members.light_engineers}
+                    type="light_engineers"
                     onRemove={handleRemoveMember}
                 />
             </div>
-            <FormFooter isDirty={false} isPending={false} error={null} />
+            <FormFooter
+                onSave={handleSave}
+                isDirty={false}
+                isPending={false}
+                error={null}
+            />
         </RiderCard>
     );
 }
