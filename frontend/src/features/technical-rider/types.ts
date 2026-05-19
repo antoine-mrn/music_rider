@@ -23,7 +23,8 @@ export interface CreateTechnicalRider {
     updatedAt: string;
 }
 
-export interface TechnicalRiderGeneralInfo {
+// Timing
+export interface TechnicalRiderTiming {
     musicianNumber: number | null;
     setDuration: number | null;
     soundcheckDuration: number | null;
@@ -31,6 +32,7 @@ export interface TechnicalRiderGeneralInfo {
     teardownDuration: number | null;
 }
 
+// Staff
 export interface StaffMemberRaw {
     id: number;
     firstname: string | null;
@@ -38,19 +40,6 @@ export interface StaffMemberRaw {
     email: string | null;
     phone: string | null;
 }
-
-export interface TechnicalRiderGeneralRaw {
-    technicalRiderGeneral: TechnicalRiderGeneralInfo | null;
-    band: {
-        id: string;
-        label: string;
-    };
-    TechnicalRiderStaff: GroupedStaffRaw;
-    bandContact: Omit<BandContact, "isPrimary"> | null;
-}
-
-export type TechnicalRiderBand = TechnicalRiderGeneralRaw["band"];
-export type TechnicalRiderBandContact = TechnicalRiderGeneralRaw["bandContact"];
 
 export interface GroupedStaffRaw {
     sound_engineers: StaffMemberRaw[];
@@ -69,3 +58,26 @@ export interface SyncTechnicalRiderStaffType {
     sound_engineers: StaffMemberPayload[];
     light_engineers: StaffMemberPayload[];
 }
+
+// Band
+export interface MappedTechnicalRiderBand {
+    band: {
+        id: string;
+        label: string;
+    };
+    bandContact: Omit<BandContact, "isPrimary"> | null;
+}
+
+export type TechnicalRiderBand = MappedTechnicalRiderBand["band"];
+export type TechnicalRiderBandContact = MappedTechnicalRiderBand["bandContact"];
+
+// Old version
+// export interface TechnicalRiderGeneralRaw {
+//     technicalRiderGeneral: TechnicalRiderTiming | null;
+//     band: {
+//         id: string;
+//         label: string;
+//     };
+//     TechnicalRiderStaff: GroupedStaffRaw;
+//     bandContact: Omit<BandContact, "isPrimary"> | null;
+// }

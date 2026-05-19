@@ -10,7 +10,7 @@ export default function ErrorInfoProps({
     onRetry,
 }: ErrorInfoProps) {
     return (
-        <div className="flex flex-col items-center justify-center p-8 text-center min-h-full">
+        <div className="flex flex-col items-center justify-center p-8 text-center min-h-full mx-auto">
             <AlertCircle className="w-12 h-12 text-error mb-4" />
 
             <h3 className="text-2xl font-black italic uppercase tracking-tight mb-2 text-base-content">

@@ -10,9 +10,9 @@ import {
     type EditStaffMemberType,
 } from "../../schemas/edit-staff-member.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSyncTechnicalRiderStaff } from "../../hooks/useSyncTechnicalRiderStaff";
 import type { GroupedStaffRaw, StaffMemberRaw } from "../../types";
 import { useState } from "react";
+import { useSyncTechnicalRiderStaff } from "../../hooks/staff/useSyncTechnicalRiderStaff";
 
 interface TechnicalStaffFormProps {
     riderId: string;

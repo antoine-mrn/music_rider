@@ -2,10 +2,11 @@ import { apiClient } from "../../../lib/axios";
 import type { CreateTechncialRiderSchemaType } from "../schemas/create-technical-rider.schema";
 import type {
     CreateTechnicalRider,
+    GroupedStaffRaw,
+    MappedTechnicalRiderBand,
     SummaryTechnicalRider,
     SyncTechnicalRiderStaffType,
-    TechnicalRiderGeneralInfo,
-    TechnicalRiderGeneralRaw,
+    TechnicalRiderTiming,
 } from "../types";
 
 export const technicalRiderApi = {
@@ -20,23 +21,41 @@ export const technicalRiderApi = {
         const { data } = await apiClient.post("/technical-rider", riderData);
         return data;
     },
-    getTechnicalRiderGeneral: async (
+    // General / timing
+    // getTechnicalRiderGeneral: async (
+    //     riderId: string,
+    // ): Promise<TechnicalRiderGeneralRaw> => {
+    //     const { data } = await apiClient.get(
+    //         `/technical-rider/${riderId}/general`,
+    //     );
+    //     return data;
+    // },
+    getTechnicalRiderTiming: async (
         riderId: string,
-    ): Promise<TechnicalRiderGeneralRaw> => {
-        const { data } = await apiClient.get(
-            `/technical-rider/${riderId}/general`,
+    ): Promise<TechnicalRiderTiming | null> => {
+        const { data } = await apiClient.get<TechnicalRiderTiming | null>(
+            `/technical-rider/${riderId}/general/timing`,
         );
         return data;
     },
     updateTechnicalRiderGeneral: async (
         riderId: string,
-        body: TechnicalRiderGeneralInfo,
-    ): Promise<TechnicalRiderGeneralInfo> => {
+        body: TechnicalRiderTiming,
+    ): Promise<TechnicalRiderTiming> => {
         const { data } = await apiClient.patch(
             `/technical-rider/${riderId}/general`,
             body,
         );
 
+        return data;
+    },
+    // Staff
+    getTechnicalRiderStaff: async (
+        riderId: string,
+    ): Promise<GroupedStaffRaw> => {
+        const { data } = await apiClient.get<GroupedStaffRaw>(
+            `/technical-rider/${riderId}/general/staff`,
+        );
         return data;
     },
     syncTechnicalRiderStaff: async (
@@ -46,6 +65,15 @@ export const technicalRiderApi = {
         const { data } = await apiClient.put(
             `/technical-rider/${riderId}/staff`,
             body,
+        );
+        return data;
+    },
+    // Band
+    getTechnicalRiderBand: async (
+        riderId: string,
+    ): Promise<MappedTechnicalRiderBand> => {
+        const { data } = await apiClient.get<MappedTechnicalRiderBand>(
+            `/technical-rider/${riderId}/general/band`,
         );
         return data;
     },

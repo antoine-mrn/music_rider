@@ -38,7 +38,7 @@ export class TechnicalRiderController {
   }
 
   // General
-  @Get(':riderId/general')
+  // @Get(':riderId/general')
   // async findTechnicalRiderGeneral(
   //   @Param('riderId') riderId: string,
   // ): Promise<MappedTechnicalRiderGeneral> {
@@ -72,8 +72,8 @@ export class TechnicalRiderController {
   }
 
   // Band
-  @Get(':id/general/meta')
-  findTechnicalRiderMeta(@Param('id') id: string) {
-    return this.technicalRiderService.findTechnicalRiderBand(id);
+  @Get(':riderId/general/band')
+  findTechnicalRiderMeta(@Param('riderId') riderId: string) {
+    return this.technicalRiderService.findTechnicalRiderBand(riderId);
   }
 }

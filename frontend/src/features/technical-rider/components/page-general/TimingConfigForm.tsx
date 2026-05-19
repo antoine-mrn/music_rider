@@ -7,14 +7,14 @@ import {
     type EditGeneralInfoType,
     EditGeneralInfoSchema,
 } from "../../schemas/edit-general-info.schema";
-import type { TechnicalRiderGeneralInfo } from "../../types";
 import FormFooter from "../FormFooter";
 import RiderCard from "../RiderCard";
-import { useUpdateGeneralInfo } from "../../hooks/useUpdateGeneralInfo";
+import type { TechnicalRiderTiming } from "../../types";
+import { useUpdateGeneralInfo } from "../../hooks/timing/useUpdateGeneralInfo";
 
 interface TimingConfigFormProps {
     riderId: string;
-    generalData: TechnicalRiderGeneralInfo | null;
+    generalData: TechnicalRiderTiming | null;
 }
 
 export default function TimingConfigForm({

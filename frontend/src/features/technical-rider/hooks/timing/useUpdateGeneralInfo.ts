@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { technicalRiderApi } from "../api/technical-rider.api";
-import type { TechnicalRiderGeneralInfo } from "../types";
+import { technicalRiderApi } from "../../api/technical-rider.api";
+import type { TechnicalRiderTiming } from "../../types";
 
 export const useUpdateGeneralInfo = () => {
     const queryClient = useQueryClient();
@@ -12,7 +12,7 @@ export const useUpdateGeneralInfo = () => {
             body,
         }: {
             riderId: string;
-            body: TechnicalRiderGeneralInfo;
+            body: TechnicalRiderTiming;
         }) => technicalRiderApi.updateTechnicalRiderGeneral(riderId, body),
         onSuccess: (_, variables) => {
             queryClient.invalidateQueries({

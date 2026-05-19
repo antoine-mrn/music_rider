@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { technicalRiderApi } from "../api/technical-rider.api";
-import type { SyncTechnicalRiderStaffType } from "../types";
+import { technicalRiderApi } from "../../api/technical-rider.api";
+import type { SyncTechnicalRiderStaffType } from "../../types";
 
 export const useSyncTechnicalRiderStaff = () => {
     const queryClient = useQueryClient();
