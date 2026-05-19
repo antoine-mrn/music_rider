@@ -1,11 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'prisma/prisma.service';
 import {
-  MappedTechnicalRiderGeneral,
+  MappedTechnicalRiderBand,
+  MappedTechnicalRiderStaff,
   SummaryTechnicalRider,
   summaryTechnicalRiderSelect,
-  TechnicalRiderGeneral,
-  technicalRiderGeneralSelect,
+  technicalRiderBandSelect,
+  technicalRiderStaffSelect,
+  TechnicalRiderTiming,
+  technicalRiderTimingSelect,
   UpdatedGeneralInfo,
 } from './types/technical-rider.types';
 import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
@@ -109,18 +112,33 @@ export class TechnicalRiderService {
     });
   }
 
-  async findTechnicalRiderGeneral(
+  //   async findTechnicalRiderGeneral(
+  //     id: string,
+  //   ): Promise<MappedTechnicalRiderGeneral> {
+  //     const technicalRiderGeneral =
+  //       await this.prismaService.technicalRider.findUnique({
+  //         where: { id },
+  //         select: technicalRiderGeneralSelect,
+  //       });
+  //
+  //     if (!technicalRiderGeneral) throw new NotFoundException();
+  //
+  //     return this.__mapTechnicalRiderGeneral(technicalRiderGeneral);
+  //   }
+
+  // General / timing
+
+  async findTechnicalRiderTiming(
     id: string,
-  ): Promise<MappedTechnicalRiderGeneral> {
-    const technicalRiderGeneral =
-      await this.prismaService.technicalRider.findUnique({
-        where: { id },
-        select: technicalRiderGeneralSelect,
-      });
+  ): Promise<TechnicalRiderTiming['technicalRiderGeneral']> {
+    const result = await this.prismaService.technicalRider.findUnique({
+      where: { id },
+      select: technicalRiderTimingSelect,
+    });
 
-    if (!technicalRiderGeneral) throw new NotFoundException();
+    if (!result) throw new NotFoundException();
 
-    return this.__mapTechnicalRiderGeneral(technicalRiderGeneral);
+    return result.technicalRiderGeneral;
   }
 
   async updateGeneralInfo(
@@ -138,6 +156,28 @@ export class TechnicalRiderService {
         teardownDuration: true,
       },
     });
+  }
+
+  // Staff
+
+  async findTechnicalRiderStaff(
+    id: string,
+  ): Promise<MappedTechnicalRiderStaff> {
+    const result = await this.prismaService.technicalRider.findUnique({
+      where: { id },
+      select: technicalRiderStaffSelect,
+    });
+
+    if (!result) throw new NotFoundException();
+
+    return {
+      sound_engineers: result.TechnicalRiderStaff.filter(
+        (s) => s.role === 'SOUND_ENGINEER',
+      ).map(({ role, ...rest }) => rest),
+      light_engineers: result.TechnicalRiderStaff.filter(
+        (s) => s.role === 'LIGHT_ENGINEER',
+      ).map(({ role, ...rest }) => rest),
+    };
   }
 
   async updateStaff(riderId: string, dto: UpdateStaffDto) {
@@ -196,28 +236,52 @@ export class TechnicalRiderService {
     });
   }
 
-  __mapTechnicalRiderGeneral(
-    riderGeneral: TechnicalRiderGeneral,
-  ): MappedTechnicalRiderGeneral {
+  // Band
+
+  async findTechnicalRiderBand(id: string): Promise<MappedTechnicalRiderBand> {
+    const result = await this.prismaService.technicalRider.findUnique({
+      where: { id },
+      select: technicalRiderBandSelect,
+    });
+
+    if (!result) throw new NotFoundException();
+
     return {
-      ...riderGeneral,
-      TechnicalRiderStaff: {
-        sound_engineers: riderGeneral.TechnicalRiderStaff.filter(
-          (s) => s.role === 'SOUND_ENGINEER',
-        ).map(({ role, ...rest }) => rest),
-        light_engineers: riderGeneral.TechnicalRiderStaff.filter(
-          (s) => s.role === 'LIGHT_ENGINEER',
-        ).map(({ role, ...rest }) => rest),
-      },
-      bandContact: riderGeneral.bandContact
+      ...result,
+      bandContact: result.bandContact
         ? {
-            firstname: getContactField(riderGeneral.bandContact, 'firstname'),
-            lastname: getContactField(riderGeneral.bandContact, 'lastname'),
-            email: getContactField(riderGeneral.bandContact, 'email'),
-            phone: getContactField(riderGeneral.bandContact, 'phone'),
-            contactRole: riderGeneral.bandContact.contactRole ?? null,
+            firstname: getContactField(result.bandContact, 'firstname'),
+            lastname: getContactField(result.bandContact, 'lastname'),
+            email: getContactField(result.bandContact, 'email'),
+            phone: getContactField(result.bandContact, 'phone'),
+            contactRole: result.bandContact.contactRole ?? null,
           }
         : null,
     };
   }
+
+  // __mapTechnicalRiderGeneral(
+  //   riderGeneral: TechnicalRiderGeneral,
+  // ): MappedTechnicalRiderGeneral {
+  //   return {
+  //     ...riderGeneral,
+  //     TechnicalRiderStaff: {
+  //       sound_engineers: riderGeneral.TechnicalRiderStaff.filter(
+  //         (s) => s.role === 'SOUND_ENGINEER',
+  //       ).map(({ role, ...rest }) => rest),
+  //       light_engineers: riderGeneral.TechnicalRiderStaff.filter(
+  //         (s) => s.role === 'LIGHT_ENGINEER',
+  //       ).map(({ role, ...rest }) => rest),
+  //     },
+  //     bandContact: riderGeneral.bandContact
+  //       ? {
+  //           firstname: getContactField(riderGeneral.bandContact, 'firstname'),
+  //           lastname: getContactField(riderGeneral.bandContact, 'lastname'),
+  //           email: getContactField(riderGeneral.bandContact, 'email'),
+  //           phone: getContactField(riderGeneral.bandContact, 'phone'),
+  //           contactRole: riderGeneral.bandContact.contactRole ?? null,
+  //         }
+  //       : null,
+  //   };
+  // }
 }

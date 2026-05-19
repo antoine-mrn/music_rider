@@ -10,10 +10,7 @@ import {
 } from '@nestjs/common';
 import { TechnicalRiderService } from './technical-rider.service';
 import type { AuthRequest } from 'src/shared/types/request-with-user';
-import {
-  MappedTechnicalRiderGeneral,
-  SummaryTechnicalRider,
-} from './types/technical-rider.types';
+import { SummaryTechnicalRider } from './types/technical-rider.types';
 import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
 import { UpdateGenetalDto } from './dto/update-general.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
@@ -42,10 +39,14 @@ export class TechnicalRiderController {
 
   // General
   @Get(':riderId/general')
-  async findTechnicalRiderGeneral(
-    @Param('riderId') riderId: string,
-  ): Promise<MappedTechnicalRiderGeneral> {
-    return await this.technicalRiderService.findTechnicalRiderGeneral(riderId);
+  // async findTechnicalRiderGeneral(
+  //   @Param('riderId') riderId: string,
+  // ): Promise<MappedTechnicalRiderGeneral> {
+  //   return await this.technicalRiderService.findTechnicalRiderGeneral(riderId);
+  // }
+  @Get(':riderId/general/timing')
+  findTechnicalRiderTiming(@Param('riderId') riderId: string) {
+    return this.technicalRiderService.findTechnicalRiderTiming(riderId);
   }
 
   @Patch(':riderId/general')
@@ -57,11 +58,22 @@ export class TechnicalRiderController {
   }
 
   // Staff
+  @Get(':riderId/general/staff')
+  findTechnicalRiderStaff(@Param('riderId') riderId: string) {
+    return this.technicalRiderService.findTechnicalRiderStaff(riderId);
+  }
+
   @Put(':riderId/staff')
   async updateStaff(
     @Param('riderId') riderId: string,
     @Body() dto: UpdateStaffDto,
   ) {
     return await this.technicalRiderService.updateStaff(riderId, dto);
+  }
+
+  // Band
+  @Get(':id/general/meta')
+  findTechnicalRiderMeta(@Param('id') id: string) {
+    return this.technicalRiderService.findTechnicalRiderBand(id);
   }
 }
