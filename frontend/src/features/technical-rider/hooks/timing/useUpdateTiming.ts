@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { technicalRiderApi } from "../../api/technical-rider.api";
 import type { TechnicalRiderTiming } from "../../types";
 
-export const useUpdateGeneralInfo = () => {
+export const useUpdateTiming = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -16,9 +16,9 @@ export const useUpdateGeneralInfo = () => {
         }) => technicalRiderApi.updateTechnicalRiderGeneral(riderId, body),
         onSuccess: (_, variables) => {
             queryClient.invalidateQueries({
-                queryKey: ["rider", variables.riderId],
+                queryKey: ["rider", variables.riderId, "timing"],
             });
-            toast.success("Informations sauvegardées ✅");
+            toast.success("Timing et configuration sauvegardés ✅");
         },
         onError: () => {
             toast.error("Une erreur est survenue ❌");

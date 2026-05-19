@@ -10,7 +10,7 @@ import {
 import FormFooter from "../FormFooter";
 import RiderCard from "../RiderCard";
 import type { TechnicalRiderTiming } from "../../types";
-import { useUpdateGeneralInfo } from "../../hooks/timing/useUpdateGeneralInfo";
+import { useUpdateTiming } from "../../hooks/timing/useUpdateTiming";
 
 interface TimingConfigFormProps {
     riderId: string;
@@ -37,7 +37,7 @@ export default function TimingConfigForm({
         },
     });
 
-    const { mutateAsync, isPending, error } = useUpdateGeneralInfo();
+    const { mutateAsync, isPending, error } = useUpdateTiming();
 
     const onSubmit = handleSubmit(async (data) => {
         await mutateAsync({ riderId, body: data });
