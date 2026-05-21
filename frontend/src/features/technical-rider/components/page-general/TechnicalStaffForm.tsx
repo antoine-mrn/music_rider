@@ -11,7 +11,7 @@ import {
 } from "../../schemas/edit-staff-member.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { GroupedStaffRaw, StaffMemberRaw } from "../../types";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useSyncTechnicalRiderStaff } from "../../hooks/staff/useSyncTechnicalRiderStaff";
 
 interface TechnicalStaffFormProps {
@@ -91,12 +91,10 @@ export default function TechnicalStaffForm({
         useSyncTechnicalRiderStaff();
 
     const {
-        register,
         handleSubmit,
         reset,
         control,
         formState: { errors },
-        watch,
         setError,
     } = useForm<EditStaffMemberType>({
         resolver: zodResolver(EditStaffMemberSchema),
@@ -126,7 +124,7 @@ export default function TechnicalStaffForm({
             ],
         }));
 
-        reset();
+        reset(DEFAULT_FORM_VALUES);
     });
 
     function handleRemoveMember(type: StaffTypes, id: string) {
@@ -169,11 +167,12 @@ export default function TechnicalStaffForm({
                         <Controller
                             name="firstname"
                             control={control}
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <Input
                                     type="text"
                                     placeholder="Prénom"
                                     {...field}
+                                    error={fieldState.error?.message}
                                 />
                             )}
                         />
@@ -182,11 +181,12 @@ export default function TechnicalStaffForm({
                         <Controller
                             name="lastname"
                             control={control}
-                            render={({ field }) => (
+                            render={({ field, fieldState }) => (
                                 <Input
                                     type="text"
                                     placeholder="Nom"
                                     {...field}
+                                    error={fieldState.error?.message}
                                 />
                             )}
                         />
@@ -194,25 +194,31 @@ export default function TechnicalStaffForm({
                     <Controller
                         name="email"
                         control={control}
-                        render={({ field }) => (
-                            <Input type="mail" placeholder="email" {...field} />
+                        render={({ field, fieldState }) => (
+                            <Input
+                                type="mail"
+                                placeholder="email"
+                                {...field}
+                                error={fieldState.error?.message}
+                            />
                         )}
                     />{" "}
                     <Controller
                         name="phone"
                         control={control}
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <Input
                                 type="phone"
                                 placeholder="+33 6 12 34 56 78"
                                 {...field}
+                                error={fieldState.error?.message}
                             />
                         )}
                     />
                     <Controller
                         name="type"
                         control={control}
-                        render={({ field }) => (
+                        render={({ field, fieldState }) => (
                             <Select
                                 className="col-span-2"
                                 defaultOption="Mission"
@@ -221,6 +227,7 @@ export default function TechnicalStaffForm({
                                     label: staff.label,
                                 }))}
                                 {...field}
+                                error={fieldState.error?.message}
                             />
                         )}
                     />
