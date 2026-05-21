@@ -46,7 +46,7 @@ export default function MyBands() {
                                 <BandCardSummary key={band.id} band={band} />
                             ))}
                         </ul>
-                        <div className="flex items-center justify-center gap-4">
+                        <div className="flex items-center justify-center gap-4 mt-4">
                             <Button
                                 size="sm"
                                 variant="secondary"
