@@ -293,7 +293,7 @@ function StaffList({
                         <li key={member.id} className="space-y-2">
                             <div className="flex justify-between items-center bg-base-100 border border-base-200 p-3 rounded-xl shadow-sm">
                                 <div className="flex flex-col">
-                                    <span className="font-bold text-sm uppercase italic">
+                                    <span className="font-bold italic">
                                         {member.firstname} {member.lastname}
                                     </span>
                                     <span className="text-xs text-base-content/50">
