@@ -22,14 +22,6 @@ export const technicalRiderApi = {
         return data;
     },
     // General / timing
-    // getTechnicalRiderGeneral: async (
-    //     riderId: string,
-    // ): Promise<TechnicalRiderGeneralRaw> => {
-    //     const { data } = await apiClient.get(
-    //         `/technical-rider/${riderId}/general`,
-    //     );
-    //     return data;
-    // },
     getTechnicalRiderTiming: async (
         riderId: string,
     ): Promise<TechnicalRiderTiming | null> => {

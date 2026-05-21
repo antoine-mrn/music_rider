@@ -4,14 +4,14 @@ import Input from "../../../../components/ui/form/Input";
 import Select from "../../../../components/ui/form/Select";
 import FormFooter from "../FormFooter";
 import RiderCard from "../RiderCard";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
     EditStaffMemberSchema,
     type EditStaffMemberType,
 } from "../../schemas/edit-staff-member.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { GroupedStaffRaw, StaffMemberRaw } from "../../types";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSyncTechnicalRiderStaff } from "../../hooks/staff/useSyncTechnicalRiderStaff";
 
 interface TechnicalStaffFormProps {
@@ -45,11 +45,27 @@ const STAFF_TYPES: { type: StaffTypes; selectId: StaffTypes; label: string }[] =
         },
     ];
 
+function toComparable(members: GroupedStaff) {
+    const strip = ({ id, ...rest }: StaffMember) => rest;
+    return {
+        sound_engineers: members.sound_engineers.map(strip),
+        light_engineers: members.light_engineers.map(strip),
+    };
+}
+
+const DEFAULT_FORM_VALUES: EditStaffMemberType = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+    type: "sound_engineers",
+};
+
 export default function TechnicalStaffForm({
     riderId,
     staffData,
 }: TechnicalStaffFormProps) {
-    const initialMembers = {
+    let [savedMembers, setSavedMembers] = useState<GroupedStaff>({
         sound_engineers: staffData.sound_engineers.map((s) => ({
             ...s,
             id: crypto.randomUUID(),
@@ -60,11 +76,16 @@ export default function TechnicalStaffForm({
             id: crypto.randomUUID(),
             dbId: s.id,
         })),
-    };
+    });
 
-    const [members, setMembers] = useState<GroupedStaff>(initialMembers);
+    const [members, setMembers] = useState<GroupedStaff>(savedMembers);
 
-    const isDirty = JSON.stringify(initialMembers) !== JSON.stringify(members);
+    const isDirty = useMemo(
+        () =>
+            JSON.stringify(toComparable(savedMembers)) !==
+            JSON.stringify(toComparable(members)),
+        [savedMembers, members],
+    );
 
     const { mutateAsync: syncTechnicalRiderStaff, isPending } =
         useSyncTechnicalRiderStaff();
@@ -73,25 +94,30 @@ export default function TechnicalStaffForm({
         register,
         handleSubmit,
         reset,
+        control,
         formState: { errors },
+        watch,
         setError,
     } = useForm<EditStaffMemberType>({
         resolver: zodResolver(EditStaffMemberSchema),
+        defaultValues: DEFAULT_FORM_VALUES,
     });
 
-    const onSubmit = handleSubmit(async (data) => {
+    const onSubmit = handleSubmit((data) => {
         if (!data.email && !data.phone) {
             setError("root", {
                 message: "Email ou numéro de téléphone requis",
             });
             return;
         }
+
         setMembers((prev) => ({
             ...prev,
             [data.type]: [
                 ...prev[data.type],
                 {
                     id: crypto.randomUUID(),
+                    dbId: null,
                     firstname: data.firstname,
                     lastname: data.lastname,
                     email: data.email,
@@ -99,6 +125,7 @@ export default function TechnicalStaffForm({
                 },
             ],
         }));
+
         reset();
     });
 
@@ -128,6 +155,7 @@ export default function TechnicalStaffForm({
         };
 
         await syncTechnicalRiderStaff({ riderId, body });
+        setSavedMembers(members);
     }
 
     return (
@@ -137,41 +165,64 @@ export default function TechnicalStaffForm({
                 className="bg-base-200 p-4 rounded-md shadow"
             >
                 <div className="grid grid-cols-2 gap-2">
-                    <Input
-                        type="text"
-                        placeholder="Prénom"
-                        className="col-span-2"
-                        {...register("firstname")}
-                        error={errors.firstname?.message}
+                    <div className="col-span-2">
+                        <Controller
+                            name="firstname"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="text"
+                                    placeholder="Prénom"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </div>
+                    <div className="col-span-2">
+                        <Controller
+                            name="lastname"
+                            control={control}
+                            render={({ field }) => (
+                                <Input
+                                    type="text"
+                                    placeholder="Nom"
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </div>
+                    <Controller
+                        name="email"
+                        control={control}
+                        render={({ field }) => (
+                            <Input type="mail" placeholder="email" {...field} />
+                        )}
+                    />{" "}
+                    <Controller
+                        name="phone"
+                        control={control}
+                        render={({ field }) => (
+                            <Input
+                                type="phone"
+                                placeholder="+33 6 12 34 56 78"
+                                {...field}
+                            />
+                        )}
                     />
-                    <Input
-                        type="text"
-                        placeholder="Nom"
-                        className="col-span-2"
-                        {...register("lastname")}
-                        error={errors.lastname?.message}
-                    />
-                    <Input
-                        type="mail"
-                        placeholder="john.doe@gmail.com"
-                        {...register("email")}
-                        error={errors.email?.message}
-                    />
-                    <Input
-                        type="phone"
-                        placeholder="+33 6 12 34 56 78"
-                        {...register("phone")}
-                        error={errors.phone?.message}
-                    />
-                    <Select
-                        className="col-span-2"
-                        defaultOption="Mission"
-                        values={STAFF_TYPES.map((staff) => ({
-                            id: staff.selectId,
-                            label: staff.label,
-                        }))}
-                        {...register("type")}
-                        error={errors.type?.message}
+                    <Controller
+                        name="type"
+                        control={control}
+                        render={({ field }) => (
+                            <Select
+                                className="col-span-2"
+                                defaultOption="Mission"
+                                values={STAFF_TYPES.map((staff) => ({
+                                    id: staff.selectId,
+                                    label: staff.label,
+                                }))}
+                                {...field}
+                            />
+                        )}
                     />
                 </div>
                 <div className="mt-2 w-full flex flex-col">
@@ -231,8 +282,8 @@ function StaffList({
 
             {members.length > 0 ? (
                 <ul className="mt-2 space-y-2">
-                    {members.map((member, index) => (
-                        <li key={index} className="space-y-2">
+                    {members.map((member) => (
+                        <li key={member.id} className="space-y-2">
                             <div className="flex justify-between items-center bg-base-100 border border-base-200 p-3 rounded-xl shadow-sm">
                                 <div className="flex flex-col">
                                     <span className="font-bold text-sm uppercase italic">
@@ -246,6 +297,7 @@ function StaffList({
                                     </span>
                                 </div>
                                 <Button
+                                    type="button"
                                     onClick={() => onRemove(type, member.id)}
                                     variant="ghost"
                                     size="sm"
