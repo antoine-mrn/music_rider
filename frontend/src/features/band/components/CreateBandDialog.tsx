@@ -61,6 +61,7 @@ export default function CreateBandDialog({
                             id="style"
                             className="w-full"
                             defaultOption="Choissiez un style"
+                            defaultValue={""}
                             values={musicStyles}
                             {...register("styleId")}
                             error={errors.styleId && errors.styleId.message}
