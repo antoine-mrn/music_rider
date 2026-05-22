@@ -19,6 +19,7 @@ import Layout from "./components/layout/Layout";
 import RiderList from "./pages/technical-rider/RiderList";
 import RiderGeneral from "./pages/technical-rider/RiderGeneral";
 import RiderLayout from "./components/layout/RiderLayout";
+import RiderScene from "./pages/technical-rider/RiderScene";
 
 function App() {
     const { data: fetchUser, isLoading } = useMe();
@@ -61,6 +62,10 @@ function App() {
                         <Route
                             path={ROUTES.RIDER_GENERAL()}
                             element={<RiderGeneral />}
+                        ></Route>
+                        <Route
+                            path={ROUTES.RIDER_SCENE()}
+                            element={<RiderScene />}
                         ></Route>
                     </Route>
                 </Route>

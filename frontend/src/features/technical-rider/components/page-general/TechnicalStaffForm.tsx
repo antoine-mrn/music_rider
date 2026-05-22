@@ -1,4 +1,4 @@
-import { Trash } from "lucide-react";
+import { Pen, Trash } from "lucide-react";
 import Button from "../../../../components/ui/button/Button";
 import Input from "../../../../components/ui/form/Input";
 import Select from "../../../../components/ui/form/Select";
@@ -303,6 +303,7 @@ function StaffList({
                                         {member.phone}
                                     </span>
                                 </div>
+
                                 <Button
                                     type="button"
                                     onClick={() => onRemove(type, member.id)}

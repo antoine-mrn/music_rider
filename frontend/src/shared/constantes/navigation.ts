@@ -26,7 +26,7 @@ export const getRiderNavLinks = (
         end: true,
     },
     {
-        path: "/rider",
+        path: ROUTES.RIDER_SCENE(riderId),
         step: 2,
         label: "Scène & Espace",
         end: true,

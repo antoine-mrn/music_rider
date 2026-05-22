@@ -16,4 +16,6 @@ export const ROUTES = {
     RIDER: "/rider",
     RIDER_GENERAL: (riderId: string | number = ":riderId") =>
         `/rider/${riderId}/general`,
+    RIDER_SCENE: (riderId: string | number = ":riderId") =>
+        `/rider/${riderId}/scene`,
 } as const;
