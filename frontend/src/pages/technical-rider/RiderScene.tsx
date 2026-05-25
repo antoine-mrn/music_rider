@@ -5,6 +5,7 @@ import Input from "../../components/ui/form/Input";
 import Label from "../../components/ui/form/Label";
 import PageTitle from "../../components/ui/typography/PageTitle";
 import RiderCard from "../../features/technical-rider/components/RiderCard";
+import Scene from "../../features/technical-rider/components/scene-and-space/Scene";
 
 export default function RiderScene() {
     return (
@@ -77,6 +78,10 @@ export default function RiderScene() {
                         </Field>
                     </form>
                 </RiderCard>
+
+                <div className="bg-base-200 border border-base-300 shadow-sm bg-[radial-gradient(var(--color-base-300)_2px,transparent_2px)] bg-size-[24px_24px] rounded-lg">
+                    <Scene />
+                </div>
             </PageContentWrapper>
         </PageWrapper>
     );
