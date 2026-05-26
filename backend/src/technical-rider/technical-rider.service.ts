@@ -112,20 +112,6 @@ export class TechnicalRiderService {
     });
   }
 
-  //   async findTechnicalRiderGeneral(
-  //     id: string,
-  //   ): Promise<MappedTechnicalRiderGeneral> {
-  //     const technicalRiderGeneral =
-  //       await this.prismaService.technicalRider.findUnique({
-  //         where: { id },
-  //         select: technicalRiderGeneralSelect,
-  //       });
-  //
-  //     if (!technicalRiderGeneral) throw new NotFoundException();
-  //
-  //     return this.__mapTechnicalRiderGeneral(technicalRiderGeneral);
-  //   }
-
   // General / timing
 
   async findTechnicalRiderTiming(
@@ -260,28 +246,24 @@ export class TechnicalRiderService {
     };
   }
 
-  // __mapTechnicalRiderGeneral(
-  //   riderGeneral: TechnicalRiderGeneral,
-  // ): MappedTechnicalRiderGeneral {
-  //   return {
-  //     ...riderGeneral,
-  //     TechnicalRiderStaff: {
-  //       sound_engineers: riderGeneral.TechnicalRiderStaff.filter(
-  //         (s) => s.role === 'SOUND_ENGINEER',
-  //       ).map(({ role, ...rest }) => rest),
-  //       light_engineers: riderGeneral.TechnicalRiderStaff.filter(
-  //         (s) => s.role === 'LIGHT_ENGINEER',
-  //       ).map(({ role, ...rest }) => rest),
-  //     },
-  //     bandContact: riderGeneral.bandContact
-  //       ? {
-  //           firstname: getContactField(riderGeneral.bandContact, 'firstname'),
-  //           lastname: getContactField(riderGeneral.bandContact, 'lastname'),
-  //           email: getContactField(riderGeneral.bandContact, 'email'),
-  //           phone: getContactField(riderGeneral.bandContact, 'phone'),
-  //           contactRole: riderGeneral.bandContact.contactRole ?? null,
-  //         }
-  //       : null,
-  //   };
-  // }
+  // Stage dimensions
+  async findTechnicalRiderStageDimensions(id: string) {
+    const result = await this.prismaService.technicalRider.findUnique({
+      where: { id },
+      select: {
+        technicalRiderStage: {
+          select: {
+            id: true,
+            stageLength: true,
+            stageWidth: true,
+            stageDepth: true,
+            stageAccess: true,
+            backlineProvided: true,
+          },
+        },
+      },
+    });
+
+    return result?.technicalRiderStage ?? null;
+  }
 }

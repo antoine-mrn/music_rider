@@ -6,6 +6,7 @@ import type {
     MappedTechnicalRiderBand,
     SummaryTechnicalRider,
     SyncTechnicalRiderStaffType,
+    TechnicalRiderStageDimensions,
     TechnicalRiderTiming,
 } from "../types";
 
@@ -67,6 +68,16 @@ export const technicalRiderApi = {
         const { data } = await apiClient.get<MappedTechnicalRiderBand>(
             `/technical-rider/${riderId}/general/band`,
         );
+        return data;
+    },
+    // Stage
+    getTechnicalRiderStageDimensions: async (
+        riderId: string,
+    ): Promise<TechnicalRiderStageDimensions | null> => {
+        const { data } =
+            await apiClient.get<TechnicalRiderStageDimensions | null>(
+                `/technical-rider/${riderId}/stage/dimensions`,
+            );
         return data;
     },
 };

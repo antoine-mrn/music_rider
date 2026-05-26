@@ -76,4 +76,12 @@ export class TechnicalRiderController {
   findTechnicalRiderMeta(@Param('riderId') riderId: string) {
     return this.technicalRiderService.findTechnicalRiderBand(riderId);
   }
+
+  // Stage dimensions
+  @Get(':riderId/stage/dimensions')
+  findTechnicalRiderStageDimensions(@Param('riderId') riderId: string) {
+    return this.technicalRiderService.findTechnicalRiderStageDimensions(
+      riderId,
+    );
+  }
 }

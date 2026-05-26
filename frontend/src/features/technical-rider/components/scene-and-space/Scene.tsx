@@ -8,7 +8,11 @@ export default function Scene() {
         console.log(shapeRef.current);
     });
     return (
-        <Stage width={500} height={500}>
+        <Stage
+            width={500}
+            height={500}
+            className="bg-base-200 border border-base-300 shadow-sm bg-[radial-gradient(var(--color-base-300)_2px,transparent_2px)] bg-size-[24px_24px] rounded-lg"
+        >
             <Layer>
                 <Circle
                     ref={shapeRef}

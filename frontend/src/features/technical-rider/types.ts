@@ -71,13 +71,13 @@ export interface MappedTechnicalRiderBand {
 export type TechnicalRiderBand = MappedTechnicalRiderBand["band"];
 export type TechnicalRiderBandContact = MappedTechnicalRiderBand["bandContact"];
 
-// Old version
-// export interface TechnicalRiderGeneralRaw {
-//     technicalRiderGeneral: TechnicalRiderTiming | null;
-//     band: {
-//         id: string;
-//         label: string;
-//     };
-//     TechnicalRiderStaff: GroupedStaffRaw;
-//     bandContact: Omit<BandContact, "isPrimary"> | null;
-// }
+// Stage
+
+export interface TechnicalRiderStageDimensions {
+    id: number;
+    stageLength: number | null;
+    stageWidth: number | null;
+    stageDepth: number | null;
+    stageAccess: string | null;
+    backlineProvided: string | null;
+}
