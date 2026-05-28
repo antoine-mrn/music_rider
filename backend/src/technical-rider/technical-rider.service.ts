@@ -16,6 +16,7 @@ import { getContactField } from 'src/utils/getContactField';
 import { UpdateGenetalDto } from './dto/update-general.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
 import { TechnicalStaffRole } from '@prisma/client';
+import { EditTechnicalRiderStageDto } from './dto/edit-technical-rider-stage-dimensions.dto';
 
 @Injectable()
 export class TechnicalRiderService {
@@ -265,5 +266,19 @@ export class TechnicalRiderService {
     });
 
     return result?.technicalRiderStage ?? null;
+  }
+
+  async upsertTechnicalRiderStageDimensions(
+    riderId: string,
+    body: EditTechnicalRiderStageDto,
+  ) {
+    return await this.prismaService.technicalRiderStage.upsert({
+      where: { technicalRiderId: riderId },
+      update: body,
+      create: {
+        ...body,
+        technicalRiderId: riderId,
+      },
+    });
   }
 }

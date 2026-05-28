@@ -14,6 +14,7 @@ import { SummaryTechnicalRider } from './types/technical-rider.types';
 import { CreateTechnicalRiderDto } from './dto/create-technical-rider.dto';
 import { UpdateGenetalDto } from './dto/update-general.dto';
 import { UpdateStaffDto } from './dto/update-staff.dto';
+import { EditTechnicalRiderStageDto } from './dto/edit-technical-rider-stage-dimensions.dto';
 
 @Controller('technical-rider')
 export class TechnicalRiderController {
@@ -82,6 +83,17 @@ export class TechnicalRiderController {
   findTechnicalRiderStageDimensions(@Param('riderId') riderId: string) {
     return this.technicalRiderService.findTechnicalRiderStageDimensions(
       riderId,
+    );
+  }
+
+  @Patch(':riderId/stage/dimensions')
+  async upsertStageDimensions(
+    @Param('riderId') riderId: string,
+    @Body() body: EditTechnicalRiderStageDto,
+  ) {
+    return this.technicalRiderService.upsertTechnicalRiderStageDimensions(
+      riderId,
+      body,
     );
   }
 }
