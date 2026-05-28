@@ -1,5 +1,6 @@
 import { apiClient } from "../../../lib/axios";
 import type { CreateTechncialRiderSchemaType } from "../schemas/create-technical-rider.schema";
+import type { EditSceneDimensionsType } from "../schemas/edit-scene-dimension";
 import type {
     CreateTechnicalRider,
     GroupedStaffRaw,
@@ -78,6 +79,16 @@ export const technicalRiderApi = {
             await apiClient.get<TechnicalRiderStageDimensions | null>(
                 `/technical-rider/${riderId}/stage/dimensions`,
             );
+        return data;
+    },
+    upsertTechnicalRiderStageDimensions: async (
+        riderId: string,
+        body: EditSceneDimensionsType,
+    ): Promise<TechnicalRiderStageDimensions> => {
+        const { data } = await apiClient.patch<TechnicalRiderStageDimensions>(
+            `/technical-rider/${riderId}/stage/dimensions`,
+            body,
+        );
         return data;
     },
 };

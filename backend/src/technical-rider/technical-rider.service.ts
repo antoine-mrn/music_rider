@@ -279,6 +279,14 @@ export class TechnicalRiderService {
         ...body,
         technicalRiderId: riderId,
       },
+      select: {
+        id: true,
+        stageLength: true,
+        stageWidth: true,
+        stageDepth: true,
+        stageAccess: true,
+        backlineProvided: true,
+      },
     });
   }
 }

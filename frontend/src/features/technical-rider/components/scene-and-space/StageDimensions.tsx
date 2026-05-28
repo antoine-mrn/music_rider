@@ -9,26 +9,41 @@ import {
     EditSceneDimensionsSchema,
     type EditSceneDimensionsType,
 } from "../../schemas/edit-scene-dimension";
+import { useUpsertTechnicalRiderStageDimensions } from "../../hooks/stage/useUpsertTechnicalRiderStageDimensions";
+import FormFooter from "../FormFooter";
 
 interface StageDimensionsProps {
+    riderId: string;
     stageDimensions: TechnicalRiderStageDimensions | null;
 }
 
 export default function StageDimensions({
+    riderId,
     stageDimensions,
 }: StageDimensionsProps) {
     const {
         register,
-        formState: { errors },
+        formState: { errors, isDirty },
+        handleSubmit,
     } = useForm<EditSceneDimensionsType>({
         resolver: zodResolver(EditSceneDimensionsSchema),
-        defaultValues: {
+        defaultValues: async () => ({
             stageLength: stageDimensions?.stageLength ?? undefined,
             stageWidth: stageDimensions?.stageWidth ?? undefined,
             stageDepth: stageDimensions?.stageDepth ?? undefined,
             stageAccess: stageDimensions?.stageAccess ?? undefined,
             backlineProvided: stageDimensions?.backlineProvided ?? undefined,
-        },
+        }),
+    });
+
+    const { mutateAsync, isPending, error } =
+        useUpsertTechnicalRiderStageDimensions();
+
+    const onSubmit = handleSubmit(async (data) => {
+        await mutateAsync({
+            riderId,
+            body: data,
+        });
     });
 
     return (
@@ -42,9 +57,8 @@ export default function StageDimensions({
                             min={1}
                             id="stage-length"
                             placeholder="ex. 6"
-                            {...register("stageLength", {
-                                valueAsNumber: true,
-                            })}
+                            {...(register("stageLength"),
+                            { valueAsNumber: true })}
                             error={errors.stageLength?.message}
                         />
                     </Field>
@@ -93,6 +107,12 @@ export default function StageDimensions({
                         {...register("backlineProvided")}
                     ></textarea>
                 </Field>
+
+                <FormFooter
+                    isDirty={isDirty}
+                    isPending={isPending}
+                    error={error?.message ?? null}
+                />
             </form>
         </RiderCard>
     );

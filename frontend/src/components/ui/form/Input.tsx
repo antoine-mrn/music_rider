@@ -1,9 +1,15 @@
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
     error?: string;
     className?: string;
+    valueAsNumber?: boolean;
 };
 
-export default function Input({ error, className, ...props }: InputProps) {
+export default function Input({
+    error,
+    className,
+    valueAsNumber,
+    ...props
+}: InputProps) {
     return (
         <div className={`w-full ${className ?? ""}`}>
             <input

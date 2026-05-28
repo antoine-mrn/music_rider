@@ -10,10 +10,12 @@ import Loading from "../../components/layout/Loading";
 import ErrorInfoProps from "../../components/layout/ErrorInfo";
 
 export default function RiderScene() {
-    const { riderId } = useParams<{ riderId: string }>();
+    const { riderId } = useParams();
+    const id = riderId ?? "";
     const { data, isLoading, isError } = useGetTechnicalRiderStageDimensions(
         riderId!,
     );
+    console.log("🚀 ~ RiderScene ~ data:", data);
 
     if (isLoading) return <Loading />;
     if (isError) return <ErrorInfoProps />;
@@ -27,7 +29,7 @@ export default function RiderScene() {
             </p>
 
             <PageContentWrapper>
-                <StageDimensions stageDimensions={data ?? null} />
+                <StageDimensions riderId={id} stageDimensions={data ?? null} />
 
                 <RiderCard title="Scène">
                     <Scene />
