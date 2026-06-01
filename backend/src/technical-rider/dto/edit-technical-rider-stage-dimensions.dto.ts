@@ -1,26 +1,31 @@
-import { IsOptional, IsInt, Min, IsString } from 'class-validator';
+import { IsOptional, IsInt, Min, IsString, ValidateIf } from 'class-validator';
 
 export class EditTechnicalRiderStageDto {
   @IsOptional()
   @IsInt()
   @Min(1)
-  stageLength?: number;
+  @ValidateIf((o) => o.stageLength !== null)
+  stageLength?: number | null;
 
   @IsOptional()
   @IsInt()
   @Min(1)
-  stageWidth?: number;
+  @ValidateIf((o) => o.stageWidth !== null)
+  stageWidth?: number | null;
 
   @IsOptional()
   @IsInt()
   @Min(1)
-  stageDepth?: number;
+  @ValidateIf((o) => o.stageDepth !== null)
+  stageDepth?: number | null;
 
   @IsOptional()
   @IsString()
-  stageAccess?: string;
+  @ValidateIf((o) => o.stageAccess !== null)
+  stageAccess?: string | null;
 
   @IsOptional()
   @IsString()
-  backlineProvided?: string;
+  @ValidateIf((o) => o.stageLength !== null)
+  backlineProvided?: string | null;
 }

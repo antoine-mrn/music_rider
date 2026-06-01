@@ -18,7 +18,6 @@ export default function RiderScene() {
 
     if (isLoading) return <Loading />;
     if (isError) return <ErrorInfoProps />;
-    if (data === undefined) return null;
 
     return (
         <PageWrapper>
@@ -29,7 +28,7 @@ export default function RiderScene() {
             </p>
 
             <PageContentWrapper>
-                <StageDimensions riderId={id} stageDimensions={data} />
+                <StageDimensions riderId={id} stageDimensions={data ?? null} />
 
                 <RiderCard title="Scène">
                     <Scene />
