@@ -15,10 +15,10 @@ export default function RiderScene() {
     const { data, isLoading, isError } = useGetTechnicalRiderStageDimensions(
         riderId!,
     );
-    console.log("🚀 ~ RiderScene ~ data:", data);
 
     if (isLoading) return <Loading />;
     if (isError) return <ErrorInfoProps />;
+    if (data === undefined) return null;
 
     return (
         <PageWrapper>
@@ -29,7 +29,7 @@ export default function RiderScene() {
             </p>
 
             <PageContentWrapper>
-                <StageDimensions riderId={id} stageDimensions={data ?? null} />
+                <StageDimensions riderId={id} stageDimensions={data} />
 
                 <RiderCard title="Scène">
                     <Scene />

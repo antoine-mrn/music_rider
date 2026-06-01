@@ -25,15 +25,16 @@ export default function StageDimensions({
         register,
         formState: { errors, isDirty },
         handleSubmit,
+        watch,
     } = useForm<EditSceneDimensionsType>({
         resolver: zodResolver(EditSceneDimensionsSchema),
-        defaultValues: async () => ({
-            stageLength: stageDimensions?.stageLength ?? undefined,
-            stageWidth: stageDimensions?.stageWidth ?? undefined,
-            stageDepth: stageDimensions?.stageDepth ?? undefined,
-            stageAccess: stageDimensions?.stageAccess ?? undefined,
-            backlineProvided: stageDimensions?.backlineProvided ?? undefined,
-        }),
+        defaultValues: {
+            stageLength: stageDimensions?.stageLength ?? null,
+            stageWidth: stageDimensions?.stageWidth ?? null,
+            stageDepth: stageDimensions?.stageDepth ?? null,
+            stageAccess: stageDimensions?.stageAccess ?? null,
+            backlineProvided: stageDimensions?.backlineProvided ?? null,
+        },
     });
 
     const { mutateAsync, isPending, error } =
@@ -57,8 +58,12 @@ export default function StageDimensions({
                             min={1}
                             id="stage-length"
                             placeholder="ex. 6"
-                            {...(register("stageLength"),
-                            { valueAsNumber: true })}
+                            {...register("stageLength", {
+                                setValueAs: (v) =>
+                                    v === "" || v === null
+                                        ? null
+                                        : parseInt(v, 10),
+                            })}
                             error={errors.stageLength?.message}
                         />
                     </Field>
@@ -69,7 +74,12 @@ export default function StageDimensions({
                             min={1}
                             id="stage-width"
                             placeholder="ex. 4"
-                            {...register("stageWidth", { valueAsNumber: true })}
+                            {...register("stageWidth", {
+                                setValueAs: (v) =>
+                                    v === "" || v === null
+                                        ? null
+                                        : parseInt(v, 10),
+                            })}
                             error={errors.stageWidth?.message}
                         />
                     </Field>
@@ -80,7 +90,12 @@ export default function StageDimensions({
                             min={1}
                             id="stage-depth"
                             placeholder="ex. 2"
-                            {...register("stageDepth", { valueAsNumber: true })}
+                            {...register("stageDepth", {
+                                setValueAs: (v) =>
+                                    v === "" || v === null
+                                        ? null
+                                        : parseInt(v, 10),
+                            })}
                             error={errors.stageDepth?.message}
                         />
                     </Field>
@@ -94,7 +109,9 @@ export default function StageDimensions({
                         type="text"
                         id="stage-access"
                         placeholder="ex. Escaliers côté jardin"
-                        {...register("stageAccess")}
+                        {...register("stageAccess", {
+                            setValueAs: (v) => (v === "" ? null : v),
+                        })}
                         error={errors.stageAccess?.message}
                     />
                 </Field>
@@ -104,7 +121,9 @@ export default function StageDimensions({
                         id="backline"
                         className="textarea w-full font-semibold outline-base-300 focus:border-primary"
                         placeholder="ex. Batterie acoustique complète, ampli basse 300W, ..."
-                        {...register("backlineProvided")}
+                        {...register("backlineProvided", {
+                            setValueAs: (v) => (v === "" ? null : v),
+                        })}
                     ></textarea>
                 </Field>
 
