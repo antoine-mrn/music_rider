@@ -26,7 +26,6 @@ export default function StageDimensions({
         formState: { errors, isDirty },
         handleSubmit,
         reset,
-        watch,
     } = useForm<EditSceneDimensionsType>({
         resolver: zodResolver(EditSceneDimensionsSchema),
         defaultValues: {
@@ -49,11 +48,9 @@ export default function StageDimensions({
         reset(data, { keepValues: true });
     });
 
-    console.log(watch());
-
     return (
         <RiderCard title="Dimensions de la scène">
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={onSubmit}>
                 <div className="flex gap-4">
                     <Field>
                         <Label label="Longueur (m)" htmlFor="stage-length" />
@@ -133,7 +130,6 @@ export default function StageDimensions({
 
                 <FormFooter
                     isDirty={isDirty}
-                    onSave={onSubmit}
                     isPending={isPending}
                     error={error?.message ?? null}
                 />
