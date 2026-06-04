@@ -5,4 +5,8 @@ export const instrumentApi = {
         const { data } = await apiClient.get("instrument");
         return data;
     },
+    findAllInstrumentsWithCategories: async () => {
+        const { data } = await apiClient.get("instrument/instruments-catalog");
+        return data;
+    },
 };

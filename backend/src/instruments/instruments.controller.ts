@@ -9,4 +9,9 @@ export class InstrumentController {
   async findAllInstrument(): Promise<{ id: number; label: string }[]> {
     return await this.instrumentService.findAllInstrument();
   }
+
+  @Get('instruments-catalog')
+  async findAllInstrumentsWithCategories() {
+    return await this.instrumentService.findAllInstrumentsWithCategories();
+  }
 }

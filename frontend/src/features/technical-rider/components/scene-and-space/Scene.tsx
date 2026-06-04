@@ -3,10 +3,10 @@ import { Stage, Layer, Circle } from "react-konva";
 
 export default function Scene() {
     const shapeRef = useRef(null);
-    useEffect(() => {
-        // it will log `Konva.Circle` instance
-        console.log(shapeRef.current);
-    });
+    // useEffect(() => {
+    //     // it will log `Konva.Circle` instance
+    //     console.log(shapeRef.current);
+    // });
     return (
         <Stage
             width={500}

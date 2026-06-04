@@ -13,4 +13,25 @@ export class InstrumentService {
       },
     });
   }
+
+  async findAllInstrumentsWithCategories() {
+    return await this.prismaService.instrumentCategory.findMany({
+      select: {
+        id: true,
+        label: true,
+        code: true,
+        Instruments: {
+          where: { isActive: true },
+          select: { id: true, code: true, label: true },
+          orderBy: { label: 'asc' },
+        },
+      },
+      where: {
+        isActive: true,
+      },
+      orderBy: {
+        label: 'asc',
+      },
+    });
+  }
 }

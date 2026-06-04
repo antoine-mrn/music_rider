@@ -8,7 +8,7 @@ import StageDimensions from "../../features/technical-rider/components/scene-and
 import { useGetTechnicalRiderStageDimensions } from "../../features/technical-rider/hooks/stage/useGetTechnicalRiderStageDimensions";
 import Loading from "../../components/layout/Loading";
 import ErrorInfoProps from "../../components/layout/ErrorInfo";
-import { useFindAllInstrument } from "../../features/instrument/hooks/useFindAllInstrument";
+import { useFindAllInstrumentsWithCategories } from "../../features/instrument/hooks/useFindAllInstrumentsWithCategories";
 
 export default function RiderScene() {
     const { riderId } = useParams();
@@ -23,7 +23,7 @@ export default function RiderScene() {
         data: instrumentsList,
         isLoading: isInstrumentListLoading,
         isError: isInstrumentListError,
-    } = useFindAllInstrument();
+    } = useFindAllInstrumentsWithCategories();
     console.log("🚀 ~ RiderScene ~ instrumentsList:", instrumentsList);
 
     if (isStageDimensionLoading || isInstrumentListLoading) return <Loading />;
