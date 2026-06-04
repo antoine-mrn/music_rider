@@ -113,7 +113,6 @@ export class BandService {
       where: { id: bandId },
       select: bandDetailSelect,
     });
-    console.log('🚀 ~ BandService ~ findBandDetailById ~ band:', band);
 
     if (!band) throw new NotFoundException();
 

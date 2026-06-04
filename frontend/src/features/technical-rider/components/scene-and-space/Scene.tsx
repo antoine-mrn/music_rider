@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Stage, Layer, Rect, Circle, Text } from "react-konva";
+import { Stage, Layer, Circle } from "react-konva";
 
 export default function Scene() {
     const shapeRef = useRef(null);

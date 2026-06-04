@@ -8,16 +8,27 @@ import StageDimensions from "../../features/technical-rider/components/scene-and
 import { useGetTechnicalRiderStageDimensions } from "../../features/technical-rider/hooks/stage/useGetTechnicalRiderStageDimensions";
 import Loading from "../../components/layout/Loading";
 import ErrorInfoProps from "../../components/layout/ErrorInfo";
+import { useFindAllInstrument } from "../../features/instrument/hooks/useFindAllInstrument";
 
 export default function RiderScene() {
     const { riderId } = useParams();
     const id = riderId ?? "";
-    const { data, isLoading, isError } = useGetTechnicalRiderStageDimensions(
-        riderId!,
-    );
+    const {
+        data: StageDimensionsData,
+        isLoading: isStageDimensionLoading,
+        isError: isStageDimensionsError,
+    } = useGetTechnicalRiderStageDimensions(riderId!);
 
-    if (isLoading) return <Loading />;
-    if (isError) return <ErrorInfoProps />;
+    const {
+        data: instrumentsList,
+        isLoading: isInstrumentListLoading,
+        isError: isInstrumentListError,
+    } = useFindAllInstrument();
+    console.log("🚀 ~ RiderScene ~ instrumentsList:", instrumentsList);
+
+    if (isStageDimensionLoading || isInstrumentListLoading) return <Loading />;
+    if (isStageDimensionsError || isInstrumentListError)
+        return <ErrorInfoProps />;
 
     return (
         <PageWrapper>
@@ -28,9 +39,12 @@ export default function RiderScene() {
             </p>
 
             <PageContentWrapper>
-                <StageDimensions riderId={id} stageDimensions={data ?? null} />
+                <StageDimensions
+                    riderId={id}
+                    stageDimensions={StageDimensionsData ?? null}
+                />
 
-                <RiderCard title="Scène">
+                <RiderCard title="Plan de scène">
                     <Scene />
                 </RiderCard>
             </PageContentWrapper>

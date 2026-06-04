@@ -91,7 +91,6 @@ export class TechnicalRiderController {
     @Param('riderId') riderId: string,
     @Body() body: EditTechnicalRiderStageDto,
   ) {
-    console.log(body);
     return this.technicalRiderService.upsertTechnicalRiderStageDimensions(
       riderId,
       body,
