@@ -2,13 +2,12 @@ import { useParams } from "react-router";
 import PageContentWrapper from "../../components/layout/PageContentWrapper";
 import PageWrapper from "../../components/layout/PageWrapper";
 import PageTitle from "../../components/ui/typography/PageTitle";
-import RiderCard from "../../features/technical-rider/components/RiderCard";
-import Scene from "../../features/technical-rider/components/scene-and-space/Scene";
 import StageDimensions from "../../features/technical-rider/components/scene-and-space/StageDimensions";
 import { useGetTechnicalRiderStageDimensions } from "../../features/technical-rider/hooks/stage/useGetTechnicalRiderStageDimensions";
 import Loading from "../../components/layout/Loading";
 import ErrorInfoProps from "../../components/layout/ErrorInfo";
 import { useFindAllInstrumentsWithCategories } from "../../features/instrument/hooks/useFindAllInstrumentsWithCategories";
+import StagePlan from "../../features/technical-rider/components/scene-and-space/StagePlan";
 
 export default function RiderScene() {
     const { riderId } = useParams();
@@ -44,9 +43,7 @@ export default function RiderScene() {
                     stageDimensions={StageDimensionsData ?? null}
                 />
 
-                <RiderCard title="Plan de scène">
-                    <Scene />
-                </RiderCard>
+                <StagePlan instrumentsList={instrumentsList ?? []} />
             </PageContentWrapper>
         </PageWrapper>
     );
