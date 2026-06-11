@@ -28,6 +28,7 @@ export class InstrumentService {
       },
       where: {
         isActive: true,
+        Instruments: { some: { isActive: true } },
       },
       orderBy: {
         label: 'asc',
