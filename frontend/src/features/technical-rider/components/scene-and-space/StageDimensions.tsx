@@ -51,7 +51,7 @@ export default function StageDimensions({
     return (
         <RiderCard title="Dimensions de la scène">
             <form className="space-y-4" onSubmit={onSubmit}>
-                <div className="flex gap-4">
+                <div className="flex flex-col gap-4 md:flex-row">
                     <Field>
                         <Label label="Longueur (m)" htmlFor="stage-length" />
                         <Input

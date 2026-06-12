@@ -10,7 +10,7 @@ interface StagePlanProps {
 export default function StagePlan({ instrumentsList }: StagePlanProps) {
     return (
         <RiderCard title="Plan de scène">
-            <div className="flex gap-4">
+            <div className="flex flex-col gap-4 lg:flex-row lg:max-h-148">
                 <InstrumentLibrary instrumentsList={instrumentsList} />
                 <Scene className="flex-1" />
             </div>

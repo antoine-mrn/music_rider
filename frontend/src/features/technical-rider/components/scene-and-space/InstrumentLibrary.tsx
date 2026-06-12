@@ -34,7 +34,7 @@ export default function InstrumentLibrary({
     }, [instrumentSearch, instrumentsList]);
 
     return (
-        <section className="rounded-lg shadow">
+        <section className="rounded-lg shadow flex flex-col">
             <div className="bg-base-200 rounded-lg p-4 space-y-2">
                 <h2 className="font-bold">Bibliotèques d'instruments</h2>
                 <Field>
@@ -52,7 +52,7 @@ export default function InstrumentLibrary({
                     />
                 </Field>
             </div>
-            <ul className="p-4">
+            <ul className="p-4 overflow-y-scroll max-h-54 lg:max-h-full">
                 {instrumentSuggestion.map((instrumentCategory) => (
                     <li
                         key={instrumentCategory.id}
