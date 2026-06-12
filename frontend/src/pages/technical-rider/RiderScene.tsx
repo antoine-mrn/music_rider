@@ -23,7 +23,6 @@ export default function RiderScene() {
         isLoading: isInstrumentListLoading,
         isError: isInstrumentListError,
     } = useFindAllInstrumentsWithCategories();
-    console.log("🚀 ~ RiderScene ~ instrumentsList:", instrumentsList);
 
     if (isStageDimensionLoading || isInstrumentListLoading) return <Loading />;
     if (isStageDimensionsError || isInstrumentListError)
