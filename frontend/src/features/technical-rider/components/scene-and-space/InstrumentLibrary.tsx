@@ -52,7 +52,7 @@ export default function InstrumentLibrary({
                     />
                 </Field>
             </div>
-            <ul className="p-4 overflow-y-scroll max-h-54 lg:max-h-full">
+            <ul className="p-4 overflow-y-scroll max-h-54 xl:max-h-full">
                 {instrumentSuggestion.map((instrumentCategory) => (
                     <li
                         key={instrumentCategory.id}
